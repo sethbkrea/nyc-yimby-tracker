@@ -16,10 +16,13 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: write
+
 jobs:
   backfill:
     runs-on: ubuntu-latest
-    timeout-minutes: 350  # GH Actions max is 360
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
 
@@ -35,10 +38,6 @@ jobs:
           playwright install --with-deps chromium
 
       - name: Run backfill
-        env:
-          SHEET_ID: ${{ secrets.SHEET_ID }}
-          SHEET_TAB: ${{ vars.SHEET_TAB || 'Sheet1' }}
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           ARGS="--start ${{ inputs.start_month }}"
           if [ -n "${{ inputs.end_month }}" ]; then
@@ -48,3 +47,16 @@ jobs:
             ARGS="$ARGS --dry-run"
           fi
           python backfill.py $ARGS
+
+      - name: Commit updated articles.json
+        if: ${{ inputs.dry_run != 'true' }}
+        run: |
+          if git diff --quiet articles.json; then
+            echo "No changes to articles.json"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add articles.json
+          git commit -m "chore: backfill ${{ inputs.start_month }}..${{ inputs.end_month || 'now' }} [skip ci]"
+          git push

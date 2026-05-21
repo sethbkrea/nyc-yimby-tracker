@@ -1,12 +1,9 @@
-"""Entrypoint: pull RSS feed, fetch new articles via Playwright, append to Google Sheet.
+"""Entrypoint: pull RSS feed, fetch new articles via Playwright, append to articles.json.
 
 Environment variables:
-  YIMBY_FEED_URL                RSS.app feed URL (required)
-  SHEET_ID                      Google Sheet ID (required)
-  SHEET_TAB                     Sheet tab name (default: Sheet1)
-  GOOGLE_SERVICE_ACCOUNT_JSON   Inline service-account JSON (preferred for GH Actions)
-  GOOGLE_SERVICE_ACCOUNT_FILE   Path to service-account JSON (local dev)
-  MAX_AGE_DAYS                  Skip feed items older than this (default: 30)
+  YIMBY_FEED_URL    RSS.app feed URL (required)
+  ARTICLES_FILE     Path to JSON store (default: articles.json)
+  MAX_AGE_DAYS      Skip feed items older than this (default: 30)
 """
 from __future__ import annotations
 
@@ -18,7 +15,7 @@ from datetime import datetime, timedelta, timezone
 from article import browser_session, fetch_article
 from extract import parse_article
 from feed import load_feed
-from sheets import Sheet
+from store import Store
 
 
 def _env(name: str, default: str | None = None, required: bool = False) -> str:
@@ -31,21 +28,17 @@ def _env(name: str, default: str | None = None, required: bool = False) -> str:
 
 def main() -> int:
     feed_url = _env("YIMBY_FEED_URL", required=True)
-    sheet_id = _env("SHEET_ID", required=True)
-    sheet_tab = _env("SHEET_TAB", "Sheet1")
     max_age_days = int(_env("MAX_AGE_DAYS", "30"))
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
 
-    sheet = Sheet(sheet_id, sheet_tab)
-    sheet.ensure_header()
-    seen = sheet.existing_links()
-    print(f"[sheet] {len(seen)} existing links")
+    store = Store()
+    seen = store.existing_links()
+    print(f"[store] {len(seen)} existing articles")
 
     feed_items = load_feed(feed_url)
     print(f"[feed] {len(feed_items)} items")
 
-    # Oldest first so the sheet stays chronological on append.
     candidates = sorted(
         (it for it in feed_items if it.url not in seen and it.published >= cutoff),
         key=lambda it: it.published,
@@ -54,28 +47,26 @@ def main() -> int:
     if not candidates:
         return 0
 
-    rows: list[list[str]] = []
+    new_articles = []
     failures: list[tuple[str, str]] = []
     with browser_session() as browser:
         for i, item in enumerate(candidates, 1):
             print(f"[{i}/{len(candidates)}] {item.url}")
             try:
                 html = fetch_article(browser, item.url)
-                article = parse_article(html, item.url)
-                rows.append(article.as_row())
+                new_articles.append(parse_article(html, item.url))
             except Exception as exc:  # noqa: BLE001
                 print(f"  failed: {exc}", file=sys.stderr)
                 failures.append((item.url, str(exc)))
-            time.sleep(1.5)  # polite delay between page loads
+            time.sleep(1.5)
 
-    if rows:
-        sheet.append_rows(rows)
-        print(f"[sheet] appended {len(rows)} rows")
+    appended = store.append(new_articles)
+    print(f"[store] appended {appended} records")
 
     if failures:
-        print(f"[done] {len(rows)} appended, {len(failures)} failed", file=sys.stderr)
+        print(f"[done] {appended} appended, {len(failures)} failed", file=sys.stderr)
         return 1
-    print(f"[done] {len(rows)} appended")
+    print(f"[done] {appended} appended")
     return 0
 
 

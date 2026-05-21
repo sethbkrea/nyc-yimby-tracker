@@ -1,14 +1,11 @@
 """One-off historical backfill. Crawls /YYYY/MM/page/N/ archives and writes any
-missing articles to the sheet.
+missing articles to articles.json.
 
 Usage:
   python backfill.py --start 2025-08
   python backfill.py --start 2025-08 --end 2026-05
 
-Runs locally only — the per-article rate (~5-10s through Cloudflare) means a
-full year backfill takes hours, beyond the GitHub Actions job limit.
-
-Safe to interrupt: each batch is appended to the sheet immediately, and re-running
+Safe to interrupt: each batch is written to disk immediately, and re-running
 skips URLs already present.
 """
 from __future__ import annotations
@@ -23,8 +20,7 @@ from bs4 import BeautifulSoup
 
 from article import FetchError, browser_session, fetch_archive, fetch_article
 from extract import parse_article
-from sheets import Sheet
-from scrape import _env
+from store import Store
 
 ARTICLE_RE = re.compile(r"https?://newyorkyimby\.com/(\d{4})/(\d{2})/[a-z0-9-]+\.html$")
 TOTAL_PAGES_RE = re.compile(r"Page\s+\d+\s+of\s+(\d+)", re.IGNORECASE)
@@ -60,7 +56,6 @@ def collect_month_urls(browser, year: int, month: int) -> list[str]:
     if m:
         total_pages = int(m.group(1))
     else:
-        # Page 1 of N is sometimes only shown from page 2 onward; try /page/2/.
         try:
             page2 = fetch_archive(browser, base + "page/2/")
             soup2 = BeautifulSoup(page2, "lxml")
@@ -93,11 +88,9 @@ def collect_month_urls(browser, year: int, month: int) -> list[str]:
         try:
             html = fetch_archive(browser, f"{base}page/{page}/")
         except FetchError:
-            # 404 or transient: assume we've run past the real pagination.
             break
         added = _absorb(html)
         if added == 0:
-            # No new in-month URLs => past the end of real content.
             break
         time.sleep(0.5)
 
@@ -113,25 +106,16 @@ def main() -> int:
     args = ap.parse_args()
 
     start = _parse_yyyy_mm(args.start)
-    if args.end:
-        end = _parse_yyyy_mm(args.end)
-    else:
-        today = date.today()
-        end = (today.year, today.month)
+    end = _parse_yyyy_mm(args.end) if args.end else (date.today().year, date.today().month)
 
-    sheet_id = _env("SHEET_ID", required=True)
-    sheet_tab = _env("SHEET_TAB", "Sheet1")
-
-    sheet = Sheet(sheet_id, sheet_tab)
-    sheet.ensure_header()
-    existing = sheet.existing_links()
-    print(f"[sheet] {len(existing)} existing links")
+    store = Store()
+    existing = store.existing_links()
+    print(f"[store] {len(existing)} existing articles")
 
     with browser_session() as browser:
         all_urls: list[str] = []
         for y, m in _iter_months(start, end):
-            month_urls = collect_month_urls(browser, y, m)
-            all_urls.extend(month_urls)
+            all_urls.extend(collect_month_urls(browser, y, m))
 
         new_urls = [u for u in all_urls if u not in existing]
         print(f"[plan] {len(all_urls)} URLs found, {len(new_urls)} new (after dedupe)")
@@ -139,7 +123,7 @@ def main() -> int:
         if args.dry_run or not new_urls:
             return 0
 
-        batch: list[list[str]] = []
+        batch = []
         failures: list[tuple[str, str]] = []
         t_start = time.time()
         for i, url in enumerate(new_urls, 1):
@@ -149,21 +133,20 @@ def main() -> int:
             print(f"[{i}/{len(new_urls)}] ({eta/60:.1f}m eta) {url}")
             try:
                 html = fetch_article(browser, url)
-                article = parse_article(html, url)
-                batch.append(article.as_row())
+                batch.append(parse_article(html, url))
             except Exception as exc:  # noqa: BLE001
                 print(f"  failed: {exc}", file=sys.stderr)
                 failures.append((url, str(exc)))
 
             if len(batch) >= BATCH_SIZE:
-                sheet.append_rows(batch)
-                print(f"[sheet] appended {len(batch)} rows")
+                store.append(batch)
+                print(f"[store] appended {len(batch)} records")
                 batch.clear()
             time.sleep(1.5)
 
         if batch:
-            sheet.append_rows(batch)
-            print(f"[sheet] appended {len(batch)} final rows")
+            store.append(batch)
+            print(f"[store] appended {len(batch)} final records")
 
     if failures:
         print(f"[done] {len(failures)} failed", file=sys.stderr)

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { RunButtons } from "./RunButtons";
 import { RunsTable } from "./RunsTable";
-import { SheetPreview } from "./SheetPreview";
+import { ArticlesPreview } from "./ArticlesPreview";
 
 export default function Dashboard() {
   const [refresh, setRefresh] = useState(0);
@@ -13,7 +13,7 @@ export default function Dashboard() {
     <div className="grid gap-6">
       <RunButtons onDispatched={bump} />
       <RunsTable refreshSignal={refresh} />
-      <SheetPreview refreshSignal={refresh} />
+      <ArticlesPreview refreshSignal={refresh} />
     </div>
   );
 }
