@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { dispatchWorkflow } from "@/lib/github";
 
 const ALLOWED = new Set([
@@ -8,11 +7,6 @@ const ALLOWED = new Set([
 ] as const);
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.email) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const body = await req.json().catch(() => null);
   if (!body || typeof body.workflow !== "string") {
     return NextResponse.json({ error: "Missing workflow" }, { status: 400 });
