@@ -45,7 +45,7 @@ export function RunButtons({ onDispatched }: { onDispatched: () => void }) {
       <section className="border border-neutral-800 rounded-lg p-5 bg-neutral-900/40">
         <h2 className="text-lg font-semibold mb-1">Daily scrape</h2>
         <p className="text-sm text-neutral-400 mb-4">
-          Pulls the RSS feed, fetches any new articles, appends to the sheet.
+          Pulls the RSS feed, fetches any new articles, appends to articles.json.
         </p>
         <button
           onClick={() => run("daily-scrape.yml")}
