@@ -1,6 +1,7 @@
-"""Parse a YIMBY article HTML into structured fields for the Google Sheet."""
+"""Parse a YIMBY article (HTML or RSS item) into structured fields."""
 from __future__ import annotations
 
+import html
 import re
 from dataclasses import dataclass
 
@@ -175,6 +176,98 @@ def _parse_notes(body: str) -> str:
         bits.append(f"Architect: {_clean(m.group(1))}")
 
     return "; ".join(bits)
+
+
+def _strip_html(s: str) -> str:
+    """Strip HTML tags + decode entities + collapse whitespace."""
+    if not s:
+        return ""
+    text = re.sub(r"<[^>]+>", " ", s)
+    text = html.unescape(text)
+    return _clean(text)
+
+
+def _parse_developer_rss(text: str) -> str:
+    """RSS excerpts use 'project from X' phrasing more than 'X is listed as'."""
+    if not text:
+        return ""
+    m = re.search(
+        r"\bproject\s+from\s+([A-Z][A-Za-z0-9&'\.\- ]{2,100}?)(?=\s+at\b|\s+in\b|\.|,)",
+        text,
+    )
+    if m:
+        return _clean(m.group(1))
+    m = re.search(
+        r"\b(?:by|from)\s+([A-Z][A-Za-z0-9&'\.\- ]{2,100}?)(?:\s+(?:Architecture|Architects|Design|Studio|Group|Development|Construction|Real\s+Estate|Holdings|Partners|Capital))",
+        text,
+    )
+    if m:
+        # include the trailing company-type word
+        full = m.group(0)
+        prefix = re.match(r"^(?:by|from)\s+", full).group(0)
+        return _clean(full[len(prefix):])
+    return ""
+
+
+def _parse_notes_rss(text: str) -> str:
+    """Variant of _parse_notes that handles hyphenated 'X-story', 'X-unit' RSS phrasing."""
+    if not text:
+        return ""
+    bits: list[str] = []
+
+    m = re.search(r"\b(\d{1,3})-story\b", text)
+    if m:
+        bits.append(f"{m.group(1)} stories")
+
+    m = re.search(r"\b(\d{1,4})-foot-tall\b", text)
+    if m:
+        bits.append(f"{m.group(1)} ft tall")
+
+    m = re.search(r"\b([\d,]{3,})\s+square\s+feet\b", text)
+    if m:
+        bits.append(f"{m.group(1)} sq ft")
+
+    # "137-unit", "1,700-unit", "99-residence", "137 units" / "99 residences"
+    m = re.search(r"\b([\d,]{1,7})[-\s](?:unit|units|residence|residences|apartments?)\b", text)
+    if m:
+        bits.append(f"{m.group(1)} units")
+
+    m = re.search(
+        r"\bfrom\s+([A-Z][A-Za-z0-9&'\.\- ]{2,80}?\s+(?:Architecture|Architects|Design|Studio))\b",
+        text,
+    )
+    if m:
+        bits.append(f"Architect: {_clean(m.group(1))}")
+
+    return "; ".join(bits)
+
+
+def parse_rss_item(item) -> Article:
+    """Build an Article from a FeedItem — no per-article HTML fetch.
+
+    Loses the full article body (we only have the RSS excerpt) but avoids
+    Cloudflare entirely. The excerpts are surprisingly informative.
+    """
+    title = _clean(item.title)
+    desc = _strip_html(item.description)
+    blob = f"{title}. {desc}"
+
+    address, neighborhood, borough = _parse_location(title, desc, item.url)
+
+    # Try the HTML-style "X is listed as" patterns first (rarely match RSS),
+    # then fall back to RSS-style "project from X" phrasing.
+    developer = _parse_developer(blob) or _parse_developer_rss(blob)
+    notes = _parse_notes(blob) or _parse_notes_rss(blob)
+
+    return Article(
+        url=item.url,
+        address=address,
+        developer=developer,
+        neighborhood=neighborhood,
+        borough=borough,
+        notes=notes,
+        body=desc,
+    )
 
 
 def parse_article(html: str, url: str) -> Article:

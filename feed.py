@@ -1,4 +1,4 @@
-"""Parse the RSS.app feed into a list of (url, pub_datetime) candidates."""
+"""Parse the RSS.app feed into items (url, pub_datetime, title, description)."""
 from __future__ import annotations
 
 import urllib.request
@@ -13,6 +13,8 @@ from dateutil import parser as dateparser
 class FeedItem:
     url: str
     published: datetime  # tz-aware UTC
+    title: str
+    description: str  # raw HTML — strip in extract.py
 
 
 def _fetch(url: str) -> bytes:
@@ -38,7 +40,6 @@ def load_feed(feed_url: str) -> list[FeedItem]:
         link = entry.get("link")
         if not link:
             continue
-        # feedparser exposes pubDate as published or published_parsed.
         pub = None
         if entry.get("published"):
             try:
@@ -49,5 +50,12 @@ def load_feed(feed_url: str) -> list[FeedItem]:
             continue
         if pub.tzinfo is None:
             pub = pub.replace(tzinfo=timezone.utc)
-        items.append(FeedItem(url=link, published=pub.astimezone(timezone.utc)))
+        items.append(
+            FeedItem(
+                url=link,
+                published=pub.astimezone(timezone.utc),
+                title=entry.get("title", "") or "",
+                description=entry.get("summary", "") or entry.get("description", "") or "",
+            )
+        )
     return items

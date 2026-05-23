@@ -1,4 +1,7 @@
-"""Entrypoint: pull RSS feed, fetch new articles via Playwright, append to articles.json.
+"""Entrypoint: pull RSS feed, parse each new item, append to articles.json.
+
+No Playwright, no per-article HTML fetch — Cloudflare blocks those on GitHub
+Actions runners. RSS excerpts have enough detail for every structured field.
 
 Environment variables:
   YIMBY_FEED_URL    RSS.app feed URL (required)
@@ -9,11 +12,9 @@ from __future__ import annotations
 
 import os
 import sys
-import time
 from datetime import datetime, timedelta, timezone
 
-from article import browser_session, fetch_article
-from extract import parse_article
+from extract import parse_rss_item
 from feed import load_feed
 from store import Store
 
@@ -43,29 +44,13 @@ def main() -> int:
         (it for it in feed_items if it.url not in seen and it.published >= cutoff),
         key=lambda it: it.published,
     )
-    print(f"[plan] {len(candidates)} new articles to scrape")
+    print(f"[plan] {len(candidates)} new articles to add")
     if not candidates:
         return 0
 
-    new_articles = []
-    failures: list[tuple[str, str]] = []
-    with browser_session() as browser:
-        for i, item in enumerate(candidates, 1):
-            print(f"[{i}/{len(candidates)}] {item.url}")
-            try:
-                html = fetch_article(browser, item.url)
-                new_articles.append(parse_article(html, item.url))
-            except Exception as exc:  # noqa: BLE001
-                print(f"  failed: {exc}", file=sys.stderr)
-                failures.append((item.url, str(exc)))
-            time.sleep(1.5)
-
+    new_articles = [parse_rss_item(it) for it in candidates]
     appended = store.append(new_articles)
     print(f"[store] appended {appended} records")
-
-    if failures:
-        print(f"[done] {appended} appended, {len(failures)} failed", file=sys.stderr)
-        return 1
     print(f"[done] {appended} appended")
     return 0
 
