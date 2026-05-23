@@ -69,7 +69,10 @@ export interface WorkflowRun {
 }
 
 export async function listRecentRuns(perPage = 15): Promise<WorkflowRun[]> {
-  const res = await ghFetchPublic(`/repos/${repoPath()}/actions/runs?per_page=${perPage}`);
+  // Authenticated even though the repo is public: anonymous limit is 60/hr/IP,
+  // and the UI's 3-second poll cadence during active runs blows through that
+  // almost immediately. Authenticated tokens get 5000/hr.
+  const res = await ghFetchAuthed(`/repos/${repoPath()}/actions/runs?per_page=${perPage}`);
   if (!res.ok) throw new Error(`list runs failed: ${res.status}`);
   const data = (await res.json()) as { workflow_runs: WorkflowRun[] };
   return data.workflow_runs;
