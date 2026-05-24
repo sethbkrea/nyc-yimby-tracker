@@ -102,14 +102,22 @@ export interface RunSummary {
 }
 
 export async function loadRunSummaries(): Promise<RunSummary[]> {
+  // Cache for 60s — this file only changes when a workflow runs (~daily).
+  // Without caching, every /api/runs request (polled every few seconds per
+  // open tab) hits raw.githubusercontent.com and quickly trips its
+  // anonymous per-IP rate limit, which then crashes the whole route.
   const owner = env("GITHUB_OWNER");
   const repo = env("GITHUB_REPO");
-  const res = await fetch(
-    `https://raw.githubusercontent.com/${owner}/${repo}/main/run_summaries.json`,
-    { cache: "no-store" },
-  );
-  if (res.status === 404) return [];
-  if (!res.ok) throw new Error(`fetch run_summaries.json failed: ${res.status}`);
-  const data = (await res.json()) as unknown;
-  return Array.isArray(data) ? (data as RunSummary[]) : [];
+  try {
+    const res = await fetch(
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/run_summaries.json`,
+      { next: { revalidate: 60 } },
+    );
+    if (!res.ok) return [];
+    const data = (await res.json()) as unknown;
+    return Array.isArray(data) ? (data as RunSummary[]) : [];
+  } catch {
+    // Network glitch, rate limit, parse error — none should break the runs list.
+    return [];
+  }
 }

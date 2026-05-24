@@ -5,8 +5,11 @@ import { RunButtons } from "./RunButtons";
 import { RunsTable, type Run } from "./RunsTable";
 import { ArticlesPreview } from "./ArticlesPreview";
 
-const FAST_POLL_MS = 3000;
-const SLOW_POLL_MS = 15000;
+// Cadence chosen to be friendly to GitHub's API limits. /api/runs hits the
+// authenticated GitHub API (5000/hr) plus the raw URL (cached 60s server-side),
+// so these intervals × however many tabs you have open should stay well under.
+const FAST_POLL_MS = 5000;  // active run in progress — every 5s feels live enough
+const SLOW_POLL_MS = 60000; // idle — once a minute is plenty
 
 function isActive(r: Run): boolean {
   return r.status !== "completed";

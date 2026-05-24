@@ -39,9 +39,12 @@ export interface Article {
 export async function loadArticles(): Promise<Article[]> {
   const owner = env("GITHUB_OWNER");
   const repo = env("GITHUB_REPO");
+  // Cache 60s. The file only changes after a workflow commit (~daily), so
+  // hammering raw.githubusercontent.com on every page load risks the same
+  // anonymous-rate-limit failure mode that took down /api/runs.
   const res = await fetch(
     `https://raw.githubusercontent.com/${owner}/${repo}/main/articles.json`,
-    { cache: "no-store" },
+    { next: { revalidate: 60 } },
   );
   if (!res.ok) {
     throw new Error(`fetch articles.json failed: ${res.status} ${await res.text()}`);
