@@ -3,11 +3,8 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-
-from extract import Article
 
 DEFAULT_PATH = Path(os.environ.get("ARTICLES_FILE", "articles.json"))
 
@@ -34,26 +31,13 @@ class Store:
     def existing_links(self) -> set[str]:
         return {r.get("url", "") for r in _read(self.path) if r.get("url")}
 
-    def append(self, articles: list[Article]) -> int:
-        if not articles:
+    def append_records(self, records: list[dict[str, Any]]) -> int:
+        if not records:
             return 0
-        records = _read(self.path)
-        now = datetime.now(timezone.utc).isoformat()
-        for a in articles:
-            records.append(
-                {
-                    "url": a.url,
-                    "address": a.address,
-                    "developer": a.developer,
-                    "neighborhood": a.neighborhood,
-                    "borough": a.borough,
-                    "notes": a.notes,
-                    "body": a.body,
-                    "scraped_at": now,
-                }
-            )
-        _write(self.path, records)
-        return len(articles)
+        existing = _read(self.path)
+        existing.extend(records)
+        _write(self.path, existing)
+        return len(records)
 
     def count(self) -> int:
         return len(_read(self.path))

@@ -6,17 +6,36 @@ function env(name: string): string {
 
 export interface Article {
   url: string;
-  address: string;
-  developer: string;
-  neighborhood: string;
-  borough: string;
-  notes: string;
-  body: string;
   scraped_at: string;
+  title?: string;
+  body?: string;
+
+  address?: string;
+  street_address?: string;
+  neighborhood?: string;
+  borough?: string;
+  notes?: string;
+
+  // Development fields
+  type?: string;
+  developer?: string;
+  architect?: string;
+  number_of_units?: number | null;
+  square_footage?: number | null;
+  stories?: number | null;
+  height_ft?: number | null;
+
+  // Transaction fields
+  transaction_amount?: number | null;
+  price_per_unit?: number | null;
+  price_per_square_foot?: number | null;
+  buyer?: string;
+  seller?: string;
+  brokers?: string;
+  date_of_transaction?: string;
 }
 
 export async function loadArticles(): Promise<Article[]> {
-  // Public raw URL — no auth needed once the repo is public.
   const owner = env("GITHUB_OWNER");
   const repo = env("GITHUB_REPO");
   const res = await fetch(

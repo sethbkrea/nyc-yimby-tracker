@@ -50,12 +50,20 @@ def load_feed(feed_url: str) -> list[FeedItem]:
             continue
         if pub.tzinfo is None:
             pub = pub.replace(tzinfo=timezone.utc)
+        # Prefer the full <content:encoded> block (RSS.app Full Article Extraction)
+        # over the short <description> excerpt.
+        full_content = ""
+        for c in entry.get("content", []) or []:
+            v = c.get("value", "") if isinstance(c, dict) else ""
+            if v and len(v) > len(full_content):
+                full_content = v
+        body_html = full_content or entry.get("summary", "") or entry.get("description", "") or ""
         items.append(
             FeedItem(
                 url=link,
                 published=pub.astimezone(timezone.utc),
                 title=entry.get("title", "") or "",
-                description=entry.get("summary", "") or entry.get("description", "") or "",
+                description=body_html,
             )
         )
     return items
