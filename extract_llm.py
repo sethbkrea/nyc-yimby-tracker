@@ -23,6 +23,24 @@ _TOOL = {
     "input_schema": {
         "type": "object",
         "properties": {
+            "article_type": {
+                "type": "string",
+                "enum": [
+                    "construction_update",
+                    "permit_filed",
+                    "rendering_reveal",
+                    "demolition",
+                    "completion",
+                    "lottery",
+                    "transaction",
+                    "financing",
+                    "rezoning",
+                    "approval",
+                    "report",
+                    "other",
+                ],
+                "description": "What the article is PRIMARILY about. Pick exactly one. 'transaction' = a sale/acquisition is the main topic. 'financing' = a loan/refinancing is the main topic. Do not pick 'transaction' just because a past sale is mentioned as background.",
+            },
             "address": {
                 "type": "string",
                 "description": "Primary address mentioned (with building name if present). Empty string if not mentioned.",
@@ -94,7 +112,7 @@ _TOOL = {
             },
             "date_of_transaction": {
                 "type": "string",
-                "description": "ISO date (YYYY-MM-DD) of the transaction if specified. Empty if not a transaction.",
+                "description": "Strict ISO format YYYY-MM-DD. Empty string if not specified at full precision (e.g. if only the year or month is known, leave empty).",
             },
             "notes": {
                 "type": "string",
@@ -102,6 +120,7 @@ _TOOL = {
             },
         },
         "required": [
+            "article_type",
             "address",
             "street_address",
             "neighborhood",
@@ -127,9 +146,19 @@ _TOOL = {
 
 _SYSTEM = (
     "You extract structured real-estate data from New York YIMBY articles. "
-    "Always call the save_article tool exactly once. Use empty string or null when "
-    "a field is not mentioned — never fabricate values. Units are integers, money is "
-    "numeric (no $ or commas)."
+    "Always call the save_article tool exactly once.\n\n"
+    "Critical rules:\n"
+    "1. NEVER fabricate values. Empty string for missing text, null for missing numbers.\n"
+    "2. Numbers are bare integers/floats — no '$', no commas, no 'sqft'.\n"
+    "3. Only populate transaction fields (transaction_amount, price_per_unit, "
+    "price_per_square_foot, buyer, seller, brokers, date_of_transaction) when the "
+    "article is PRIMARILY about a sale, acquisition, or financing event. If a past "
+    "transaction is mentioned only as background context (e.g. 'X purchased the site "
+    "in 2023'), leave ALL transaction fields empty — that's a construction or update "
+    "article, not a transaction article.\n"
+    "4. 'brokers' refers to brokers on the transaction itself, not condo-sales/leasing "
+    "marketing agents.\n"
+    "5. Pick exactly one article_type that matches the article's main topic."
 )
 
 
@@ -140,6 +169,7 @@ class LLMArticle:
     title: str
     body: str
 
+    article_type: str = ""
     address: str = ""
     street_address: str = ""
     neighborhood: str = ""
@@ -255,6 +285,7 @@ def llm_parse_article_html(html_text: str, url: str, scraped_at: str) -> LLMArti
 
 def _allowed_fields() -> set[str]:
     return {
+        "article_type",
         "address", "street_address", "neighborhood", "borough", "notes",
         "type", "developer", "architect",
         "number_of_units", "square_footage", "stories", "height_ft",

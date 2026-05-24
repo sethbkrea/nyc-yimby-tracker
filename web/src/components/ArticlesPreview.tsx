@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 interface Article {
   url: string;
   scraped_at: string;
+  article_type?: string;
   address?: string;
   neighborhood?: string;
   borough?: string;
@@ -25,6 +26,11 @@ interface Article {
 }
 
 function isTransaction(a: Article): boolean {
+  // Use the LLM-assigned classification when available; fall back to
+  // "any transaction field populated" for legacy records.
+  if (a.article_type) {
+    return a.article_type === "transaction" || a.article_type === "financing";
+  }
   return Boolean(
     a.transaction_amount || a.buyer || a.seller || a.brokers || a.date_of_transaction,
   );

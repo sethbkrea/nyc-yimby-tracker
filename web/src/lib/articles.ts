@@ -10,6 +10,7 @@ export interface Article {
   title?: string;
   body?: string;
 
+  article_type?: string;
   address?: string;
   street_address?: string;
   neighborhood?: string;

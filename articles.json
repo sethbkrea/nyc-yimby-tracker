@@ -248,5 +248,30 @@
     "notes": "1,700 units",
     "body": "Construction is complete on Rockaway Village, an eight-building, 1,700-unit affordable housing development from Marvel and Phipps in Far Rockaway, Queens.",
     "scraped_at": "2026-05-23T23:47:43.458607+00:00"
+  },
+  {
+    "url": "https://newyorkyimby.com/2025/08/171-east-86th-street-reaches-street-level-on-manhattans-upper-east-side.html",
+    "scraped_at": "2026-05-24T04:19:04.904545+00:00",
+    "title": "171 East 86th Street Reaches Street Level on Manhattan's Upper East Side",
+    "body": "Construction has reached street level at 171-179 East 86th Street, the site of a 17-story residential building on Manhattan’s Upper East Side . Designed by Skidmore, Owings & Merrill with Archimeara as the architect of record, and developed by ZD Jasper, the 210-foot-tall structure will yield 25 condominium units with an average scope of 2,280 square feet. The project will also include 2,300 square feet of ground-floor retail space and two cellar levels. The property is located at the corner of East 86th Street and Third Avenue. Foundation work finished up since our last update , when excavation and pilings were just getting started. Rebar is now starting to outline some of the ground-floor walls and columns, protruding above the sidewalk fencing. Bundles of metal shoring await their forthcoming use in supporting the second-level concrete slab. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. 171 East 86th Street. Photo by Michael Young. The rendering in the main photo depicts the southern and eastern elevations of the building. The first ten floors rise uniformly, followed by a pair of setbacks on levels 11 and 14. The tower concludes in a bulkhead surrounded by an assembly of louvers. The façade will feature a grid of sculpted beige columns and spandrels framing floor-to-ceiling windows, with stacks of loggias on either end of the building. The building will house two units per floor up to the 11th story and full-floor apartments above. Most of the homes will come in three- and four-bedroom configurations. A list of residential amenities has yet to be announced. Robin Schneiderman of Brown Harris Stevens Development Marketing will be exclusively handling sales. The site was formerly occupied by one-story commercial buildings, as seen in the below Google Street View image from before their demolition. ZD Jasper purchased the property from Extell in 2023 for $29 million. 171 East 86th Street. Image: Google The nearest subways from the development are the 4, 5, and 6 trains at the 86th Street station to the west at Lexington Avenue, and the Q train at the 86th Street station to the east at Second Avenue. 171-179 East 86th Street’s anticipated completion date is slated for 2027, as noted on site.",
+    "address": "171-179 East 86th Street",
+    "street_address": "171-179 East 86th Street",
+    "neighborhood": "Upper East Side",
+    "borough": "Manhattan",
+    "notes": "Construction has reached street level. The project includes 2,300 sq ft of ground-floor retail space and two cellar levels. Anticipated completion date is 2027.",
+    "type": "residential",
+    "developer": "ZD Jasper",
+    "architect": "Skidmore, Owings & Merrill / Archimeara",
+    "number_of_units": 25,
+    "square_footage": 59300,
+    "stories": 17,
+    "height_ft": 210,
+    "transaction_amount": 29000000,
+    "price_per_unit": null,
+    "price_per_square_foot": null,
+    "buyer": "ZD Jasper",
+    "seller": "Extell",
+    "brokers": "Robin Schneiderman of Brown Harris Stevens Development Marketing",
+    "date_of_transaction": "2023"
   }
 ]
