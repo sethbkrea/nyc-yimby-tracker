@@ -58,6 +58,7 @@ export function ArticlesPreview({ refreshSignal }: { refreshSignal: number }) {
   const [total, setTotal] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<"development" | "transaction">("development");
+  const [pageSize, setPageSize] = useState<number>(50);
 
   const load = useCallback(async () => {
     try {
@@ -82,11 +83,10 @@ export function ArticlesPreview({ refreshSignal }: { refreshSignal: number }) {
   const txCount = (articles ?? []).filter(isTransaction).length;
   const devCount = (articles ?? []).length - txCount;
 
-  const PAGE_SIZE = 50;
   const filtered = (articles ?? []).filter((a) =>
     tab === "transaction" ? isTransaction(a) : !isTransaction(a),
   );
-  const visible = filtered.slice(0, PAGE_SIZE);
+  const visible = filtered.slice(0, pageSize);
   const more = filtered.length - visible.length;
 
   function exportCsv() {
@@ -156,14 +156,29 @@ export function ArticlesPreview({ refreshSignal }: { refreshSignal: number }) {
         >
           Transactions ({txCount.toLocaleString()})
         </button>
-        <button
-          onClick={exportCsv}
-          disabled={filtered.length === 0}
-          className="ml-auto px-3 py-1 rounded border border-neutral-700 text-neutral-300 hover:text-white hover:border-neutral-500 disabled:opacity-50"
-          title={`Download all ${filtered.length} ${tab} records as CSV`}
-        >
-          ⬇ Download CSV ({filtered.length})
-        </button>
+        <div className="ml-auto flex items-center gap-2">
+          <label className="text-xs text-neutral-500">
+            Show
+            <select
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+              className="ml-1 bg-neutral-950 border border-neutral-800 rounded px-1.5 py-0.5 text-neutral-300"
+            >
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+              <option value={250}>250</option>
+              <option value={1000}>1000</option>
+            </select>
+          </label>
+          <button
+            onClick={exportCsv}
+            disabled={filtered.length === 0}
+            className="px-3 py-1 rounded border border-neutral-700 text-neutral-300 hover:text-white hover:border-neutral-500 disabled:opacity-50"
+            title={`Download all ${filtered.length} ${tab} records as CSV`}
+          >
+            ⬇ Download CSV ({filtered.length})
+          </button>
+        </div>
       </div>
 
       {error && <p className="text-sm text-red-400 mb-3">Error: {error}</p>}
@@ -264,9 +279,11 @@ export function ArticlesPreview({ refreshSignal }: { refreshSignal: number }) {
         </div>
       )}
 
-      {articles && articles.length > 0 && more > 0 && (
+      {articles && articles.length > 0 && filtered.length > 0 && (
         <p className="text-xs text-neutral-500 mt-3">
-          Showing {visible.length} of {filtered.length} {tab === "development" ? "development" : "transaction"} records (most recent first).
+          Showing {visible.length.toLocaleString()} of {filtered.length.toLocaleString()}{" "}
+          {tab === "development" ? "development" : "transaction"} records (most recent first).
+          {more > 0 && " Increase page size above to see more."}
         </p>
       )}
     </section>
