@@ -26,6 +26,7 @@ jobs:
           pip install feedparser==6.0.11 beautifulsoup4==4.12.3 lxml==5.3.0 python-dateutil==2.9.0.post0 'anthropic>=0.40.0'
 
       - name: Run scraper
+        id: scrape
         env:
           YIMBY_FEED_URL: ${{ secrets.YIMBY_FEED_URL }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -33,14 +34,48 @@ jobs:
           MAX_AGE_DAYS: ${{ vars.MAX_AGE_DAYS || '30' }}
         run: python scrape.py
 
-      - name: Commit updated articles.json
+      - name: Record run summary
+        if: always()
+        env:
+          RUN_ID: ${{ github.run_id }}
+          ADDED: ${{ steps.scrape.outputs.added || '0' }}
+          FAILED: ${{ steps.scrape.outputs.failed || '0' }}
+          JOB_STATUS: ${{ job.status }}
         run: |
-          if git diff --quiet articles.json; then
-            echo "No changes to articles.json"
-            exit 0
-          fi
+          python3 - <<'EOF'
+          import json, os
+          from datetime import datetime, timezone
+
+          path = "run_summaries.json"
+          try:
+              with open(path) as f:
+                  summaries = json.load(f)
+          except (FileNotFoundError, json.JSONDecodeError):
+              summaries = []
+
+          summaries.insert(0, {
+              "run_id": int(os.environ["RUN_ID"]),
+              "completed_at": datetime.now(timezone.utc).isoformat(),
+              "articles_added": int(os.environ.get("ADDED") or 0),
+              "articles_failed": int(os.environ.get("FAILED") or 0),
+              "status": os.environ.get("JOB_STATUS", "unknown"),
+          })
+          summaries = summaries[:200]  # keep last 200
+
+          with open(path, "w") as f:
+              json.dump(summaries, f, indent=2)
+              f.write("\n")
+          EOF
+
+      - name: Commit updated files
+        if: always()
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add articles.json
-          git commit -m "chore: daily scrape [skip ci]"
+          git add articles.json run_summaries.json
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git commit -m "chore: daily scrape +${{ steps.scrape.outputs.added || '0' }} articles [skip ci]"
           git push

@@ -50,6 +50,10 @@ def main() -> int:
     )
     print(f"[plan] {len(candidates)} new articles to extract")
     if not candidates:
+        gh_output = os.environ.get("GITHUB_OUTPUT")
+        if gh_output:
+            with open(gh_output, "a", encoding="utf-8") as f:
+                f.write("added=0\nfailed=0\n")
         return 0
 
     now_iso = datetime.now(timezone.utc).isoformat()
@@ -66,6 +70,13 @@ def main() -> int:
 
     appended = store.append_records(new_records)
     print(f"[store] appended {appended} records")
+
+    # Expose count to subsequent workflow steps via $GITHUB_OUTPUT.
+    gh_output = os.environ.get("GITHUB_OUTPUT")
+    if gh_output:
+        with open(gh_output, "a", encoding="utf-8") as f:
+            f.write(f"added={appended}\n")
+            f.write(f"failed={len(failures)}\n")
 
     if failures:
         print(f"[done] {appended} appended, {len(failures)} failed", file=sys.stderr)

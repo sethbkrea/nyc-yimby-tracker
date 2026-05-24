@@ -12,6 +12,8 @@ export interface Run {
   createdAt: string;
   updatedAt: string;
   path: string;
+  articlesAdded: number | null;
+  articlesFailed: number | null;
 }
 
 function badge(status: string, conclusion: string | null): { label: string; className: string } {
@@ -84,6 +86,7 @@ export function RunsTable({
               <tr>
                 <th className="py-1.5 pr-3 font-normal">Workflow</th>
                 <th className="py-1.5 pr-3 font-normal">Status</th>
+                <th className="py-1.5 pr-3 font-normal">Articles</th>
                 <th className="py-1.5 pr-3 font-normal">Trigger</th>
                 <th className="py-1.5 pr-3 font-normal">Started</th>
                 <th className="py-1.5 pr-3 font-normal"></th>
@@ -100,6 +103,20 @@ export function RunsTable({
                       <span className={`inline-block px-2 py-0.5 rounded text-xs ${b.className}`}>
                         {b.label}
                       </span>
+                    </td>
+                    <td className="py-2 pr-3 text-neutral-300">
+                      {r.articlesAdded === null ? (
+                        <span className="text-neutral-600">—</span>
+                      ) : (
+                        <>
+                          <span className={r.articlesAdded > 0 ? "text-emerald-300" : "text-neutral-500"}>
+                            +{r.articlesAdded}
+                          </span>
+                          {r.articlesFailed != null && r.articlesFailed > 0 && (
+                            <span className="text-red-400 ml-1">({r.articlesFailed} failed)</span>
+                          )}
+                        </>
+                      )}
                     </td>
                     <td className="py-2 pr-3 text-neutral-400">{r.event}</td>
                     <td className="py-2 pr-3 text-neutral-400">{relativeTime(r.createdAt)}</td>

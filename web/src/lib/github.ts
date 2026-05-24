@@ -92,3 +92,24 @@ export async function cancelRun(runId: number): Promise<void> {
 export function workflowRunUrl(workflowFile: string): string {
   return `https://github.com/${repoPath()}/actions/workflows/${workflowFile}`;
 }
+
+export interface RunSummary {
+  run_id: number;
+  completed_at: string;
+  articles_added: number;
+  articles_failed: number;
+  status: string;
+}
+
+export async function loadRunSummaries(): Promise<RunSummary[]> {
+  const owner = env("GITHUB_OWNER");
+  const repo = env("GITHUB_REPO");
+  const res = await fetch(
+    `https://raw.githubusercontent.com/${owner}/${repo}/main/run_summaries.json`,
+    { cache: "no-store" },
+  );
+  if (res.status === 404) return [];
+  if (!res.ok) throw new Error(`fetch run_summaries.json failed: ${res.status}`);
+  const data = (await res.json()) as unknown;
+  return Array.isArray(data) ? (data as RunSummary[]) : [];
+}
