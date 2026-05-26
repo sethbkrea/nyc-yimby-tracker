@@ -28,7 +28,29 @@ from store import Store
 
 NS = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 ARTICLE_RE = re.compile(r"^https?://newyorkyimby\.com/(\d{4})/(\d{2})/[a-z0-9-]+\.html$")
-SITEMAP_INDEX_URL = "https://newyorkyimby.com/wp-sitemap.xml"
+
+# robots.txt advertises /wp-sitemap.xml but that path 404s on the actual server.
+# Try common WP / Yoast / RankMath locations in order; first valid XML wins.
+SITEMAP_CANDIDATES = [
+    "https://newyorkyimby.com/wp-sitemap.xml",
+    "https://newyorkyimby.com/sitemap_index.xml",
+    "https://newyorkyimby.com/sitemap.xml",
+    "https://newyorkyimby.com/post-sitemap.xml",
+    "https://newyorkyimby.com/post-sitemap1.xml",
+    "https://newyorkyimby.com/sitemap-index.xml",
+]
+
+
+def _try_sitemap_url(browser, url: str) -> str | None:
+    try:
+        xml = fetch_xml(browser, url)
+        # Cheap sanity check — it should at least look like XML
+        if "<?xml" in xml[:200] or "<urlset" in xml[:500] or "<sitemapindex" in xml[:500]:
+            print(f"[sitemap] using {url}")
+            return xml
+    except FetchError as exc:
+        print(f"[sitemap] {url} → {exc}", file=sys.stderr)
+    return None
 
 BATCH_SIZE = 25
 
@@ -70,22 +92,46 @@ def _extract_article_urls(sitemap_xml: str, start: tuple[int, int], end: tuple[i
 
 
 def discover_urls(browser, start: tuple[int, int], end: tuple[int, int]) -> list[str]:
-    print(f"[sitemap] fetching {SITEMAP_INDEX_URL}")
-    index_xml = fetch_xml(browser, SITEMAP_INDEX_URL)
-    post_sitemaps = _list_post_sitemaps(index_xml)
-    print(f"[sitemap] {len(post_sitemaps)} post sitemaps")
-    all_urls: set[str] = set()
-    for sm_url in post_sitemaps:
-        try:
-            xml = fetch_xml(browser, sm_url)
-        except FetchError as exc:
-            print(f"  [warn] {sm_url}: {exc}", file=sys.stderr)
-            continue
-        urls = _extract_article_urls(xml, start, end)
-        all_urls.update(urls)
-        print(f"  {sm_url.rsplit('/', 1)[-1]}: {len(urls)} in-range URLs")
-        time.sleep(0.5)
-    return sorted(all_urls)
+    print("[sitemap] probing known sitemap locations…")
+    index_xml: str | None = None
+    found_url: str | None = None
+    for candidate in SITEMAP_CANDIDATES:
+        xml = _try_sitemap_url(browser, candidate)
+        if xml is not None:
+            index_xml = xml
+            found_url = candidate
+            break
+        time.sleep(1)
+
+    if index_xml is None:
+        raise FetchError(
+            "no working sitemap found at any common path. "
+            "YIMBY may have disabled sitemap generation. "
+            "Fall back to backfill.py (archive crawl) for what's available."
+        )
+
+    # Two possible shapes: <sitemapindex> (list of child sitemaps) or
+    # <urlset> (direct list of URLs).
+    if "<sitemapindex" in index_xml[:500]:
+        post_sitemaps = _list_post_sitemaps(index_xml)
+        print(f"[sitemap] {len(post_sitemaps)} child post sitemaps")
+        all_urls: set[str] = set()
+        for sm_url in post_sitemaps:
+            try:
+                xml = fetch_xml(browser, sm_url)
+            except FetchError as exc:
+                print(f"  [warn] {sm_url}: {exc}", file=sys.stderr)
+                continue
+            urls = _extract_article_urls(xml, start, end)
+            all_urls.update(urls)
+            print(f"  {sm_url.rsplit('/', 1)[-1]}: {len(urls)} in-range URLs")
+            time.sleep(0.5)
+        return sorted(all_urls)
+    else:
+        # Direct <urlset> — extract everything in one shot.
+        urls = _extract_article_urls(index_xml, start, end)
+        print(f"[sitemap] {len(urls)} in-range URLs from {found_url}")
+        return sorted(set(urls))
 
 
 def report(captured: set[str], from_sitemap: list[str]) -> dict[str, dict]:
