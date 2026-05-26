@@ -96,8 +96,9 @@ def fetch_archive(browser, url: str) -> str:
 
 
 def fetch_xml(browser, url: str) -> str:
-    """Fetch an XML resource (sitemap) through Playwright's context.request so
-    Cloudflare cookies set during prior navigation apply. Returns raw text.
+    """Fetch an XML resource (sitemap) through a real page navigation so
+    Chrome's TLS fingerprint is used. context.request.get() bypasses the
+    browser stack and gets 403'd by Cloudflare even with valid cookies.
     """
     ctx = browser.new_context(
         user_agent=_UA,
@@ -106,8 +107,8 @@ def fetch_xml(browser, url: str) -> str:
     )
     ctx.add_init_script(_STEALTH_INIT)
     try:
-        # Warm a clearance cookie by visiting the site root first.
         page = ctx.new_page()
+        # Warm a clearance cookie by visiting site root first.
         try:
             page.goto("https://newyorkyimby.com/", wait_until="domcontentloaded", timeout=60000)
         except PWTimeout:
@@ -118,12 +119,30 @@ def fetch_xml(browser, url: str) -> str:
                 timeout=60000,
             )
         except PWTimeout as exc:
-            raise FetchError(f"Cloudflare challenge never cleared (warmup)") from exc
+            raise FetchError("Cloudflare challenge never cleared (warmup)") from exc
 
-        # Now use context.request — carries CF cookies, but returns raw response.
-        resp = ctx.request.get(url, timeout=60000)
-        if not resp.ok:
-            raise FetchError(f"GET {url} returned {resp.status}")
-        return resp.text()
+        # Navigate to the XML. response.text() returns the raw HTTP body
+        # regardless of how Chrome renders the XML viewer.
+        try:
+            response = page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        except PWTimeout as exc:
+            raise FetchError(f"timeout navigating to {url}") from exc
+        if response is None:
+            raise FetchError(f"no response for {url}")
+        if not response.ok:
+            raise FetchError(f"GET {url} returned {response.status}")
+        # If Cloudflare interstitial is still in the way, wait it out then re-fetch.
+        if "Just a moment" in (page.title() or ""):
+            try:
+                page.wait_for_function(
+                    "() => !document.title.startsWith('Just a moment')",
+                    timeout=60000,
+                )
+            except PWTimeout as exc:
+                raise FetchError(f"Cloudflare never cleared for {url}") from exc
+            response = page.goto(url, wait_until="domcontentloaded", timeout=60000)
+            if response is None or not response.ok:
+                raise FetchError(f"GET {url} returned {response.status if response else 'no response'}")
+        return response.text()
     finally:
         ctx.close()
