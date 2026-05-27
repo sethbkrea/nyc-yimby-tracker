@@ -7,7 +7,7 @@ export default auth((req) => {
   if (!req.auth) {
     const url = req.nextUrl.clone();
     url.pathname = "/login";
-    url.searchParams.set("error", "unauthenticated");
+    // No ?error param — visiting / without a session is normal, not a failure.
     return Response.redirect(url);
   }
 });
