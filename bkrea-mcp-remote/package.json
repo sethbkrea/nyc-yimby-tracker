@@ -1,0 +1,28 @@
+{
+  "name": "bkrea-mcp-remote",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remote (HTTP) BKREA MCP server for Claude.ai custom connectors, hosted on Vercel.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "get-token": "node scripts/get-refresh-token.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.0",
+    "@supabase/supabase-js": "^2.45.4",
+    "mcp-handler": "^1.0.1",
+    "next": "15.5.18",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^19.0.0",
+    "typescript": "^5.6.2"
+  }
+}
