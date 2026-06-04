@@ -246,6 +246,57 @@ const TOOLS: Tool[] = [
     run: async (t, a) => sb(t, `kb_pages?select=id,title,slug${a.q ? `&${ilikeOr(["title","content","slug"], String(a.q))}` : ""}&limit=${lim(a)}`) },
 ];
 
+// Write tools — executed with the signed-in user's JWT, so the row is created
+// AS that person and RLS decides whether they're allowed. Only registered when
+// BKREA_ENABLE_WRITES=1.
+async function getUid(token: string): Promise<string> {
+  const u = await fetch(`${SUPABASE}/auth/v1/user`, { headers: { apikey: ANON_KEY, Authorization: `Bearer ${token}` } }).then((r) => r.json()) as { id: string };
+  return u.id;
+}
+async function sbInsert(token: string, table: string, row: Record<string, unknown>): Promise<unknown> {
+  const clean = Object.fromEntries(Object.entries(row).filter(([, v]) => v !== undefined && v !== null && v !== ""));
+  const r = await fetch(`${SUPABASE}/rest/v1/${table}`, {
+    method: "POST",
+    headers: { apikey: ANON_KEY, Authorization: `Bearer ${token}`, "Content-Type": "application/json", Prefer: "return=representation" },
+    body: JSON.stringify(clean),
+  });
+  if (!r.ok) {
+    const msg = (await r.text()).slice(0, 300);
+    if (r.status === 401 || r.status === 403 || /permission|rls|policy/i.test(msg))
+      throw new Error("401:Permission denied — your role doesn't allow this write.");
+    throw new Error(`${r.status}: ${msg}`);
+  }
+  return await r.json();
+}
+
+const WRITE_TOOLS: Tool[] = [
+  { name: "create_lead", description: "Add a property lead to your lead list (created as you).",
+    inputSchema: { type: "object", properties: {
+      address: strProp("property address"), owner: strProp("owner name"),
+      owner_phone: strProp("owner phone"), lead_source: strProp("where the lead came from"),
+      transaction_type: strProp("e.g. sale, refi"), status_notes: strProp("free-text notes"),
+    }, required: ["address"] },
+    run: async (t, a) => {
+      const user_id = await getUid(t);
+      return sbInsert(t, "lead_list", {
+        user_id, address: a.address, owner: a.owner, owner_phone: a.owner_phone,
+        lead_source: a.lead_source, transaction_type: a.transaction_type, status_notes: a.status_notes,
+        lead_date: new Date().toISOString().slice(0, 10),
+      });
+    } },
+  { name: "add_comp", description: "Add a comparable sale (requires comps_importer/super_admin; created as you).",
+    inputSchema: { type: "object", properties: {
+      address: strProp("address"), sale_price: numProp("sale price"), sale_date: strProp("ISO date YYYY-MM-DD"),
+      neighborhood: strProp("neighborhood"), borough: strProp("borough"), asset_type: strProp("asset type"), notes: strProp("notes"),
+    }, required: ["address", "sale_price"] },
+    run: async (t, a) => sbInsert(t, "comps", {
+      address: a.address, sale_price: a.sale_price, sale_date: a.sale_date,
+      neighborhood: a.neighborhood, borough: a.borough, asset_type: a.asset_type, notes: a.notes,
+    }) },
+];
+
+if (WRITES) TOOLS.push(...WRITE_TOOLS);
+
 // ── MCP JSON-RPC handler ─────────────────────────────────────────────────────
 async function handleMcp(req: Request): Promise<Response> {
   const token = userToken(req);
