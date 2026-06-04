@@ -54,6 +54,26 @@ function blank(s?: string): string {
   return s && s.trim() ? s : "—";
 }
 
+// Human-readable lifecycle stage from the LLM-assigned article_type. Used so a
+// row's unit count can be read against its stage (e.g. units "Under construction").
+const STAGE_LABEL: Record<string, string> = {
+  construction_update: "Under construction",
+  permit_filed: "Permits filed",
+  rendering_reveal: "Rendering",
+  demolition: "Demolition",
+  completion: "Completed",
+  lottery: "Lottery",
+  approval: "Approved",
+  rezoning: "Rezoning",
+  financing: "Financing",
+  transaction: "Transaction",
+  report: "Report",
+  other: "—",
+};
+function stageLabel(t?: string): string {
+  return (t && STAGE_LABEL[t]) || "—";
+}
+
 interface Props {
   refreshSignal: number;
   runs: Run[];
@@ -389,6 +409,7 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
                 <th className="py-1.5 pr-3 font-normal">Neighborhood</th>
                 <th className="py-1.5 pr-3 font-normal">Type</th>
                 <th className="py-1.5 pr-3 font-normal">Units</th>
+                <th className="py-1.5 pr-3 font-normal">Stage</th>
                 <th className="py-1.5 pr-3 font-normal">Sq ft</th>
                 <th className="py-1.5 pr-3 font-normal">Developer</th>
                 <th className="py-1.5 pr-3 font-normal">Architect</th>
@@ -404,6 +425,9 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.neighborhood)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.type)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{fmtNum(a.number_of_units)}</td>
+                  <td className={`py-2 pr-3 ${a.article_type === "construction_update" ? "text-amber-300" : "text-neutral-400"}`}>
+                    {stageLabel(a.article_type)}
+                  </td>
                   <td className="py-2 pr-3 text-neutral-300">{fmtNum(a.square_footage)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.developer)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.architect)}</td>
