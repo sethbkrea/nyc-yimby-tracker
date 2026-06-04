@@ -19,20 +19,21 @@ const SUPABASE_ANON_KEY =
 const ALLOWED_EMAIL = "seth@bkrea.com";
 const APP_BASE = "https://ai.agent.bkrea.xyz";
 
+// Verified against the live BKREA schema (Supabase via Lovable).
 const SEARCH_COLS = {
-  deals: ["dealname", "description"],
-  listings: ["address", "name", "description"],
+  deals: ["deal_name", "address", "neighborhood", "nickname", "property_address", "owner_name"],
+  listings: ["listing_address", "owner_name", "territory"],
   companies: ["name", "domain"],
-  contactsHubspot: ["firstname", "lastname", "email", "phone", "company"],
-  contactsCache: ["full_name", "name", "email", "phone"],
+  contactsHubspot: ["firstname", "lastname", "full_name", "email", "phone", "mobilephone"],
+  contactsCache: ["first_name", "last_name", "email", "phone", "mobile_phone", "company_name"],
   comps: ["address", "neighborhood", "notes"],
-  permits: ["address", "work_type", "job_description", "owner_name"],
+  permits: ["normalized_address", "work_type", "job_description", "owner_name"],
   kb: ["title", "content", "slug"],
 };
 const ME_COLS = {
-  leadAssigned: "assigned_broker_id",
-  leadCreatedBy: "created_by",
-  commissionBroker: "broker_id",
+  leadAssigned: "user_id",
+  leadCreatedBy: "user_id",
+  commissionBroker: "origination_broker_id",
   kpiUser: "user_id",
 };
 
@@ -162,8 +163,8 @@ export function registerBkreaTools(server: McpServer, writesEnabled: boolean): v
       const off = parseCursor(cur);
       let query = c.from("hubspot_deals").select("*", { count: "estimated" });
       if (q) query = query.or(ilikeOr(SEARCH_COLS.deals, q));
-      if (stage) query = query.eq("dealstage", stage);
-      if (broker) query = query.eq("broker", broker);
+      if (stage) query = query.ilike("deal_stage", `%${stage}%`);
+      if (broker) query = query.ilike("broker_name", `%${broker}%`);
       const { data, error, count } = await query.range(off, off + lim - 1);
       if (error) pgErr(error);
       return listResult(data ?? [], off, lim, count);
@@ -182,15 +183,15 @@ export function registerBkreaTools(server: McpServer, writesEnabled: boolean): v
 
   server.tool(
     "search_listings",
-    "Search HubSpot listings by free text, optionally filtered by status.",
-    { q: z.string().optional(), status: z.string().optional(), limit, cursor },
-    async ({ q, status, limit: l, cursor: cur }) => {
+    "Search HubSpot listings by free text, optionally filtered by listing type.",
+    { q: z.string().optional(), listing_type: z.string().optional(), limit, cursor },
+    async ({ q, listing_type, limit: l, cursor: cur }) => {
       const c = await getClient();
       const lim = clampLimit(l);
       const off = parseCursor(cur);
       let query = c.from("hubspot_listings").select("*", { count: "estimated" });
       if (q) query = query.or(ilikeOr(SEARCH_COLS.listings, q));
-      if (status) query = query.eq("status", status);
+      if (listing_type) query = query.ilike("listing_type", `%${listing_type}%`);
       const { data, error, count } = await query.range(off, off + lim - 1);
       if (error) pgErr(error);
       return listResult(data ?? [], off, lim, count);
@@ -277,7 +278,7 @@ export function registerBkreaTools(server: McpServer, writesEnabled: boolean): v
       const lim = clampLimit(l);
       const off = parseCursor(cur);
       let query = c.from("nyc_permits").select("*", { count: "estimated" });
-      if (address) query = query.ilike("address", `%${address}%`);
+      if (address) query = query.ilike("normalized_address", `%${address}%`);
       if (borough) query = query.ilike("borough", `%${borough}%`);
       if (work_type) query = query.ilike("work_type", `%${work_type}%`);
       const { data, error, count } = await query.range(off, off + lim - 1);
@@ -305,9 +306,10 @@ export function registerBkreaTools(server: McpServer, writesEnabled: boolean): v
     return ok(data);
   });
 
-  server.tool("get_kpi_leaderboard", "KPI leaderboard for a given week (kpi_entries grouped by user).", { week_start: z.string().describe("ISO date, e.g. 2026-06-01") }, async ({ week_start }) => {
+  server.tool("get_kpi_leaderboard", "KPI leaderboard for the 7 days starting on week_start (kpi_entries grouped by user).", { week_start: z.string().describe("ISO date, e.g. 2026-06-01") }, async ({ week_start }) => {
     const c = await getClient();
-    const { data, error } = await c.from("kpi_entries").select("*").eq("week_start", week_start);
+    const end = new Date(new Date(`${week_start}T00:00:00Z`).getTime() + 7 * 86400000).toISOString().slice(0, 10);
+    const { data, error } = await c.from("kpi_entries").select("*").gte("entry_date", week_start).lt("entry_date", end);
     if (error) pgErr(error);
     const byUser = new Map<string, { user_id: string; entries: number; rows: unknown[] }>();
     for (const row of (data ?? []) as Record<string, unknown>[]) {
@@ -334,7 +336,7 @@ export function registerBkreaTools(server: McpServer, writesEnabled: boolean): v
     const c = await getClient();
     const id = await meId();
     let query = c.from("broker_commission_calculations").select("*").eq(ME_COLS.commissionBroker, id);
-    if (year != null) query = query.eq("year", year);
+    if (year != null) query = query.gte("deal_date", `${year}-01-01`).lte("deal_date", `${year}-12-31`);
     const { data, error } = await query.limit(50);
     if (error) pgErr(error);
     return ok({ items: data ?? [] });
