@@ -139,3 +139,77 @@ export async function loadRunSummaries(): Promise<RunSummary[]> {
     return [];
   }
 }
+
+// ── Property-research audit log ────────────────────────────────────────────
+// Append-only JSONL in the repo recording who searched which properties.
+
+const RESEARCH_LOG_PATH = "research_log.jsonl";
+
+export interface ResearchLogEntry {
+  at: string; // ISO timestamp
+  user: string; // signed-in email
+  count: number; // number of inputs submitted
+  inputs: string[]; // the addresses / BBLs searched
+}
+
+interface ContentsResponse {
+  content?: string;
+  sha?: string;
+}
+
+/**
+ * Append one entry to research_log.jsonl via the GitHub Contents API. Read the
+ * file's current SHA, append a line, and commit; retry on a 409 (concurrent
+ * write). Best-effort: with no GH_TOKEN (local dev) it just logs to console.
+ */
+export async function appendResearchLog(entry: ResearchLogEntry): Promise<void> {
+  if (!process.env.GH_TOKEN) {
+    console.log("[research-log]", JSON.stringify(entry));
+    return;
+  }
+  const repo = repoPath();
+  const line = JSON.stringify(entry) + "\n";
+
+  for (let attempt = 0; attempt < 4; attempt++) {
+    let sha: string | undefined;
+    let existing = "";
+    const getRes = await ghFetchRead(`/repos/${repo}/contents/${RESEARCH_LOG_PATH}?ref=main`);
+    if (getRes.ok) {
+      const j = (await getRes.json()) as ContentsResponse;
+      sha = j.sha;
+      existing = Buffer.from(j.content ?? "", "base64").toString("utf8");
+    } else if (getRes.status !== 404) {
+      throw new Error(`research-log read failed: ${getRes.status}`);
+    }
+
+    const putRes = await ghFetchAuthed(`/repos/${repo}/contents/${RESEARCH_LOG_PATH}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        message: "chore: property-research log +1 [skip ci]",
+        content: Buffer.from(existing + line, "utf8").toString("base64"),
+        sha, // omitted when creating the file
+        branch: "main",
+      }),
+    });
+    if (putRes.ok) return;
+    if (putRes.status === 409) continue; // SHA race — refetch and retry
+    throw new Error(`research-log write failed: ${putRes.status}`);
+  }
+  throw new Error("research-log write failed after retries");
+}
+
+/** Read the research audit log, newest first. */
+export async function loadResearchLog(limit = 200): Promise<ResearchLogEntry[]> {
+  const res = await ghFetchRead(`/repos/${repoPath()}/contents/${RESEARCH_LOG_PATH}?ref=main`);
+  if (!res.ok) return []; // 404 (no searches yet) or unauthenticated
+  const j = (await res.json()) as ContentsResponse;
+  const text = Buffer.from(j.content ?? "", "base64").toString("utf8");
+  const entries = text
+    .split("\n")
+    .filter(Boolean)
+    .map((l) => {
+      try { return JSON.parse(l) as ResearchLogEntry; } catch { return null; }
+    })
+    .filter((e): e is ResearchLogEntry => e !== null);
+  return entries.slice(-limit).reverse();
+}

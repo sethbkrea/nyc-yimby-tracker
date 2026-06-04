@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { parseInputs, researchBatch, MAX_INPUTS } from "@/lib/research";
+import { appendResearchLog } from "@/lib/github";
 
 // Researching a batch fans out to GeoSearch + two Open Data datasets per input,
 // so give it room beyond the default serverless timeout.
@@ -20,6 +21,20 @@ export async function POST(req: Request) {
     }
     const truncated = inputs.length > MAX_INPUTS;
     const results = await researchBatch(inputs);
+
+    // Audit: record who searched which properties. Best-effort — never let a
+    // logging failure break the search response.
+    try {
+      await appendResearchLog({
+        at: new Date().toISOString(),
+        user: session.user.email,
+        count: inputs.length,
+        inputs,
+      });
+    } catch (logErr) {
+      console.error("[research-log] failed:", logErr);
+    }
+
     return NextResponse.json({
       results,
       requested: inputs.length,

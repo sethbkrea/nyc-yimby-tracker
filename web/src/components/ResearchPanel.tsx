@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toCsv, downloadText } from "@/lib/csv";
 
 interface Permit {
@@ -67,12 +67,36 @@ function jobId(p: Permit): string {
   return p.source === "DOB NOW" ? p.jobFilingNumber ?? "" : p.jobNumber ?? "";
 }
 
+interface LogEntry {
+  at: string;
+  user: string;
+  count: number;
+  inputs: string[];
+}
+
 export function ResearchPanel() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<ApiResponse | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [history, setHistory] = useState<LogEntry[] | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
+
+  const loadHistory = useCallback(async () => {
+    try {
+      const res = await fetch("/api/research/log");
+      if (!res.ok) return;
+      const body = (await res.json()) as { entries?: LogEntry[] };
+      setHistory(body.entries ?? []);
+    } catch {
+      /* non-critical */
+    }
+  }, []);
+
+  useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
 
   const onFile = useCallback((file: File) => {
     const reader = new FileReader();
@@ -100,12 +124,13 @@ export function ResearchPanel() {
       const body = (await res.json()) as ApiResponse & { error?: string };
       if (!res.ok) throw new Error(body.error ?? `HTTP ${res.status}`);
       setData(body);
+      loadHistory(); // the search was just logged — refresh the audit list
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }
-  }, [text]);
+  }, [text, loadHistory]);
 
   function exportCsv() {
     if (!data) return;
@@ -205,6 +230,35 @@ export function ResearchPanel() {
         </div>
         {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
       </section>
+
+      {history && history.length > 0 && (
+        <section className="border border-neutral-800 rounded-lg p-5 bg-neutral-900/40">
+          <button
+            onClick={() => setShowHistory((s) => !s)}
+            className="w-full flex items-center justify-between text-left"
+          >
+            <h2 className="text-lg font-semibold">
+              Search history
+              <span className="ml-2 text-sm font-normal text-neutral-400">{history.length} recent</span>
+            </h2>
+            <span className="text-neutral-500 text-sm">{showHistory ? "Hide ▾" : "Show ▸"}</span>
+          </button>
+          {showHistory && (
+            <ul className="mt-3 grid gap-2">
+              {history.map((h, i) => (
+                <li key={`${h.at}-${i}`} className="text-xs border-t border-neutral-800/70 pt-2 first:border-t-0 first:pt-0">
+                  <div className="flex flex-wrap gap-x-3 text-neutral-400">
+                    <span className="text-neutral-300">{new Date(h.at).toLocaleString()}</span>
+                    <span>{h.user}</span>
+                    <span className="text-neutral-500">{h.count} propert{h.count === 1 ? "y" : "ies"}</span>
+                  </div>
+                  <div className="text-neutral-500 mt-0.5 break-words">{h.inputs.join("  ·  ")}</div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
 
       {data && (
         <section className="border border-neutral-800 rounded-lg p-5 bg-neutral-900/40">
