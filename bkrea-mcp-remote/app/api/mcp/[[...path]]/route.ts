@@ -18,9 +18,26 @@
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const UPSTREAM  = "https://nmxrnuxhgdooaluaslnd.supabase.co/functions/v1/mcp-tools";
-const ANON_KEY  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5teHJudXhoZ2Rvb2FsdWFzbG5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MzMzMzMsImV4cCI6MjA4MzIwOTMzM30.FsO6ciixFrufalkeuhfVmerBgm6tM2S75Bl88a5r454";
+const UPSTREAM   = "https://nmxrnuxhgdooaluaslnd.supabase.co/functions/v1/mcp-tools";
+const ANON_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5teHJudXhoZ2Rvb2FsdWFzbG5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MzMzMzMsImV4cCI6MjA4MzIwOTMzM30.FsO6ciixFrufalkeuhfVmerBgm6tM2S75Bl88a5r454";
 const PROXY_BASE = "https://bkrea-mcp-remote.vercel.app/api/mcp";
+
+// URL-encoded form of UPSTREAM — appears inside redirect Location params like
+// ?redirect_after=https%3A%2F%2Fnmxrnuxhgdooaluaslnd... when the BKREA login
+// page embeds the mcp-tools callback URL as a query parameter.
+const UPSTREAM_ENCODED   = encodeURIComponent(UPSTREAM);
+const PROXY_BASE_ENCODED = encodeURIComponent(PROXY_BASE);
+
+// Also handle the bare Supabase host so any stray links are caught.
+const SUPABASE_HOST_PATTERN = "nmxrnuxhgdooaluaslnd.supabase.co/functions/v1/mcp-tools";
+const PROXY_HOST_PATTERN    = "bkrea-mcp-remote.vercel.app/api/mcp";
+
+function rewriteUpstream(s: string): string {
+  return s
+    .replaceAll(UPSTREAM_ENCODED, PROXY_BASE_ENCODED)  // URL-encoded form first
+    .replaceAll(UPSTREAM, PROXY_BASE)                  // plain form
+    .replaceAll(SUPABASE_HOST_PATTERN, PROXY_HOST_PATTERN); // bare host fallback
+}
 
 // Headers Claude sends / that should be forwarded upstream (lowercase).
 const FORWARD_REQ_HEADERS = [
@@ -75,11 +92,13 @@ async function handle(req: Request, subpath: string): Promise<Response> {
     );
   }
 
-  // Build response headers, rewriting upstream URL → proxy URL in Location.
+  // Build response headers, rewriting all forms of the upstream URL → proxy URL.
+  // This includes Location: headers (direct redirects) and any header values
+  // that embed the Supabase URL (plain, URL-encoded, or bare host form).
   const resHeaders = new Headers();
   upstream.headers.forEach((val, key) => {
     if (SKIP_RES_HEADERS.has(key.toLowerCase())) return;
-    resHeaders.set(key, val.replace(UPSTREAM, PROXY_BASE));
+    resHeaders.set(key, rewriteUpstream(val));
   });
   resHeaders.set("access-control-allow-origin", "*");
   resHeaders.set(
@@ -97,7 +116,7 @@ async function handle(req: Request, subpath: string): Promise<Response> {
     // Rewrite upstream URL references in JSON/text bodies so Claude always
     // talks back to this proxy, never to Supabase directly.
     const raw = await upstream.text();
-    const rewritten = raw.replaceAll(UPSTREAM, PROXY_BASE);
+    const rewritten = rewriteUpstream(raw);
     resHeaders.set("content-length", String(Buffer.byteLength(rewritten)));
     return new Response(rewritten, { status: upstream.status, headers: resHeaders });
   }
