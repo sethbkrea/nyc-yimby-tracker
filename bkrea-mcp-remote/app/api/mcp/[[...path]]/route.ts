@@ -1,278 +1,337 @@
 /**
- * BKREA MCP proxy — Google sign-in for per-user auth.
+ * Self-contained BKREA MCP server with its own OAuth 2.1 + per-user auth.
  *
- * /oauth/authorize  → serves a "Sign in with Google" page
- * /oauth/google-callback → receives Google token from Supabase, runs finish JS
- * /oauth/google-finish (POST) → exchanges token for MCP code, redirects Claude
+ * Does NOT depend on Supabase's OAuth server (disabled) or mcp-tools' OAuth.
+ * Flow:
+ *   /.well-known/*           → our OAuth metadata
+ *   /oauth/register          → dynamic client registration (echoes a client_id)
+ *   /oauth/authorize  (GET)  → our email/password login form
+ *   /oauth/authorize  (POST) → password-grant against Supabase, issue our code
+ *   /oauth/token             → code & refresh grants; tokens encode the user's
+ *                              Supabase session (encrypted, stateless)
+ *   POST /api/mcp            → MCP JSON-RPC; bearer decodes to the user's JWT,
+ *                              tools query Supabase directly so RLS scopes to them
  *
- * All other paths forwarded transparently to mcp-tools edge function.
- *
- * SETUP REQUIRED (one time):
- *   In Lovable → Project Settings → Auth → Redirect URLs, add:
- *   https://bkrea-mcp-remote.vercel.app/api/mcp/oauth/google-callback
+ * No credentials are stored — each user signs in with their own BKREA login.
  */
+import crypto from "node:crypto";
+
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const UPSTREAM   = "https://nmxrnuxhgdooaluaslnd.supabase.co/functions/v1/mcp-tools";
-const SUPABASE   = "https://nmxrnuxhgdooaluaslnd.supabase.co";
-const ANON_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5teHJudXhoZ2Rvb2FsdWFzbG5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MzMzMzMsImV4cCI6MjA4MzIwOTMzM30.FsO6ciixFrufalkeuhfVmerBgm6tM2S75Bl88a5r454";
-const PROXY_BASE = "https://bkrea-mcp-remote.vercel.app/api/mcp";
-const GOOGLE_CB  = `${PROXY_BASE}/oauth/google-callback`;
+const SUPABASE = "https://nmxrnuxhgdooaluaslnd.supabase.co";
+const ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5teHJudXhoZ2Rvb2FsdWFzbG5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MzMzMzMsImV4cCI6MjA4MzIwOTMzM30.FsO6ciixFrufalkeuhfVmerBgm6tM2S75Bl88a5r454";
+const PROXY = "https://bkrea-mcp-remote.vercel.app/api/mcp";
+const WRITES = process.env.BKREA_ENABLE_WRITES === "1";
 
-// ── URL rewriting ──────────────────────────────────────────────────────────
-function rewriteUpstream(s: string): string {
-  const enc = encodeURIComponent(UPSTREAM);
-  const encProxy = encodeURIComponent(PROXY_BASE);
-  return s
-    .replaceAll(enc, encProxy)
-    .replaceAll(UPSTREAM, PROXY_BASE)
-    .replaceAll(
-      "nmxrnuxhgdooaluaslnd.supabase.co/functions/v1/mcp-tools",
-      "bkrea-mcp-remote.vercel.app/api/mcp",
-    );
+// ── Crypto (stateless tokens) ───────────────────────────────────────────────
+const KEY = crypto.createHash("sha256").update(process.env.TOKEN_SECRET ?? ANON_KEY).digest();
+function seal(obj: unknown): string {
+  const iv = crypto.randomBytes(12);
+  const c = crypto.createCipheriv("aes-256-gcm", KEY, iv);
+  const data = Buffer.concat([c.update(JSON.stringify(obj), "utf8"), c.final()]);
+  return Buffer.concat([iv, c.getAuthTag(), data]).toString("base64url");
 }
-
-// ── State encoding (survives Google OAuth round-trip via Supabase state param) ──
-interface McpParams {
-  clientId: string; redirectUri: string; codeChallenge: string;
-  challengeMethod: string; scope: string; state: string;
-}
-const encState = (o: McpParams) => Buffer.from(JSON.stringify(o)).toString("base64url");
-const decState = (s: string): McpParams | null => {
-  try { return JSON.parse(Buffer.from(s, "base64url").toString()) as McpParams; } catch { return null; }
-};
-
-// ── HTML helpers ────────────────────────────────────────────────────────────
-const esc = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-
-function signInPage(googleUrl: string): Response {
-  return new Response(`<!doctype html>
-<html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sign in to BKREA</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-     background:#0d0d0d;color:#f0f0f0;display:flex;align-items:center;
-     justify-content:center;min-height:100vh}
-.card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;
-      padding:40px;width:100%;max-width:360px;text-align:center;
-      box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.logo{font-size:24px;font-weight:700;margin-bottom:8px}
-.sub{color:#888;font-size:14px;margin-bottom:32px;line-height:1.5}
-.g{display:flex;align-items:center;justify-content:center;gap:12px;
-   background:#fff;color:#1f1f1f;border:none;border-radius:8px;
-   font-size:15px;font-weight:500;padding:13px 20px;width:100%;
-   cursor:pointer;text-decoration:none;transition:opacity .15s}
-.g:hover{opacity:.9}
-svg{width:20px;height:20px;flex-shrink:0}
-.note{color:#444;font-size:12px;margin-top:24px;line-height:1.5}
-</style></head>
-<body><div class="card">
-<div class="logo">BKREA</div>
-<div class="sub">Connect Claude to your BKREA account.<br>Your data stays scoped to you.</div>
-<a href="${esc(googleUrl)}" class="g">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66 2.84z" fill="#FBBC05"/>
-    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-  </svg>
-  Sign in with Google
-</a>
-<div class="note">First time? You'll approve access once.<br>After that, Claude always knows it's you.</div>
-</div></body></html>`, { headers: { "Content-Type": "text/html; charset=utf-8" } });
-}
-
-// ── /oauth/authorize — redirect to BKREA app login ─────────────────────────
-// If the user is already signed in at ai.agent.bkrea.xyz, Supabase picks up
-// the session and redirects straight to our callback with their token.
-// If not, they see the normal BKREA login page — same result after signing in.
-async function handleAuthorize(req: Request): Promise<Response> {
-  const p = new URL(req.url).searchParams;
-  const encoded = encState({
-    clientId:       p.get("client_id") ?? "",
-    redirectUri:    p.get("redirect_uri") ?? "",
-    codeChallenge:  p.get("code_challenge") ?? "",
-    challengeMethod:p.get("code_challenge_method") ?? "S256",
-    scope:          p.get("scope") ?? "mcp",
-    state:          p.get("state") ?? "",
-  });
-
-  // Go directly to Supabase Google OAuth — bypass the BKREA React app which
-  // ignores our redirect_to param and sends tokens to itself. Supabase will
-  // redirect to GOOGLE_CB after auth (requires GOOGLE_CB to be in Supabase's
-  // allowed redirect URLs — add via Lovable → Project Settings → Auth).
-  const googleAuth = new URL(`${SUPABASE}/auth/v1/authorize`);
-  googleAuth.searchParams.set("provider", "google");
-  googleAuth.searchParams.set("redirect_to", GOOGLE_CB);
-  googleAuth.searchParams.set("state", encoded); // Supabase passes state through untouched
-
-  const dest = esc(googleAuth.toString());
-  return new Response(`<!doctype html><html><head><meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=${dest}">
-<title>Redirecting to BKREA…</title>
-<style>body{font:16px system-ui;background:#0d0d0d;color:#eee;display:flex;
-align-items:center;justify-content:center;height:100vh;margin:0;text-align:center}</style>
-</head><body>
-<div><p>Redirecting to BKREA…</p>
-<p style="margin-top:12px"><a href="${dest}" style="color:#60a5fa">Click here if not redirected</a></p></div>
-<script>window.location.replace("${dest}");</script>
-</body></html>`, { headers: { "Content-Type": "text/html; charset=utf-8" } });
-}
-
-// ── /oauth/google-callback — extract token from fragment, call finish ───────
-function handleGoogleCallback(): Response {
-  return new Response(`<!doctype html><html><head><meta charset="UTF-8">
-<title>Completing sign-in…</title>
-<style>body{font:16px system-ui;background:#0d0d0d;color:#eee;
-display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
-.c{text-align:center}.s{font-size:32px;margin-bottom:12px}</style>
-</head><body><div class="c"><div class="s">⟳</div><p id="m">Completing sign-in…</p></div>
-<script>
-(function(){
-  var frag = new URLSearchParams(location.hash.slice(1));
-  var token = frag.get('access_token');
-  var qs = new URLSearchParams(location.search);
-  var state = qs.get('state') || qs.get('next') || frag.get('state') || frag.get('next') || '';
-  if (!token) {
-    document.getElementById('m').textContent = 'Sign-in failed — no token. Please close and try again.';
-    return;
-  }
-  fetch('/api/mcp/oauth/google-finish', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({access_token: token, mcp_state: state})
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(d){
-    if (d.redirect) { window.location.href = d.redirect; }
-    else { document.getElementById('m').textContent = 'Error: ' + (d.error || 'unknown'); }
-  })
-  .catch(function(e){ document.getElementById('m').textContent = 'Network error: ' + e; });
-})();
-</script></body></html>`,
-  { headers: { "Content-Type": "text/html; charset=utf-8" } });
-}
-
-// ── /oauth/google-finish — issue MCP code and redirect to Claude ────────────
-async function handleGoogleFinish(req: Request): Promise<Response> {
-  const { access_token: userToken, mcp_state } =
-    await req.json() as { access_token: string; mcp_state: string };
-
-  const mcp = decState(mcp_state);
-  if (!mcp || !userToken) {
-    return new Response(JSON.stringify({ error: "missing token or state" }), { status: 400 });
-  }
-
-  // Call mcp-tools /oauth/authorize server-side with the user's Google JWT so
-  // the resulting code is bound to their identity.
-  const code = await issueCode(mcp, userToken);
-  if (!code) {
-    return new Response(JSON.stringify({ error: "could not issue oauth code from mcp-tools" }), { status: 502 });
-  }
-
-  const dest = new URL(mcp.redirectUri);
-  dest.searchParams.set("code", code);
-  dest.searchParams.set("state", mcp.state);
-  return new Response(JSON.stringify({ redirect: dest.toString() }), {
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
-async function issueCode(mcp: McpParams, userToken: string): Promise<string | null> {
-  const noop = `${PROXY_BASE}/oauth/noop`;
-  const params = new URLSearchParams({
-    client_id: mcp.clientId, response_type: "code",
-    redirect_uri: noop, state: mcp.state, scope: mcp.scope,
-    code_challenge: mcp.codeChallenge, code_challenge_method: mcp.challengeMethod,
-  });
-  const res = await fetch(`${UPSTREAM}/oauth/authorize?${params}`, {
-    headers: { apikey: ANON_KEY, Authorization: `Bearer ${userToken}` },
-    redirect: "manual",
-  });
-  const loc = res.headers.get("location") ?? "";
-  if (loc) {
-    try {
-      const u = new URL(loc.startsWith("http") ? loc : `${UPSTREAM}${loc}`);
-      const code = u.searchParams.get("code");
-      if (code) return code;
-    } catch { /* ignore */ }
-  }
-  if (res.ok) {
-    const body = await res.json().catch(() => null) as Record<string, unknown> | null;
-    if (body?.code) return String(body.code);
-  }
-  return null;
-}
-
-// ── Generic transparent proxy ───────────────────────────────────────────────
-const FORWARD_REQ = ["content-type","accept","authorization","mcp-session-id","mcp-protocol-version"];
-const SKIP_RES = new Set(["content-encoding","transfer-encoding","connection","keep-alive","upgrade","proxy-authenticate","trailer"]);
-
-async function proxy(req: Request, sp: string): Promise<Response> {
-  const upUrl = sp ? `${UPSTREAM}/${sp}` : UPSTREAM;
-  const target = new URL(upUrl);
-  new URL(req.url).searchParams.forEach((v, k) => target.searchParams.set(k, v));
-
-  const outH = new Headers();
-  outH.set("apikey", ANON_KEY);
-  for (const n of FORWARD_REQ) { const v = req.headers.get(n); if (v) outH.set(n, v); }
-
-  const body = req.method !== "GET" && req.method !== "HEAD" ? await req.arrayBuffer() : undefined;
-
-  let up: Response;
+function open<T = Record<string, unknown>>(token: string): T | null {
   try {
-    up = await fetch(target.toString(), {
-      method: req.method, headers: outH, body,
-      // @ts-expect-error Node 20 supports duplex
-      duplex: body !== undefined ? "half" : undefined,
+    const raw = Buffer.from(token, "base64url");
+    const iv = raw.subarray(0, 12), tag = raw.subarray(12, 28), data = raw.subarray(28);
+    const d = crypto.createDecipheriv("aes-256-gcm", KEY, iv);
+    d.setAuthTag(tag);
+    return JSON.parse(Buffer.concat([d.update(data), d.final()]).toString("utf8")) as T;
+  } catch { return null; }
+}
+const nowSec = () => Math.floor(Date.now() / 1000);
+const j = (o: unknown, status = 200, extra: Record<string, string> = {}) =>
+  new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", ...extra } });
+
+// ── Supabase auth ────────────────────────────────────────────────────────────
+async function passwordGrant(email: string, password: string) {
+  const r = await fetch(`${SUPABASE}/auth/v1/token?grant_type=password`, {
+    method: "POST", headers: { "Content-Type": "application/json", apikey: ANON_KEY },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!r.ok) return null;
+  return await r.json() as { access_token: string; refresh_token: string; expires_in: number };
+}
+async function refreshGrant(refresh_token: string) {
+  const r = await fetch(`${SUPABASE}/auth/v1/token?grant_type=refresh_token`, {
+    method: "POST", headers: { "Content-Type": "application/json", apikey: ANON_KEY },
+    body: JSON.stringify({ refresh_token }),
+  });
+  if (!r.ok) return null;
+  return await r.json() as { access_token: string; refresh_token: string; expires_in: number };
+}
+
+// ── OAuth endpoints ──────────────────────────────────────────────────────────
+function wellKnownAuthServer() {
+  return j({
+    issuer: PROXY,
+    authorization_endpoint: `${PROXY}/oauth/authorize`,
+    token_endpoint: `${PROXY}/oauth/token`,
+    registration_endpoint: `${PROXY}/oauth/register`,
+    response_types_supported: ["code"],
+    grant_types_supported: ["authorization_code", "refresh_token"],
+    code_challenge_methods_supported: ["S256"],
+    token_endpoint_auth_methods_supported: ["none"],
+    scopes_supported: ["mcp"],
+  });
+}
+function wellKnownResource() {
+  return j({ resource: PROXY, authorization_servers: [PROXY], bearer_methods_supported: ["header"] });
+}
+function registerClient() {
+  // We don't track clients; accept any registration and echo a client_id.
+  const id = "bkrea_" + crypto.randomBytes(12).toString("hex");
+  return j({ client_id: id, token_endpoint_auth_method: "none",
+    grant_types: ["authorization_code", "refresh_token"], response_types: ["code"] });
+}
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
+function loginForm(p: URLSearchParams, error?: string) {
+  const hid = (k: string) => `<input type="hidden" name="${k}" value="${esc(p.get(k) ?? "")}">`;
+  return new Response(`<!doctype html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in to BKREA</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d0d0d;color:#f0f0f0;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:36px 40px;width:100%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.logo{font-size:22px;font-weight:700;margin-bottom:6px}.sub{color:#888;font-size:13px;margin-bottom:26px}
+label{display:block;font-size:13px;color:#aaa;margin-bottom:6px}input[type=email],input[type=password]{width:100%;background:#111;border:1px solid #333;border-radius:8px;color:#f0f0f0;font-size:15px;padding:11px 14px;outline:none}
+input:focus{border-color:#555}.field{margin-bottom:18px}button{width:100%;background:#fff;color:#000;border:none;border-radius:8px;font-size:15px;font-weight:600;padding:12px;cursor:pointer;margin-top:8px}
+button:hover{opacity:.9}.err{background:#2a0d0d;border:1px solid #5a1a1a;border-radius:8px;color:#f87171;font-size:13px;padding:10px 14px;margin-bottom:18px}.note{color:#555;font-size:12px;margin-top:18px;text-align:center}</style></head>
+<body><div class="card"><div class="logo">BKREA</div><div class="sub">Sign in to connect Claude to your account</div>
+${error ? `<div class="err">${esc(error)}</div>` : ""}
+<form method="POST" action="${PROXY}/oauth/authorize">
+${hid("client_id")}${hid("redirect_uri")}${hid("state")}${hid("code_challenge")}${hid("code_challenge_method")}${hid("scope")}
+<div class="field"><label>Email</label><input name="email" type="email" placeholder="you@bkrea.com" autocomplete="email" required autofocus></div>
+<div class="field"><label>Password</label><input name="password" type="password" placeholder="••••••••" autocomplete="current-password" required></div>
+<button type="submit">Sign in &amp; connect</button></form>
+<div class="note">Your credentials go directly to BKREA and are never stored here.</div></div></body></html>`,
+    { status: error ? 401 : 200, headers: { "Content-Type": "text/html; charset=utf-8" } });
+}
+
+async function handleAuthorize(req: Request): Promise<Response> {
+  if (req.method === "GET") return loginForm(new URL(req.url).searchParams);
+
+  const form = await req.formData();
+  const p = new URLSearchParams();
+  for (const k of ["client_id","redirect_uri","state","code_challenge","code_challenge_method","scope"])
+    p.set(k, String(form.get(k) ?? ""));
+  const email = String(form.get("email") ?? "").trim();
+  const password = String(form.get("password") ?? "");
+
+  const session = await passwordGrant(email, password);
+  if (!session) return loginForm(p, "Invalid email or password. Please try again.");
+
+  // Issue our auth code: encrypted, carries the user's Supabase session + PKCE.
+  const code = seal({
+    rt: session.refresh_token, at: session.access_token,
+    cc: p.get("code_challenge"), exp: nowSec() + 600,
+  });
+  const dest = new URL(p.get("redirect_uri")!);
+  dest.searchParams.set("code", code);
+  dest.searchParams.set("state", p.get("state") ?? "");
+  return Response.redirect(dest.toString(), 302);
+}
+
+async function handleToken(req: Request): Promise<Response> {
+  const ct = req.headers.get("content-type") ?? "";
+  const body = ct.includes("application/json")
+    ? await req.json() as Record<string, string>
+    : Object.fromEntries((new URLSearchParams(await req.text())).entries());
+
+  if (body.grant_type === "authorization_code") {
+    const data = open<{ rt: string; at: string; cc: string; exp: number }>(body.code ?? "");
+    if (!data || data.exp < nowSec()) return j({ error: "invalid_grant" }, 400);
+    // Verify PKCE
+    if (data.cc) {
+      const v = body.code_verifier ?? "";
+      const challenge = crypto.createHash("sha256").update(v).digest("base64url");
+      if (challenge !== data.cc) return j({ error: "invalid_grant", error_description: "PKCE failed" }, 400);
+    }
+    return j({
+      access_token: seal({ at: data.at, exp: nowSec() + 3000 }),
+      refresh_token: seal({ rt: data.rt }),
+      token_type: "Bearer", expires_in: 3000, scope: "mcp",
     });
-  } catch (e) {
-    return new Response(JSON.stringify({ error: "upstream_failed", detail: String(e) }),
-      { status: 502, headers: { "Content-Type": "application/json" } });
   }
 
-  const resH = new Headers();
-  up.headers.forEach((v, k) => { if (!SKIP_RES.has(k.toLowerCase())) resH.set(k, rewriteUpstream(v)); });
-  resH.set("access-control-allow-origin", "*");
-  resH.set("access-control-allow-headers", "authorization,x-client-info,apikey,content-type,mcp-session-id,mcp-protocol-version");
-  resH.set("access-control-allow-methods", "GET,POST,DELETE,OPTIONS");
-  resH.set("access-control-expose-headers", "WWW-Authenticate,mcp-session-id");
-
-  const ct = up.headers.get("content-type") ?? "";
-  if ((ct.includes("application/json") || ct.includes("text/")) && up.body) {
-    const raw = await up.text();
-    const rw = rewriteUpstream(raw);
-    resH.set("content-length", String(Buffer.byteLength(rw)));
-    return new Response(rw, { status: up.status, headers: resH });
+  if (body.grant_type === "refresh_token") {
+    const data = open<{ rt: string }>(body.refresh_token ?? "");
+    if (!data) return j({ error: "invalid_grant" }, 400);
+    const fresh = await refreshGrant(data.rt);
+    if (!fresh) return j({ error: "invalid_grant", error_description: "session expired" }, 400);
+    return j({
+      access_token: seal({ at: fresh.access_token, exp: nowSec() + 3000 }),
+      refresh_token: seal({ rt: fresh.refresh_token }),
+      token_type: "Bearer", expires_in: 3000, scope: "mcp",
+    });
   }
-  return new Response(up.body, { status: up.status, headers: resH });
+
+  return j({ error: "unsupported_grant_type" }, 400);
 }
 
-function sp(req: Request): string {
-  return new URL(req.url).pathname.replace(/^\/api\/mcp\/?/, "");
+// Extract the user's Supabase access token from our bearer.
+function userToken(req: Request): string | null {
+  const auth = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "").trim();
+  if (!auth) return null;
+  const data = open<{ at: string; exp: number }>(auth);
+  if (!data || (data.exp && data.exp < nowSec())) return null;
+  return data.at;
 }
+
+// ── Supabase data helpers (queried with the user's JWT → RLS) ────────────────
+async function sb(token: string, path: string): Promise<unknown> {
+  const r = await fetch(`${SUPABASE}/rest/v1/${path}`, {
+    headers: { apikey: ANON_KEY, Authorization: `Bearer ${token}`, Accept: "application/json" },
+  });
+  if (!r.ok) throw new Error(`${r.status}: ${(await r.text()).slice(0, 200)}`);
+  return await r.json();
+}
+const enc = encodeURIComponent;
+function ilikeOr(cols: string[], q: string): string {
+  const safe = q.replace(/[%,()]/g, " ").trim();
+  return `or=(${cols.map((c) => `${c}.ilike.*${safe}*`).join(",")})`;
+}
+
+// ── MCP tools (verified BKREA schema) ────────────────────────────────────────
+interface Tool { name: string; description: string; inputSchema: Record<string, unknown>; run: (token: string, args: Record<string, unknown>) => Promise<unknown>; }
+const strProp = (d: string) => ({ type: "string", description: d });
+const numProp = (d: string) => ({ type: "number", description: d });
+const lim = (a: Record<string, unknown>) => Math.min(Math.max(Number(a.limit ?? 25) || 25, 1), 50);
+
+const TOOLS: Tool[] = [
+  { name: "whoami", description: "Your BKREA profile.", inputSchema: { type: "object", properties: {} },
+    run: async (t) => {
+      const u = await fetch(`${SUPABASE}/auth/v1/user`, { headers: { apikey: ANON_KEY, Authorization: `Bearer ${t}` } }).then((r) => r.json()) as { id: string; email: string };
+      const prof = await sb(t, `profiles?select=*&id=eq.${u.id}&limit=1`) as unknown[];
+      return { user_id: u.id, email: u.email, profile: prof[0] ?? null };
+    } },
+  { name: "search_deals", description: "Search HubSpot deals by text (deal name, address, owner).",
+    inputSchema: { type: "object", properties: { q: strProp("search text"), limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `hubspot_deals?select=*${a.q ? `&${ilikeOr(["deal_name","address","neighborhood","nickname","property_address","owner_name"], String(a.q))}` : ""}&limit=${lim(a)}`) },
+  { name: "search_listings", description: "Search HubSpot listings by text.",
+    inputSchema: { type: "object", properties: { q: strProp("search text"), limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `hubspot_listings?select=*${a.q ? `&${ilikeOr(["listing_address","owner_name","territory"], String(a.q))}` : ""}&limit=${lim(a)}`) },
+  { name: "search_companies", description: "Search HubSpot companies by text.",
+    inputSchema: { type: "object", properties: { q: strProp("search text"), limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `hubspot_companies?select=*${a.q ? `&${ilikeOr(["name","domain"], String(a.q))}` : ""}&limit=${lim(a)}`) },
+  { name: "search_comps", description: "Search comparable sales by text / neighborhood.",
+    inputSchema: { type: "object", properties: { q: strProp("search text"), neighborhood: strProp("neighborhood"), limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `comps?select=*${a.q ? `&${ilikeOr(["address","neighborhood","notes"], String(a.q))}` : ""}${a.neighborhood ? `&neighborhood=ilike.*${enc(String(a.neighborhood))}*` : ""}&order=sale_date.desc&limit=${lim(a)}`) },
+  { name: "search_permits", description: "Search NYC permits by address / borough / work type.",
+    inputSchema: { type: "object", properties: { address: strProp("address"), borough: strProp("borough"), work_type: strProp("work type"), limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `nyc_permits?select=*${a.address ? `&normalized_address=ilike.*${enc(String(a.address))}*` : ""}${a.borough ? `&borough=ilike.*${enc(String(a.borough))}*` : ""}${a.work_type ? `&work_type=ilike.*${enc(String(a.work_type))}*` : ""}&limit=${lim(a)}`) },
+  { name: "search_contacts", description: "Search HubSpot contacts by text.",
+    inputSchema: { type: "object", properties: { q: strProp("search text"), limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `hubspot_contacts?select=*${a.q ? `&${ilikeOr(["firstname","lastname","full_name","email","phone","mobilephone"], String(a.q))}` : ""}&limit=${lim(a)}`) },
+  { name: "list_my_leads", description: "Leads assigned to you.",
+    inputSchema: { type: "object", properties: { limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `lead_list?select=*&limit=${lim(a)}`) },
+  { name: "get_kpi_leaderboard", description: "KPI entries for the 7 days from week_start (YYYY-MM-DD).",
+    inputSchema: { type: "object", properties: { week_start: strProp("ISO date") }, required: ["week_start"] },
+    run: async (t, a) => {
+      const start = String(a.week_start);
+      const end = new Date(new Date(`${start}T00:00:00Z`).getTime() + 7 * 864e5).toISOString().slice(0, 10);
+      return sb(t, `kpi_entries?select=user_id,kpi_type,entry_date,contact_name,company_name&entry_date=gte.${start}&entry_date=lt.${end}&limit=500`);
+    } },
+  { name: "get_broker_commissions", description: "Your broker commission calculations.",
+    inputSchema: { type: "object", properties: {} },
+    run: async (t) => sb(t, `broker_commission_calculations?select=*&limit=50`) },
+  { name: "get_kb_page", description: "Knowledge-base page by slug.",
+    inputSchema: { type: "object", properties: { slug: strProp("page slug") }, required: ["slug"] },
+    run: async (t, a) => sb(t, `kb_pages?select=*&slug=eq.${enc(String(a.slug))}&limit=1`) },
+  { name: "search_knowledgebase", description: "Search knowledge-base pages by text.",
+    inputSchema: { type: "object", properties: { q: strProp("search text"), limit: numProp("max 50") } },
+    run: async (t, a) => sb(t, `kb_pages?select=id,title,slug${a.q ? `&${ilikeOr(["title","content","slug"], String(a.q))}` : ""}&limit=${lim(a)}`) },
+];
+
+// ── MCP JSON-RPC handler ─────────────────────────────────────────────────────
+async function handleMcp(req: Request): Promise<Response> {
+  const token = userToken(req);
+  if (!token) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "WWW-Authenticate": `Bearer resource_metadata="${PROXY}/.well-known/oauth-protected-resource"`,
+      },
+    });
+  }
+
+  const msg = await req.json().catch(() => null) as { jsonrpc?: string; id?: unknown; method?: string; params?: Record<string, unknown> } | null;
+  if (!msg || !msg.method) return j({ jsonrpc: "2.0", id: null, error: { code: -32600, message: "invalid request" } }, 400);
+
+  const reply = (result: unknown) => j({ jsonrpc: "2.0", id: msg.id, result });
+  const fail = (code: number, message: string) => j({ jsonrpc: "2.0", id: msg.id, error: { code, message } });
+
+  switch (msg.method) {
+    case "initialize":
+      return reply({ protocolVersion: "2024-11-05", capabilities: { tools: {} }, serverInfo: { name: "bkrea", version: "2.0.0" } });
+    case "notifications/initialized":
+    case "notifications/cancelled":
+      return new Response(null, { status: 202, headers: { "Access-Control-Allow-Origin": "*" } });
+    case "ping":
+      return reply({});
+    case "tools/list":
+      return reply({ tools: TOOLS.map(({ name, description, inputSchema }) => ({ name, description, inputSchema })) });
+    case "tools/call": {
+      const name = String(msg.params?.name ?? "");
+      const args = (msg.params?.arguments ?? {}) as Record<string, unknown>;
+      const tool = TOOLS.find((t) => t.name === name);
+      if (!tool) return fail(-32602, `unknown tool: ${name}`);
+      try {
+        const data = await tool.run(token, args);
+        return reply({ content: [{ type: "text", text: JSON.stringify(data, null, 2) }] });
+      } catch (e) {
+        const m = e instanceof Error ? e.message : String(e);
+        // 401 from Supabase → token expired; signal so Claude refreshes
+        if (m.startsWith("401")) {
+          return new Response(JSON.stringify({ jsonrpc: "2.0", id: msg.id, error: { code: -32001, message: "auth expired" } }), {
+            status: 401, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*",
+              "WWW-Authenticate": `Bearer resource_metadata="${PROXY}/.well-known/oauth-protected-resource"` },
+          });
+        }
+        return reply({ content: [{ type: "text", text: `Error: ${m}` }], isError: true });
+      }
+    }
+    default:
+      return fail(-32601, `method not found: ${msg.method}`);
+  }
+}
+
+// ── Router ───────────────────────────────────────────────────────────────────
+const sp = (req: Request) => new URL(req.url).pathname.replace(/^\/api\/mcp\/?/, "");
+const cors = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS",
+  "Access-Control-Allow-Headers": "authorization,content-type,mcp-session-id,mcp-protocol-version",
+  "Access-Control-Expose-Headers": "WWW-Authenticate,mcp-session-id",
+};
 
 export async function GET(req: Request): Promise<Response> {
   const s = sp(req);
-  if (s === "oauth/authorize")        return handleAuthorize(req);
-  if (s === "oauth/google-callback")  return handleGoogleCallback();
-  return proxy(req, s);
+  if (s === ".well-known/oauth-authorization-server") return wellKnownAuthServer();
+  if (s === ".well-known/oauth-protected-resource")   return wellKnownResource();
+  if (s === "oauth/authorize")                         return handleAuthorize(req);
+  // MCP GET (some clients probe) → 401 to trigger OAuth
+  return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401,
+    headers: { "Content-Type": "application/json", ...cors,
+      "WWW-Authenticate": `Bearer resource_metadata="${PROXY}/.well-known/oauth-protected-resource"` } });
 }
+
 export async function POST(req: Request): Promise<Response> {
   const s = sp(req);
-  if (s === "oauth/google-finish")    return handleGoogleFinish(req);
-  return proxy(req, s);
+  if (s === "oauth/authorize") return handleAuthorize(req);
+  if (s === "oauth/token")     return handleToken(req);
+  if (s === "oauth/register")  return registerClient();
+  return handleMcp(req); // bare /api/mcp
 }
-export async function DELETE(req: Request): Promise<Response> { return proxy(req, sp(req)); }
+
+export async function DELETE(): Promise<Response> {
+  return new Response(null, { status: 204, headers: cors });
+}
 export async function OPTIONS(): Promise<Response> {
-  return new Response(null, { status: 204, headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS",
-    "Access-Control-Allow-Headers": "authorization,x-client-info,apikey,content-type,mcp-session-id,mcp-protocol-version",
-    "Access-Control-Expose-Headers": "WWW-Authenticate,mcp-session-id",
-  }});
+  return new Response(null, { status: 204, headers: cors });
 }
