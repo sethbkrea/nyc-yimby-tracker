@@ -21,6 +21,24 @@ async function ghFetchPublic(path: string): Promise<Response> {
   });
 }
 
+/**
+ * Read fetch that uses GH_TOKEN when present (5000/hr) but falls back to an
+ * unauthenticated request when it isn't. The repo is public, so reads still
+ * work without a token (anon limit 60/hr/IP) — this keeps the runs list usable
+ * in local dev where GH_TOKEN may be unset, instead of throwing "Missing env".
+ */
+async function ghFetchRead(path: string): Promise<Response> {
+  const token = process.env.GH_TOKEN;
+  return fetch(`${GH_API}${path}`, {
+    headers: {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    cache: "no-store",
+  });
+}
+
 /** Authenticated fetch — required for workflow_dispatch even on public repos. */
 async function ghFetchAuthed(path: string, init?: RequestInit): Promise<Response> {
   return fetch(`${GH_API}${path}`, {
@@ -69,10 +87,10 @@ export interface WorkflowRun {
 }
 
 export async function listRecentRuns(perPage = 15): Promise<WorkflowRun[]> {
-  // Authenticated even though the repo is public: anonymous limit is 60/hr/IP,
-  // and the UI's 3-second poll cadence during active runs blows through that
-  // almost immediately. Authenticated tokens get 5000/hr.
-  const res = await ghFetchAuthed(`/repos/${repoPath()}/actions/runs?per_page=${perPage}`);
+  // Prefer the token (anon limit is 60/hr/IP, which the poll cadence blows
+  // through; authed tokens get 5000/hr) but fall back to anonymous so local
+  // dev without GH_TOKEN still lists runs instead of erroring.
+  const res = await ghFetchRead(`/repos/${repoPath()}/actions/runs?per_page=${perPage}`);
   if (!res.ok) throw new Error(`list runs failed: ${res.status}`);
   const data = (await res.json()) as { workflow_runs: WorkflowRun[] };
   return data.workflow_runs;

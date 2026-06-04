@@ -383,6 +383,7 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
           <table className="w-full text-sm">
             <thead className="text-left text-neutral-400">
               <tr>
+                <th className="py-1.5 pr-3 font-normal">Date</th>
                 <th className="py-1.5 pr-3 font-normal">Address</th>
                 <th className="py-1.5 pr-3 font-normal">Borough</th>
                 <th className="py-1.5 pr-3 font-normal">Neighborhood</th>
@@ -397,6 +398,7 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
             <tbody>
               {visible.map((a) => (
                 <tr key={a.url} className="border-t border-neutral-800 align-top">
+                  <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap">{(a.scraped_at || "").slice(0, 10) || "—"}</td>
                   <td className="py-2 pr-3">{blank(a.address)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.borough)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.neighborhood)}</td>
@@ -430,6 +432,7 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
             <table className="w-full text-sm">
               <thead className="text-left text-neutral-400">
                 <tr>
+                  <th className="py-1.5 pr-3 font-normal">Scraped</th>
                   <th className="py-1.5 pr-3 font-normal">Address</th>
                   <th className="py-1.5 pr-3 font-normal">Amount</th>
                   <th className="py-1.5 pr-3 font-normal">$/unit</th>
@@ -437,13 +440,14 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
                   <th className="py-1.5 pr-3 font-normal">Buyer</th>
                   <th className="py-1.5 pr-3 font-normal">Seller</th>
                   <th className="py-1.5 pr-3 font-normal">Brokers</th>
-                  <th className="py-1.5 pr-3 font-normal">Date</th>
+                  <th className="py-1.5 pr-3 font-normal">Tx Date</th>
                   <th className="py-1.5 font-normal"></th>
                 </tr>
               </thead>
               <tbody>
                 {visible.map((a) => (
                   <tr key={a.url} className="border-t border-neutral-800 align-top">
+                    <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap">{(a.scraped_at || "").slice(0, 10) || "—"}</td>
                     <td className="py-2 pr-3">{blank(a.address)}</td>
                     <td className="py-2 pr-3 text-neutral-300">{fmtMoney(a.transaction_amount)}</td>
                     <td className="py-2 pr-3 text-neutral-300">{fmtMoney(a.price_per_unit)}</td>

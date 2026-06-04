@@ -2,6 +2,15 @@ import { NextResponse } from "next/server";
 import { listRecentRuns, loadRunSummaries } from "@/lib/github";
 
 export async function GET() {
+  // No token (typical in local dev): skip GitHub entirely. Anonymous reads trip
+  // the 60/hr per-IP limit under the dashboard's poll cadence and 403. Return an
+  // empty list with a note instead of erroring. Production always sets GH_TOKEN.
+  if (!process.env.GH_TOKEN) {
+    return NextResponse.json({
+      runs: [],
+      note: "Run history is hidden locally — set GH_TOKEN in web/.env.local to load it.",
+    });
+  }
   try {
     const [runs, summaries] = await Promise.all([listRecentRuns(15), loadRunSummaries()]);
     const summaryById = new Map(summaries.map((s) => [s.run_id, s]));
