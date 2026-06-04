@@ -41,10 +41,12 @@ function isActive(r: Run): boolean {
 export function RunsTable({
   runs,
   error,
+  note,
   onCancelled,
 }: {
   runs: Run[] | null;
   error: string | null;
+  note?: string | null;
   onCancelled: () => void;
 }) {
   const [cancelling, setCancelling] = useState<number | null>(null);
@@ -76,9 +78,10 @@ export function RunsTable({
     <section className="border border-neutral-800 rounded-lg p-5 bg-neutral-900/40">
       <h2 className="text-lg font-semibold mb-3">Recent runs</h2>
       {error && <p className="text-sm text-red-400 mb-3">Error: {error}</p>}
+      {note && !error && <p className="text-sm text-neutral-500 mb-3">{note}</p>}
       {cancelError && <p className="text-sm text-red-400 mb-3">Cancel: {cancelError}</p>}
       {runs === null && !error && <p className="text-sm text-neutral-500">Loading…</p>}
-      {runs && runs.length === 0 && <p className="text-sm text-neutral-500">No runs yet.</p>}
+      {runs && runs.length === 0 && !note && <p className="text-sm text-neutral-500">No runs yet.</p>}
       {runs && runs.length > 0 && (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

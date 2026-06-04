@@ -29,3 +29,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     error: "/login",
   },
 });
+
+/**
+ * Session lookup for protected pages/APIs. In `next dev` (NODE_ENV ===
+ * "development") this returns a stub session so the app is usable locally
+ * without Google OAuth configured. In production (Vercel / `next start`) it is
+ * a plain pass-through to NextAuth's `auth()`, so the real gate is unchanged.
+ */
+export async function requireUser() {
+  if (process.env.NODE_ENV === "development") {
+    return { user: { email: "dev@localhost" } };
+  }
+  return auth();
+}

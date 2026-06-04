@@ -54,6 +54,26 @@ function blank(s?: string): string {
   return s && s.trim() ? s : "—";
 }
 
+// Human-readable lifecycle stage from the LLM-assigned article_type. Used so a
+// row's unit count can be read against its stage (e.g. units "Under construction").
+const STAGE_LABEL: Record<string, string> = {
+  construction_update: "Under construction",
+  permit_filed: "Permits filed",
+  rendering_reveal: "Rendering",
+  demolition: "Demolition",
+  completion: "Completed",
+  lottery: "Lottery",
+  approval: "Approved",
+  rezoning: "Rezoning",
+  financing: "Financing",
+  transaction: "Transaction",
+  report: "Report",
+  other: "—",
+};
+function stageLabel(t?: string): string {
+  return (t && STAGE_LABEL[t]) || "—";
+}
+
 interface Props {
   refreshSignal: number;
   runs: Run[];
@@ -69,10 +89,15 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
   // Filters
   const [fromDate, _setFromDate] = useState<string>("");  // YYYY-MM-DD or ""
   const [toDate, _setToDate] = useState<string>("");
+  const [query, _setQuery] = useState<string>("");
 
   // Reset to page 0 whenever the visible slice would change underneath us.
   const setTab = (t: "development" | "transaction") => {
     _setTab(t);
+    setPage(0);
+  };
+  const setQuery = (s: string) => {
+    _setQuery(s);
     setPage(0);
   };
   const setPageSize = (n: number) => {
@@ -149,9 +174,20 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
     load();
   }, [load, refreshSignal]);
 
-  // Apply date filter to the *base* set so tab counts reflect what's
-  // visible under the current filter.
+  // Apply date + text filters to the *base* set so tab counts reflect what's
+  // visible under the current filters.
+  const needle = query.trim().toLowerCase();
+  const matchesQuery = (a: Article): boolean => {
+    if (!needle) return true;
+    const hay = [
+      a.address, a.street_address, a.neighborhood, a.borough, a.type,
+      a.developer, a.architect, a.buyer, a.seller, a.brokers,
+      a.article_type, a.notes, a.url,
+    ].filter(Boolean).join(" ").toLowerCase();
+    return hay.includes(needle);
+  };
   const dateFiltered = (articles ?? []).filter((a) => {
+    if (!matchesQuery(a)) return false;
     if (!fromDate && !toDate) return true;
     const d = (a.scraped_at || "").slice(0, 10);
     if (fromDate && d < fromDate) return false;
@@ -245,10 +281,21 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
         {total !== null && (
           <span className="text-sm text-neutral-400">
             {dateFiltered.length.toLocaleString()}
-            {(fromDate || toDate) && ` of ${total.toLocaleString()}`}
-            {!fromDate && !toDate && " total"}
+            {(fromDate || toDate || needle) && ` of ${total.toLocaleString()}`}
+            {!fromDate && !toDate && !needle && " total"}
           </span>
         )}
+      </div>
+
+      {/* Search */}
+      <div className="mb-3">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search address, developer, architect, neighborhood, buyer/seller…"
+          className="w-full rounded-md bg-neutral-950 border border-neutral-800 px-3 py-2 text-sm text-neutral-100 placeholder-neutral-600 focus:outline-none focus:border-neutral-600"
+        />
       </div>
 
       {/* Filter bar */}
@@ -383,11 +430,13 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
           <table className="w-full text-sm">
             <thead className="text-left text-neutral-400">
               <tr>
+                <th className="py-1.5 pr-3 font-normal">Date</th>
                 <th className="py-1.5 pr-3 font-normal">Address</th>
                 <th className="py-1.5 pr-3 font-normal">Borough</th>
                 <th className="py-1.5 pr-3 font-normal">Neighborhood</th>
                 <th className="py-1.5 pr-3 font-normal">Type</th>
                 <th className="py-1.5 pr-3 font-normal">Units</th>
+                <th className="py-1.5 pr-3 font-normal">Stage</th>
                 <th className="py-1.5 pr-3 font-normal">Sq ft</th>
                 <th className="py-1.5 pr-3 font-normal">Developer</th>
                 <th className="py-1.5 pr-3 font-normal">Architect</th>
@@ -397,11 +446,15 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
             <tbody>
               {visible.map((a) => (
                 <tr key={a.url} className="border-t border-neutral-800 align-top">
+                  <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap">{(a.scraped_at || "").slice(0, 10) || "—"}</td>
                   <td className="py-2 pr-3">{blank(a.address)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.borough)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.neighborhood)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.type)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{fmtNum(a.number_of_units)}</td>
+                  <td className={`py-2 pr-3 ${a.article_type === "construction_update" ? "text-amber-300" : "text-neutral-400"}`}>
+                    {stageLabel(a.article_type)}
+                  </td>
                   <td className="py-2 pr-3 text-neutral-300">{fmtNum(a.square_footage)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.developer)}</td>
                   <td className="py-2 pr-3 text-neutral-300">{blank(a.architect)}</td>
@@ -430,6 +483,7 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
             <table className="w-full text-sm">
               <thead className="text-left text-neutral-400">
                 <tr>
+                  <th className="py-1.5 pr-3 font-normal">Scraped</th>
                   <th className="py-1.5 pr-3 font-normal">Address</th>
                   <th className="py-1.5 pr-3 font-normal">Amount</th>
                   <th className="py-1.5 pr-3 font-normal">$/unit</th>
@@ -437,13 +491,14 @@ export function ArticlesPreview({ refreshSignal, runs }: Props) {
                   <th className="py-1.5 pr-3 font-normal">Buyer</th>
                   <th className="py-1.5 pr-3 font-normal">Seller</th>
                   <th className="py-1.5 pr-3 font-normal">Brokers</th>
-                  <th className="py-1.5 pr-3 font-normal">Date</th>
+                  <th className="py-1.5 pr-3 font-normal">Tx Date</th>
                   <th className="py-1.5 font-normal"></th>
                 </tr>
               </thead>
               <tbody>
                 {visible.map((a) => (
                   <tr key={a.url} className="border-t border-neutral-800 align-top">
+                    <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap">{(a.scraped_at || "").slice(0, 10) || "—"}</td>
                     <td className="py-2 pr-3">{blank(a.address)}</td>
                     <td className="py-2 pr-3 text-neutral-300">{fmtMoney(a.transaction_amount)}</td>
                     <td className="py-2 pr-3 text-neutral-300">{fmtMoney(a.price_per_unit)}</td>

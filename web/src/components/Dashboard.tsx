@@ -18,6 +18,7 @@ function isActive(r: Run): boolean {
 export default function Dashboard() {
   const [runs, setRuns] = useState<Run[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
   const [refreshArticles, setRefreshArticles] = useState(0);
   // True from the moment we POST a dispatch until the new run shows up.
   const [pendingDispatch, setPendingDispatch] = useState<string | null>(null);
@@ -30,8 +31,9 @@ export default function Dashboard() {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(body.error ?? `HTTP ${res.status}`);
       }
-      const data = (await res.json()) as { runs: Run[] };
+      const data = (await res.json()) as { runs: Run[]; note?: string };
       setRuns(data.runs);
+      setNote(data.note ?? null);
       setError(null);
 
       // Clear "pendingDispatch" when a new run for that workflow shows up.
@@ -72,7 +74,7 @@ export default function Dashboard() {
         pendingDispatch={pendingDispatch}
         onDispatch={setPendingDispatch}
       />
-      <RunsTable runs={runs} error={error} onCancelled={loadRuns} />
+      <RunsTable runs={runs} error={error} note={note} onCancelled={loadRuns} />
       <ArticlesPreview refreshSignal={refreshArticles} runs={runs ?? []} />
     </div>
   );

@@ -40,6 +40,11 @@ export default auth((req) => {
   // 2) Auth gate — skip /login and /api/auth themselves so sign-in can run.
   if (isAuthPath(url.pathname)) return;
 
+  // Local dev convenience: `next dev` runs as NODE_ENV=development, so the
+  // gate is skipped to allow testing without Google OAuth configured. This is
+  // never true on Vercel / `next start` (production), so the real gate stands.
+  if (process.env.NODE_ENV === "development") return;
+
   if (!req.auth) {
     const login = url.clone();
     login.pathname = "/login";
