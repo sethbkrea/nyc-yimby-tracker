@@ -1,0 +1,61 @@
+name: Weekly Google News enrichment
+
+on:
+  schedule:
+    # Sundays at 13:00 UTC (~9 AM ET)
+    - cron: "0 13 * * 0"
+  workflow_dispatch:
+    inputs:
+      since_days:
+        description: "Only query addresses scraped in last N days (blank = all)"
+        required: false
+        default: ""
+      limit:
+        description: "Cap at N addresses (smoke test)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser==6.0.11 python-dateutil==2.9.0.post0
+
+      - name: Run news enrichment
+        id: enrich
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.since_days }}" ]; then
+            ARGS="$ARGS --since ${{ inputs.since_days }}"
+          fi
+          if [ -n "${{ inputs.limit }}" ]; then
+            ARGS="$ARGS --limit ${{ inputs.limit }}"
+          fi
+          python enrich_news.py $ARGS
+
+      - name: Commit updated related_news.json
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add related_news.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "chore: weekly news enrichment +${{ steps.enrich.outputs.added || '0' }} articles [skip ci]"
+          git push
