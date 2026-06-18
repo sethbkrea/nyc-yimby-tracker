@@ -403,6 +403,21 @@ export function ArticlesPreview({ refreshSignal, runs, relatedNews = {} }: Props
     downloadText(`yimby-all-${today}.csv`, toCsv(rows));
   }
 
+  // Source breakdown. The main corpus is all scraped from YIMBY; "related news"
+  // is discovered via Google News / GDELT and attributed to real outlets.
+  // Dedupe related records by URL (the same story can attach to many addresses).
+  const relatedUnique = new Map<string, RelatedRecord>();
+  for (const recs of Object.values(relatedNews)) {
+    for (const r of recs) if (r.url) relatedUnique.set(r.url, r);
+  }
+  const relatedBySource = new Map<string, number>();
+  for (const r of relatedUnique.values()) {
+    const s = (r.source || "Other").trim() || "Other";
+    relatedBySource.set(s, (relatedBySource.get(s) ?? 0) + 1);
+  }
+  const topSources = [...relatedBySource.entries()].sort((a, b) => b[1] - a[1]);
+  const relatedTotal = relatedUnique.size;
+
   return (
     <section className="border border-neutral-800 rounded-lg p-5 bg-neutral-900/40">
       <div className="flex items-baseline justify-between mb-3">
@@ -415,6 +430,34 @@ export function ArticlesPreview({ refreshSignal, runs, relatedNews = {} }: Props
           </span>
         )}
       </div>
+
+      {/* Source breakdown */}
+      {total !== null && (
+        <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-neutral-500">Sources:</span>
+          <span
+            className="rounded-full bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 px-2 py-0.5"
+            title="Primary feed — all articles scraped from newyorkyimby.com"
+          >
+            YIMBY {total.toLocaleString()}
+          </span>
+          <span
+            className="rounded-full bg-sky-950/60 border border-sky-800/60 text-sky-300 px-2 py-0.5"
+            title="Related news discovered via Google News / GDELT, deduped by URL"
+          >
+            Related news {relatedTotal.toLocaleString()}
+            {topSources.length > 0 && ` · ${topSources.length} outlets`}
+          </span>
+          {topSources.slice(0, 4).map(([src, n]) => (
+            <span key={src} className="rounded-full bg-neutral-800/70 border border-neutral-700 text-neutral-300 px-2 py-0.5">
+              {src} {n.toLocaleString()}
+            </span>
+          ))}
+          {topSources.length > 4 && (
+            <span className="text-neutral-500">+{topSources.length - 4} more</span>
+          )}
+        </div>
+      )}
 
       {/* Search */}
       <div className="mb-3">
