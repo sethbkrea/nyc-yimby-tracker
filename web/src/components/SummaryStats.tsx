@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import type { RelatedNews } from "./ArticlesPreview";
+import { buildingKey } from "@/lib/profiles";
 
 interface Article {
   url: string;
   scraped_at: string;
   published?: string;
   article_type?: string;
+  address?: string;
   borough?: string;
   number_of_units?: number | null;
   transaction_amount?: number | null;
@@ -52,12 +54,24 @@ function compactMoney(n: number): string {
   return `$${n}`;
 }
 
-function StatCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
+type Tone = "blue" | "emerald" | "violet" | "amber" | "sky" | "rose";
+
+const TONES: Record<Tone, { card: string; label: string; value: string }> = {
+  blue: { card: "border-blue-500/30 bg-blue-500/10", label: "text-blue-300/80", value: "text-blue-400" },
+  emerald: { card: "border-emerald-500/30 bg-emerald-500/10", label: "text-emerald-300/80", value: "text-emerald-400" },
+  violet: { card: "border-violet-500/30 bg-violet-500/10", label: "text-violet-300/80", value: "text-violet-400" },
+  amber: { card: "border-amber-500/30 bg-amber-500/10", label: "text-amber-300/80", value: "text-amber-400" },
+  sky: { card: "border-sky-500/30 bg-sky-500/10", label: "text-sky-300/80", value: "text-sky-400" },
+  rose: { card: "border-rose-500/30 bg-rose-500/10", label: "text-rose-300/80", value: "text-rose-400" },
+};
+
+function StatCard({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone: Tone }) {
+  const t = TONES[tone];
   return (
-    <div className="rounded-lg border border-neutral-800 bg-neutral-900/40 p-4">
-      <div className="text-xs uppercase tracking-wide text-neutral-500">{label}</div>
-      <div className="mt-1 text-2xl font-semibold text-neutral-100">{value}</div>
-      {sub && <div className="mt-0.5 text-xs text-neutral-500">{sub}</div>}
+    <div className={`rounded-xl border p-5 ${t.card}`}>
+      <div className={`text-sm font-medium ${t.label}`}>{label}</div>
+      <div className={`mt-2 text-3xl md:text-4xl font-bold tracking-tight ${t.value}`}>{value}</div>
+      {sub && <div className="mt-1 text-xs text-neutral-400">{sub}</div>}
     </div>
   );
 }
@@ -133,6 +147,9 @@ export function SummaryStats({ refreshSignal, relatedNews = {} }: Props) {
   const txns = articles.filter(isTransaction);
   const txVolume = txns.reduce((s, a) => s + (a.transaction_amount ?? 0), 0);
   const totalUnits = articles.reduce((s, a) => s + (a.number_of_units ?? 0), 0);
+  const buildings = new Set(
+    articles.map((a) => buildingKey(a.address)).filter(Boolean),
+  ).size;
 
   const byYear = new Map<string, number>();
   const byStage = new Map<string, number>();
@@ -166,11 +183,13 @@ export function SummaryStats({ refreshSignal, relatedNews = {} }: Props) {
 
   return (
     <section className="grid gap-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="YIMBY articles" value={total.toLocaleString()} sub={`${earliest}–${latest} coverage`} />
-        <StatCard label="Units tracked" value={totalUnits.toLocaleString()} sub="sum of reported units" />
-        <StatCard label="Transactions" value={txns.length.toLocaleString()} sub={txVolume > 0 ? `${compactMoney(txVolume)} total volume` : "deal & financing news"} />
-        <StatCard label="Related news" value={relatedTotal.toLocaleString()} sub={`${outletCount} outlets`} />
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <StatCard tone="blue" label="YIMBY Articles" value={total.toLocaleString()} sub={`${earliest}–${latest} coverage`} />
+        <StatCard tone="emerald" label="Buildings Tracked" value={buildings.toLocaleString()} sub="distinct properties" />
+        <StatCard tone="violet" label="Units Tracked" value={totalUnits.toLocaleString()} sub="sum of reported units" />
+        <StatCard tone="amber" label="Transactions" value={txns.length.toLocaleString()} sub="deal & financing articles" />
+        <StatCard tone="sky" label="Deal Volume" value={txVolume > 0 ? compactMoney(txVolume) : "—"} sub="total reported $" />
+        <StatCard tone="rose" label="Related News" value={relatedTotal.toLocaleString()} sub={`${outletCount} outlets`} />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <BarList title="Articles by year" rows={yearRows} accent="bg-emerald-500/70" />
