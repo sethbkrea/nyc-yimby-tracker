@@ -64,7 +64,7 @@ const day = (s?: string) => (s ?? "").slice(0, 10);
  * Prefers the captured `published` field; falls back to the publish month from
  * the YIMBY URL (/YYYY/MM/ → YYYY-MM-01); last resort is scraped_at.
  */
-function pubDay(a: Article): string {
+export function pubDay(a: Article): string {
   if (a.published) return day(a.published);
   const m = a.url?.match(/\/(20\d\d)\/(\d\d)\//);
   if (m) return `${m[1]}-${m[2]}-01`;

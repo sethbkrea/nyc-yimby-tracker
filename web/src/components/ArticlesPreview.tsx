@@ -7,6 +7,7 @@ import type { Run } from "./RunsTable";
 interface Article {
   url: string;
   scraped_at: string;
+  published?: string;
   article_type?: string;
   address?: string;
   street_address?: string;
@@ -27,6 +28,18 @@ interface Article {
   brokers?: string;
   date_of_transaction?: string;
   notes?: string;
+}
+
+// The article's PUBLISH date (not the scrape/pull date), as YYYY-MM-DD.
+// Prefers the captured `published` field; falls back to the publish month from
+// the YIMBY URL (/YYYY/MM/ -> YYYY-MM-01); last resort is the scrape date.
+// Kept in sync with pubDay() in lib/profiles.ts so the Articles list and the
+// Properties tab agree on what "when" means for a historical/backfilled article.
+function pubDay(a: Article): string {
+  if (a.published) return a.published.slice(0, 10);
+  const m = a.url?.match(/\/(20\d\d)\/(\d\d)\//);
+  if (m) return `${m[1]}-${m[2]}-01`;
+  return (a.scraped_at || "").slice(0, 10);
 }
 
 function isTransaction(a: Article): boolean {
@@ -258,10 +271,15 @@ export function ArticlesPreview({ refreshSignal, runs, relatedNews = {} }: Props
     ].filter(Boolean).join(" ").toLowerCase();
     return hay.includes(needle);
   };
-  const dateFiltered = (articles ?? []).filter((a) => {
+  // Order by publish date (newest first) so backfilled/historical articles land
+  // in their true time period instead of all clustering at their scrape date.
+  const byPubDate = [...(articles ?? [])].sort((a, b) =>
+    pubDay(a) < pubDay(b) ? 1 : pubDay(a) > pubDay(b) ? -1 : 0,
+  );
+  const dateFiltered = byPubDate.filter((a) => {
     if (!matchesQuery(a)) return false;
     if (!fromDate && !toDate) return true;
-    const d = (a.scraped_at || "").slice(0, 10);
+    const d = pubDay(a);
     if (fromDate && d < fromDate) return false;
     if (toDate && d > toDate) return false;
     return true;
@@ -637,7 +655,7 @@ export function ArticlesPreview({ refreshSignal, runs, relatedNews = {} }: Props
                         aria-label={`Select ${a.address ?? "row"}`}
                       />
                     </td>
-                    <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap">{(a.scraped_at || "").slice(0, 10) || "—"}</td>
+                    <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap" title={`scraped ${(a.scraped_at || "").slice(0, 10)}`}>{pubDay(a) || "—"}</td>
                     <td className="py-2 pr-3">{blank(a.address)}</td>
                     <td className="py-2 pr-3 text-neutral-300">{blank(a.borough)}</td>
                     <td className="py-2 pr-3 text-neutral-300">{blank(a.neighborhood)}</td>
@@ -732,7 +750,7 @@ export function ArticlesPreview({ refreshSignal, runs, relatedNews = {} }: Props
                       }}
                     />
                   </th>
-                  <th className="py-1.5 pr-3 font-normal">Scraped</th>
+                  <th className="py-1.5 pr-3 font-normal">Published</th>
                   <th className="py-1.5 pr-3 font-normal">Address</th>
                   <th className="py-1.5 pr-3 font-normal">Amount</th>
                   <th className="py-1.5 pr-3 font-normal">$/unit</th>
@@ -760,7 +778,7 @@ export function ArticlesPreview({ refreshSignal, runs, relatedNews = {} }: Props
                           aria-label={`Select ${a.address ?? "row"}`}
                         />
                       </td>
-                      <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap">{(a.scraped_at || "").slice(0, 10) || "—"}</td>
+                      <td className="py-2 pr-3 text-neutral-400 whitespace-nowrap" title={`scraped ${(a.scraped_at || "").slice(0, 10)}`}>{pubDay(a) || "—"}</td>
                       <td className="py-2 pr-3">{blank(a.address)}</td>
                       <td className="py-2 pr-3 text-neutral-300">{fmtMoney(a.transaction_amount)}</td>
                       <td className="py-2 pr-3 text-neutral-300">{fmtMoney(a.price_per_unit)}</td>
