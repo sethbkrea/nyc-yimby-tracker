@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { RunButtons } from "./RunButtons";
 import { RunsTable, type Run } from "./RunsTable";
 import { ArticlesPreview, type RelatedNews } from "./ArticlesPreview";
+import { SummaryStats } from "./SummaryStats";
 
 // Cadence chosen to be friendly to GitHub's API limits. /api/runs hits the
 // authenticated GitHub API (5000/hr) plus the raw URL (cached 60s server-side),
@@ -87,6 +88,7 @@ export default function Dashboard() {
 
   return (
     <div className="grid gap-6">
+      <SummaryStats refreshSignal={refreshArticles} relatedNews={relatedNews} />
       <RunButtons
         activeRun={activeRun}
         pendingDispatch={pendingDispatch}
