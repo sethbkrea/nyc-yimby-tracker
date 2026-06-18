@@ -167,10 +167,20 @@ export function SummaryStats({ refreshSignal, relatedNews = {} }: Props) {
     const v = num(a.transaction_amount);
     return s + (v > 0 && v <= MAX_DEAL ? v : 0);
   }, 0);
-  const totalUnits = articles.reduce((s, a) => {
+  // Units, building-specific and de-duplicated: group by building, take the MAX
+  // units across that building's articles, then sum across buildings. This drops
+  // area-wide stats (articles with no building address are excluded by the key)
+  // and never counts the same building twice across repeated coverage.
+  const unitsByBuilding = new Map<string, number>();
+  for (const a of articles) {
+    const k = buildingKey(a.address) || buildingKey(a.street_address);
+    if (!k) continue;
     const u = num(a.number_of_units);
-    return s + (u > 0 && u <= MAX_UNITS ? u : 0);
-  }, 0);
+    if (u > 0 && u <= MAX_UNITS) {
+      unitsByBuilding.set(k, Math.max(unitsByBuilding.get(k) ?? 0, u));
+    }
+  }
+  const totalUnits = [...unitsByBuilding.values()].reduce((s, u) => s + u, 0);
   // Match the Properties tab exactly: fall back to street_address when the
   // primary address yields no building key.
   const buildings = new Set(
@@ -218,7 +228,7 @@ export function SummaryStats({ refreshSignal, relatedNews = {} }: Props) {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <StatCard tone="blue" label="YIMBY Articles" value={total.toLocaleString()} sub={`${earliest}–${latest} coverage`} />
         <StatCard tone="emerald" label="Buildings Tracked" value={buildings.toLocaleString()} sub="distinct properties" />
-        <StatCard tone="violet" label="Units Tracked" value={totalUnits.toLocaleString()} sub="sum of reported units" />
+        <StatCard tone="violet" label="Units Tracked" value={totalUnits.toLocaleString()} sub={`across ${unitsByBuilding.size.toLocaleString()} buildings`} />
         <StatCard tone="amber" label="Acquisitions" value={txns.length.toLocaleString()} sub="property sales & transfers" />
         <StatCard tone="sky" label="Deal Volume" value={txVolume > 0 ? compactMoney(txVolume) : "—"} sub={finVolume > 0 ? `+ ${compactMoney(finVolume)} financing (separate)` : "acquisition prices"} />
         <StatCard tone="rose" label="Related News" value={relatedTotal.toLocaleString()} sub={`${outletCount} outlets`} />
