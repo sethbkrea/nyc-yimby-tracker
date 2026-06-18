@@ -56,22 +56,23 @@ function compactMoney(n: number): string {
 
 type Tone = "blue" | "emerald" | "violet" | "amber" | "sky" | "rose";
 
-const TONES: Record<Tone, { card: string; label: string; value: string }> = {
-  blue: { card: "border-blue-500/30 bg-blue-500/10", label: "text-blue-300/80", value: "text-blue-400" },
-  emerald: { card: "border-emerald-500/30 bg-emerald-500/10", label: "text-emerald-300/80", value: "text-emerald-400" },
-  violet: { card: "border-violet-500/30 bg-violet-500/10", label: "text-violet-300/80", value: "text-violet-400" },
-  amber: { card: "border-amber-500/30 bg-amber-500/10", label: "text-amber-300/80", value: "text-amber-400" },
-  sky: { card: "border-sky-500/30 bg-sky-500/10", label: "text-sky-300/80", value: "text-sky-400" },
-  rose: { card: "border-rose-500/30 bg-rose-500/10", label: "text-rose-300/80", value: "text-rose-400" },
+const TONES: Record<Tone, { accent: string; value: string }> = {
+  blue: { accent: "bg-blue-500", value: "text-blue-400" },
+  emerald: { accent: "bg-emerald-500", value: "text-emerald-400" },
+  violet: { accent: "bg-violet-500", value: "text-violet-400" },
+  amber: { accent: "bg-amber-500", value: "text-amber-400" },
+  sky: { accent: "bg-sky-500", value: "text-sky-400" },
+  rose: { accent: "bg-rose-500", value: "text-rose-400" },
 };
 
 function StatCard({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone: Tone }) {
   const t = TONES[tone];
   return (
-    <div className={`rounded-xl border p-5 ${t.card}`}>
-      <div className={`text-sm font-medium ${t.label}`}>{label}</div>
-      <div className={`mt-2 text-3xl md:text-4xl font-bold tracking-tight ${t.value}`}>{value}</div>
-      {sub && <div className="mt-1 text-xs text-neutral-400">{sub}</div>}
+    <div className="relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 p-5">
+      <span className={`absolute inset-y-0 left-0 w-1 ${t.accent}`} aria-hidden />
+      <div className="text-sm font-medium text-neutral-400">{label}</div>
+      <div className={`mt-2 text-3xl md:text-4xl font-bold tracking-tight tabular-nums ${t.value}`}>{value}</div>
+      {sub && <div className="mt-1 text-xs text-neutral-500">{sub}</div>}
     </div>
   );
 }
