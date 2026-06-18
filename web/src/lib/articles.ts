@@ -7,6 +7,7 @@ function env(name: string): string {
 export interface Article {
   url: string;
   scraped_at: string;
+  published?: string; // ISO publish datetime (YIMBY pubDate), distinct from scrape time
   title?: string;
   body?: string;
 

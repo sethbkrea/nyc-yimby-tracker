@@ -168,6 +168,7 @@ class LLMArticle:
     scraped_at: str
     title: str
     body: str
+    published: str = ""  # ISO publish datetime (RSS pubDate or page meta), not the pull date
 
     article_type: str = ""
     address: str = ""
@@ -244,9 +245,16 @@ def llm_parse_item(item, scraped_at: str) -> LLMArticle:
     body = _strip_html(item.description)
     fields = extract_with_llm(title, body)
 
+    # RSS item carries the real publish datetime — keep it (don't conflate with scrape time).
+    published = ""
+    pub = getattr(item, "published", None)
+    if pub is not None:
+        published = pub.isoformat() if hasattr(pub, "isoformat") else str(pub)
+
     return LLMArticle(
         url=item.url,
         scraped_at=scraped_at,
+        published=published,
         title=title,
         body=body,
         **{k: v for k, v in fields.items() if k in _allowed_fields()},
@@ -272,11 +280,15 @@ def llm_parse_article_html(html_text: str, url: str, scraped_at: str) -> LLMArti
     body_text = re.sub(r"Subscribe to YIMBY.+", "", body_text, flags=re.IGNORECASE | re.DOTALL)
     body_text = re.sub(r"\s+", " ", body_text).strip()
 
+    pub_meta = soup.find("meta", attrs={"property": "article:published_time"})
+    published = pub_meta["content"] if pub_meta and pub_meta.get("content") else ""
+
     fields = extract_with_llm(title, body_text)
 
     return LLMArticle(
         url=url,
         scraped_at=scraped_at,
+        published=published,
         title=title,
         body=body_text,
         **{k: v for k, v in fields.items() if k in _allowed_fields()},

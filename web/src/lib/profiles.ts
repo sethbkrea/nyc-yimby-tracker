@@ -24,10 +24,12 @@ export interface PropertyProfile {
   stories: number | null;
   squareFootage: number | null;
   latestStage: string; // article_type of the newest article
-  firstDate: string;
-  latestDate: string;
+  previousStage: string | null; // the stage before the latest change (null if first-ever article)
+  firstDate: string; // publish date of earliest article
+  latestDate: string; // publish date of latest article
+  lastStatusChangeDate: string; // publish date the current stage was reached
   articleCount: number;
-  articles: ProfileArticle[]; // newest first
+  articles: ProfileArticle[]; // newest first, dated by publish date
 }
 
 const DIRECTIONALS: Record<string, string> = { EAST: "E", WEST: "W", NORTH: "N", SOUTH: "S" };
@@ -56,6 +58,18 @@ function titleFromUrl(url: string): string {
 }
 
 const day = (s?: string) => (s ?? "").slice(0, 10);
+
+/**
+ * The article's PUBLISH date (not the scrape/pull date), as YYYY-MM-DD.
+ * Prefers the captured `published` field; falls back to the publish month from
+ * the YIMBY URL (/YYYY/MM/ → YYYY-MM-01); last resort is scraped_at.
+ */
+function pubDay(a: Article): string {
+  if (a.published) return day(a.published);
+  const m = a.url?.match(/\/(20\d\d)\/(\d\d)\//);
+  if (m) return `${m[1]}-${m[2]}-01`;
+  return day(a.scraped_at);
+}
 function maxNum(a: number | null, b?: number | null): number | null {
   if (b == null) return a;
   if (a == null) return b;
@@ -78,8 +92,22 @@ export function groupIntoProfiles(articles: Article[]): PropertyProfile[] {
 
   const profiles: PropertyProfile[] = [];
   for (const [key, arts] of groups) {
-    const sorted = [...arts].sort((x, y) => (day(y.scraped_at) < day(x.scraped_at) ? -1 : 1));
+    const sorted = [...arts].sort((x, y) => (pubDay(y) < pubDay(x) ? -1 : 1));
     const newest = sorted[0];
+
+    // Find the most recent status change (by publish date): the newest article
+    // whose stage differs from the next-older one. previousStage = what it was.
+    let lastStatusChangeDate = pubDay(newest);
+    let previousStage: string | null = null;
+    for (let i = 0; i < sorted.length; i++) {
+      const older = sorted[i + 1];
+      const stage = sorted[i].article_type ?? "";
+      if (!older || (older.article_type ?? "") !== stage) {
+        lastStatusChangeDate = pubDay(sorted[i]);
+        previousStage = older ? older.article_type ?? "" : null;
+        break;
+      }
+    }
 
     // Pick best non-empty value, preferring the newest article.
     const pick = (f: (a: Article) => string | undefined): string => {
@@ -105,13 +133,15 @@ export function groupIntoProfiles(articles: Article[]): PropertyProfile[] {
       stories: arts.reduce<number | null>((m, a) => maxNum(m, a.stories), null),
       squareFootage: arts.reduce<number | null>((m, a) => maxNum(m, a.square_footage), null),
       latestStage: newest.article_type ?? "",
-      firstDate: day(sorted[sorted.length - 1].scraped_at),
-      latestDate: day(newest.scraped_at),
+      previousStage,
+      firstDate: pubDay(sorted[sorted.length - 1]),
+      latestDate: pubDay(newest),
+      lastStatusChangeDate,
       articleCount: arts.length,
       articles: sorted.map((a) => ({
         url: a.url,
         title: (a.title ?? "").trim() || titleFromUrl(a.url),
-        date: day(a.scraped_at),
+        date: pubDay(a),
         stage: a.article_type ?? "",
         units: a.number_of_units ?? null,
       })),

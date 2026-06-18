@@ -32,7 +32,7 @@ function stageClass(t: string): string {
 const fmtNum = (n: number | null) => (n == null ? "—" : n.toLocaleString());
 const blank = (s: string) => (s.trim() ? s : "—");
 
-const RENDER_LIMIT = 150;
+const PAGE_SIZE = 50;
 
 export function PropertiesPanel() {
   const [profiles, setProfiles] = useState<PropertyProfile[] | null>(null);
@@ -40,6 +40,14 @@ export function PropertiesPanel() {
   const [q, setQ] = useState("");
   const [multiOnly, setMultiOnly] = useState(false);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [page, setPage] = useState(0);
+  // Status-progression filter (by article PUBLISH date, not pull date)
+  const [changeWindow, setChangeWindow] = useState<"all" | "7" | "30" | "custom">("all");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  // Reset to the first page whenever the filtered set changes underneath us.
+  useEffect(() => { setPage(0); }, [q, multiOnly, profiles, changeWindow, fromDate, toDate]);
 
   const load = useCallback(async () => {
     try {
@@ -68,6 +76,23 @@ export function PropertiesPanel() {
   const filtered = useMemo(() => {
     let list = profiles ?? [];
     if (multiOnly) list = list.filter((p) => p.articleCount > 1);
+
+    // Status-progression window: keep buildings whose latest status change
+    // (by publish date) falls in the selected range.
+    if (changeWindow !== "all") {
+      let from = "";
+      let to = "9999-12-31";
+      if (changeWindow === "custom") {
+        from = fromDate || "";
+        to = toDate || "9999-12-31";
+      } else {
+        const d = new Date();
+        d.setUTCDate(d.getUTCDate() - Number(changeWindow));
+        from = d.toISOString().slice(0, 10);
+      }
+      list = list.filter((p) => p.lastStatusChangeDate >= from && p.lastStatusChangeDate <= to);
+    }
+
     const needle = q.trim().toLowerCase();
     if (needle) {
       list = list.filter((p) =>
@@ -75,23 +100,36 @@ export function PropertiesPanel() {
           .join(" ").toLowerCase().includes(needle),
       );
     }
+    // When filtering by recency, show most-recently-changed first.
+    if (changeWindow !== "all") {
+      list = [...list].sort((a, b) => (a.lastStatusChangeDate < b.lastStatusChangeDate ? 1 : -1));
+    }
     return list;
-  }, [profiles, multiOnly, q]);
+  }, [profiles, multiOnly, q, changeWindow, fromDate, toDate]);
 
   const multiCount = (profiles ?? []).filter((p) => p.articleCount > 1).length;
+
+  // Pagination over the filtered set.
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages - 1);
+  const sliceStart = safePage * PAGE_SIZE;
+  const visible = filtered.slice(sliceStart, sliceStart + PAGE_SIZE);
 
   function exportCsv() {
     const today = new Date().toISOString().slice(0, 10);
     const header = [
       "address", "borough", "neighborhood", "type", "units", "stories", "square_footage",
-      "developer", "architect", "latest_stage", "article_count", "first_date", "latest_date",
-      "article_urls",
+      "developer", "architect", "previous_stage", "latest_stage", "last_status_change",
+      "article_count", "first_published", "latest_published", "article_urls",
     ];
     const rows: (string | number | null | undefined)[][] = [header];
     for (const p of filtered) {
       rows.push([
         p.address, p.borough, p.neighborhood, p.type, p.units, p.stories, p.squareFootage,
-        p.developer, p.architect, stageLabel(p.latestStage), p.articleCount, p.firstDate, p.latestDate,
+        p.developer, p.architect,
+        p.previousStage ? stageLabel(p.previousStage) : "",
+        stageLabel(p.latestStage), p.lastStatusChangeDate,
+        p.articleCount, p.firstDate, p.latestDate,
         p.articles.map((a) => a.url).join(" | "),
       ]);
     }
@@ -132,12 +170,52 @@ export function PropertiesPanel() {
         </label>
       </div>
 
+      {/* Status-progression filter — by article PUBLISH date */}
+      <div className="flex flex-wrap items-center gap-2 mb-4 text-xs">
+        <span className="text-neutral-500">Status changed:</span>
+        {([
+          ["all", "Any time"],
+          ["7", "Last 7 days"],
+          ["30", "Last 30 days"],
+          ["custom", "Custom"],
+        ] as const).map(([val, label]) => (
+          <button
+            key={val}
+            onClick={() => setChangeWindow(val)}
+            className={[
+              "px-2.5 py-1 rounded-md border",
+              changeWindow === val
+                ? "border-white/70 text-white bg-neutral-800"
+                : "border-neutral-700 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50",
+            ].join(" ")}
+          >
+            {label}
+          </button>
+        ))}
+        {changeWindow === "custom" && (
+          <span className="flex items-center gap-1">
+            <input
+              type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)}
+              className="bg-neutral-950 border border-neutral-800 rounded px-2 py-1 text-neutral-300"
+              aria-label="Changed from date"
+            />
+            <span className="text-neutral-600">→</span>
+            <input
+              type="date" value={toDate} onChange={(e) => setToDate(e.target.value)}
+              className="bg-neutral-950 border border-neutral-800 rounded px-2 py-1 text-neutral-300"
+              aria-label="Changed to date"
+            />
+          </span>
+        )}
+        <span className="text-neutral-600">· uses each article&apos;s publish date</span>
+      </div>
+
       {error && <p className="text-sm text-red-400">Error: {error}</p>}
       {profiles === null && !error && <p className="text-sm text-neutral-500">Loading…</p>}
       {profiles && filtered.length === 0 && <p className="text-sm text-neutral-500">No matching buildings.</p>}
 
       <div className="grid gap-2">
-        {filtered.slice(0, RENDER_LIMIT).map((p) => {
+        {visible.map((p) => {
           const open = expanded.has(p.key);
           return (
             <div key={p.key} className="border border-neutral-800 rounded-lg bg-neutral-950/50">
@@ -147,9 +225,17 @@ export function PropertiesPanel() {
               >
                 <span className="text-neutral-500 text-xs w-3">{open ? "▾" : "▸"}</span>
                 <span className="font-medium text-neutral-100 flex-1 min-w-[180px]">{p.address}</span>
+                {p.previousStage && p.previousStage !== p.latestStage && (
+                  <span className="text-[11px] text-neutral-500 hidden sm:inline">
+                    {stageLabel(p.previousStage)} →
+                  </span>
+                )}
                 <span className={`text-[11px] px-1.5 py-0.5 rounded font-medium ${stageClass(p.latestStage)}`}>
                   {stageLabel(p.latestStage)}
                 </span>
+                {changeWindow !== "all" && (
+                  <span className="text-[11px] text-neutral-500 w-24">{p.lastStatusChangeDate}</span>
+                )}
                 <span className="text-xs text-neutral-400 w-20">{fmtNum(p.units)} units</span>
                 <span className="text-xs text-neutral-500 w-28">{blank(p.borough)}</span>
                 <span className="text-xs text-neutral-500">
@@ -188,10 +274,43 @@ export function PropertiesPanel() {
         })}
       </div>
 
-      {filtered.length > RENDER_LIMIT && (
-        <p className="mt-3 text-xs text-neutral-500">
-          Showing first {RENDER_LIMIT} of {filtered.length.toLocaleString()} — refine your search to narrow.
-        </p>
+      {filtered.length > 0 && (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800 pt-3">
+          <span className="text-xs text-neutral-500">
+            Showing {(sliceStart + 1).toLocaleString()}–{Math.min(sliceStart + PAGE_SIZE, filtered.length).toLocaleString()} of {filtered.length.toLocaleString()}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage(0)}
+              disabled={safePage === 0}
+              className="px-2 py-1 rounded-md border border-neutral-700 text-xs text-neutral-300 enabled:hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              « First
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={safePage === 0}
+              className="px-2 py-1 rounded-md border border-neutral-700 text-xs text-neutral-300 enabled:hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              ‹ Prev
+            </button>
+            <span className="text-xs text-neutral-400 px-1">Page {safePage + 1} of {totalPages}</span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={safePage >= totalPages - 1}
+              className="px-2 py-1 rounded-md border border-neutral-700 text-xs text-neutral-300 enabled:hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Next ›
+            </button>
+            <button
+              onClick={() => setPage(totalPages - 1)}
+              disabled={safePage >= totalPages - 1}
+              className="px-2 py-1 rounded-md border border-neutral-700 text-xs text-neutral-300 enabled:hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Last »
+            </button>
+          </div>
+        </div>
       )}
     </section>
   );
