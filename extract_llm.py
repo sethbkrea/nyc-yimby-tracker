@@ -217,8 +217,23 @@ def _get_client() -> Anthropic:
     return _client
 
 
+# Cumulative cache-token usage across this process. Set CACHE_DEBUG=1 to print
+# per-call usage; read totals via cache_stats() to confirm caching is engaging.
+CACHE_STATS = {"calls": 0, "cache_write": 0, "cache_read": 0, "uncached_input": 0, "output": 0}
+
+def cache_stats() -> dict[str, int]:
+    return dict(CACHE_STATS)
+
+
 def extract_with_llm(title: str, body_text: str, model: str = DEFAULT_MODEL) -> dict[str, Any]:
-    """Call Claude with the schema, return the tool input as a dict."""
+    """Call Claude with the schema, return the tool input as a dict.
+
+    The stable prefix — system prompt + tool schema — is marked for prompt
+    caching so repeated calls only pay full price for it once per 5-minute
+    window (cache reads cost ~10%). NOTE: caching only engages when that prefix
+    meets the model's minimum cacheable length (Haiku ≈ 2048 tokens); below
+    that it's a harmless no-op. Check cache_stats()/CACHE_DEBUG to verify.
+    """
     client = _get_client()
     prompt = (
         f"Article title: {title}\n\n"
@@ -228,11 +243,28 @@ def extract_with_llm(title: str, body_text: str, model: str = DEFAULT_MODEL) -> 
     msg = client.messages.create(
         model=model,
         max_tokens=2000,
-        system=_SYSTEM,
-        tools=[_TOOL],
+        # cache breakpoint on the system block — caches tools + system prefix.
+        system=[{"type": "text", "text": _SYSTEM, "cache_control": {"type": "ephemeral"}}],
+        tools=[{**_TOOL, "cache_control": {"type": "ephemeral"}}],
         tool_choice={"type": "tool", "name": "save_article"},
         messages=[{"role": "user", "content": prompt}],
     )
+
+    u = getattr(msg, "usage", None)
+    if u is not None:
+        CACHE_STATS["calls"] += 1
+        CACHE_STATS["cache_write"] += getattr(u, "cache_creation_input_tokens", 0) or 0
+        CACHE_STATS["cache_read"] += getattr(u, "cache_read_input_tokens", 0) or 0
+        CACHE_STATS["uncached_input"] += getattr(u, "input_tokens", 0) or 0
+        CACHE_STATS["output"] += getattr(u, "output_tokens", 0) or 0
+        if os.environ.get("CACHE_DEBUG"):
+            print(
+                f"[cache] read={getattr(u,'cache_read_input_tokens',0)} "
+                f"write={getattr(u,'cache_creation_input_tokens',0)} "
+                f"input={getattr(u,'input_tokens',0)} output={getattr(u,'output_tokens',0)}",
+                file=sys.stderr,
+            )
+
     for block in msg.content:
         if block.type == "tool_use" and block.name == "save_article":
             return block.input  # type: ignore[return-value]

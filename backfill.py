@@ -25,7 +25,7 @@ from datetime import date, datetime, timezone
 from bs4 import BeautifulSoup
 
 from article import FetchError, browser_session, fetch_archive, fetch_article
-from extract_llm import llm_parse_article_html
+from extract_llm import llm_parse_article_html, cache_stats
 from store import Store
 
 ARTICLE_RE = re.compile(r"https?://newyorkyimby\.com/(\d{4})/(\d{2})/[a-z0-9-]+\.html$")
@@ -174,6 +174,11 @@ def main() -> int:
             store.append_records(batch)
             print(f"[store] appended {len(batch)} final records")
 
+    cs = cache_stats()
+    if cs["calls"]:
+        cached_pct = 100 * cs["cache_read"] / max(1, cs["cache_read"] + cs["uncached_input"] + cs["cache_write"])
+        print(f"[cache] {cs['calls']} calls | cache_read={cs['cache_read']} write={cs['cache_write']} "
+              f"uncached_in={cs['uncached_input']} out={cs['output']} | {cached_pct:.0f}% of input served from cache")
     if failures:
         print(f"[done] {len(failures)} failed", file=sys.stderr)
         return 1
