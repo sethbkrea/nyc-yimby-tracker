@@ -1,0 +1,2245 @@
+==== Thu Jun 18 14:27:59 EDT 2026 backfill pass start (2017-01 -> 2023-12) ====
+[store] 1969 existing articles
+[2017-01] crawling archive…
+[2017-01] 37 archive page(s)
+[2017-01] 101 unique article URLs
+[2017-01] 101 urls, 101 new
+[2017-02] crawling archive…
+[2017-02] 22 archive page(s)
+[2017-02] 100 unique article URLs
+[2017-02] 100 urls, 100 new
+[2017-03] crawling archive…
+[2017-03] 1 archive page(s)
+[2017-03] 0 unique article URLs
+[2017-03] 0 urls, 0 new
+[2017-04] crawling archive…
+[2017-04] 1 archive page(s)
+[2017-04] 0 unique article URLs
+[2017-04] 0 urls, 0 new
+[2017-05] crawling archive…
+[2017-05] 1 archive page(s)
+[2017-05] 0 unique article URLs
+[2017-05] 0 urls, 0 new
+[2017-06] crawling archive…
+[2017-06] 3 archive page(s)
+[2017-06] 13 unique article URLs
+[2017-06] 13 urls, 13 new
+[2017-07] crawling archive…
+[2017-07] 4 archive page(s)
+[2017-07] 21 unique article URLs
+[2017-07] 21 urls, 21 new
+[2017-08] crawling archive…
+[2017-08] 20 archive page(s)
+[2017-08] 104 unique article URLs
+[2017-08] 104 urls, 104 new
+[2017-09] crawling archive…
+[2017-09] 20 archive page(s)
+[2017-09] 101 unique article URLs
+[2017-09] 101 urls, 101 new
+[2017-10] crawling archive…
+[2017-10] 22 archive page(s)
+[2017-10] 102 unique article URLs
+[2017-10] 102 urls, 102 new
+[2017-11] crawling archive…
+[2017-11] 21 archive page(s)
+[2017-11] 100 unique article URLs
+[2017-11] 100 urls, 100 new
+[2017-12] crawling archive…
+[2017-12] 20 archive page(s)
+[2017-12] 100 unique article URLs
+[2017-12] 100 urls, 100 new
+[2018-01] crawling archive…
+[2018-01] 22 archive page(s)
+[2018-01] 102 unique article URLs
+[2018-01] 102 urls, 102 new
+[2018-02] crawling archive…
+[2018-02] 20 archive page(s)
+[2018-02] 98 unique article URLs
+[2018-02] 98 urls, 98 new
+[2018-03] crawling archive…
+[2018-03] 22 archive page(s)
+[2018-03] 100 unique article URLs
+[2018-03] 100 urls, 100 new
+[2018-04] crawling archive…
+[2018-04] 21 archive page(s)
+[2018-04] 100 unique article URLs
+[2018-04] 100 urls, 100 new
+[2018-05] crawling archive…
+[2018-05] 23 archive page(s)
+[2018-05] 100 unique article URLs
+[2018-05] 100 urls, 100 new
+[2018-06] crawling archive…
+[2018-06] 21 archive page(s)
+[2018-06] 100 unique article URLs
+[2018-06] 100 urls, 100 new
+[2018-07] crawling archive…
+[2018-07] 21 archive page(s)
+[2018-07] 100 unique article URLs
+[2018-07] 100 urls, 100 new
+[2018-08] crawling archive…
+[2018-08] 23 archive page(s)
+[2018-08] 101 unique article URLs
+[2018-08] 101 urls, 101 new
+[2018-09] crawling archive…
+[2018-09] 19 archive page(s)
+[2018-09] 95 unique article URLs
+[2018-09] 95 urls, 95 new
+[2018-10] crawling archive…
+[2018-10] 23 archive page(s)
+[2018-10] 100 unique article URLs
+[2018-10] 100 urls, 100 new
+[2018-11] crawling archive…
+[2018-11] 22 archive page(s)
+[2018-11] 100 unique article URLs
+[2018-11] 100 urls, 100 new
+[2018-12] crawling archive…
+[2018-12] 24 archive page(s)
+[2018-12] 100 unique article URLs
+[2018-12] 100 urls, 100 new
+[2019-01] crawling archive…
+[2019-01] 25 archive page(s)
+[2019-01] 101 unique article URLs
+[2019-01] 101 urls, 101 new
+[2019-02] crawling archive…
+[2019-02] 23 archive page(s)
+[2019-02] 100 unique article URLs
+[2019-02] 100 urls, 100 new
+[2019-03] crawling archive…
+[2019-03] 25 archive page(s)
+[2019-03] 100 unique article URLs
+[2019-03] 100 urls, 100 new
+[2019-04] crawling archive…
+[2019-04] 24 archive page(s)
+[2019-04] 99 unique article URLs
+[2019-04] 99 urls, 99 new
+[2019-05] crawling archive…
+[2019-05] 25 archive page(s)
+[2019-05] 100 unique article URLs
+[2019-05] 100 urls, 100 new
+[2019-06] crawling archive…
+[2019-06] 24 archive page(s)
+[2019-06] 100 unique article URLs
+[2019-06] 100 urls, 100 new
+[2019-07] crawling archive…
+[2019-07] 25 archive page(s)
+[2019-07] 100 unique article URLs
+[2019-07] 100 urls, 100 new
+[2019-08] crawling archive…
+[2019-08] 25 archive page(s)
+[2019-08] 100 unique article URLs
+[2019-08] 100 urls, 100 new
+[2019-09] crawling archive…
+[2019-09] 24 archive page(s)
+[2019-09] 100 unique article URLs
+[2019-09] 100 urls, 100 new
+[2019-10] crawling archive…
+[2019-10] 25 archive page(s)
+[2019-10] 100 unique article URLs
+[2019-10] 100 urls, 100 new
+[2019-11] crawling archive…
+[2019-11] 24 archive page(s)
+[2019-11] 100 unique article URLs
+[2019-11] 100 urls, 100 new
+[2019-12] crawling archive…
+[2019-12] 25 archive page(s)
+[2019-12] 100 unique article URLs
+[2019-12] 100 urls, 100 new
+[2020-01] crawling archive…
+[2020-01] 25 archive page(s)
+[2020-01] 100 unique article URLs
+[2020-01] 100 urls, 100 new
+[2020-02] crawling archive…
+[2020-02] 24 archive page(s)
+[2020-02] 100 unique article URLs
+[2020-02] 100 urls, 100 new
+[2020-03] crawling archive…
+[2020-03] 25 archive page(s)
+[2020-03] 100 unique article URLs
+[2020-03] 100 urls, 100 new
+[2020-04] crawling archive…
+[2020-04] 24 archive page(s)
+[2020-04] 100 unique article URLs
+[2020-04] 100 urls, 100 new
+[2020-05] crawling archive…
+[2020-05] 25 archive page(s)
+[2020-05] 100 unique article URLs
+[2020-05] 100 urls, 100 new
+[2020-06] crawling archive…
+[2020-06] 24 archive page(s)
+[2020-06] 100 unique article URLs
+[2020-06] 100 urls, 100 new
+[2020-07] crawling archive…
+[2020-07] 25 archive page(s)
+[2020-07] 100 unique article URLs
+[2020-07] 100 urls, 100 new
+[2020-08] crawling archive…
+[2020-08] 25 archive page(s)
+[2020-08] 100 unique article URLs
+[2020-08] 100 urls, 100 new
+[2020-09] crawling archive…
+[2020-09] 24 archive page(s)
+[2020-09] 100 unique article URLs
+[2020-09] 100 urls, 100 new
+[2020-10] crawling archive…
+[2020-10] 25 archive page(s)
+[2020-10] 100 unique article URLs
+[2020-10] 100 urls, 100 new
+[2020-11] crawling archive…
+[2020-11] 24 archive page(s)
+[2020-11] 100 unique article URLs
+[2020-11] 100 urls, 100 new
+[2020-12] crawling archive…
+[2020-12] 25 archive page(s)
+[2020-12] 100 unique article URLs
+[2020-12] 100 urls, 100 new
+[2021-01] crawling archive…
+[2021-01] 25 archive page(s)
+[2021-01] 99 unique article URLs
+[2021-01] 99 urls, 99 new
+[2021-02] crawling archive…
+[2021-02] 23 archive page(s)
+[2021-02] 100 unique article URLs
+[2021-02] 100 urls, 100 new
+[2021-03] crawling archive…
+[2021-03] 25 archive page(s)
+[2021-03] 101 unique article URLs
+[2021-03] 101 urls, 101 new
+[2021-04] crawling archive…
+[2021-04] 24 archive page(s)
+[2021-04] 100 unique article URLs
+[2021-04] 100 urls, 100 new
+[2021-05] crawling archive…
+[2021-05] 25 archive page(s)
+[2021-05] 100 unique article URLs
+[2021-05] 100 urls, 100 new
+[2021-06] crawling archive…
+[2021-06] 24 archive page(s)
+[2021-06] 100 unique article URLs
+[2021-06] 100 urls, 100 new
+[2021-07] crawling archive…
+[2021-07] 25 archive page(s)
+[2021-07] 100 unique article URLs
+[2021-07] 100 urls, 100 new
+[2021-08] crawling archive…
+[2021-08] 25 archive page(s)
+[2021-08] 100 unique article URLs
+[2021-08] 100 urls, 100 new
+[2021-09] crawling archive…
+[2021-09] 24 archive page(s)
+[2021-09] 100 unique article URLs
+[2021-09] 100 urls, 100 new
+[2021-10] crawling archive…
+[2021-10] 25 archive page(s)
+[2021-10] 100 unique article URLs
+[2021-10] 100 urls, 100 new
+[2021-11] crawling archive…
+[2021-11] 25 archive page(s)
+[2021-11] 98 unique article URLs
+[2021-11] 98 urls, 98 new
+[2021-12] crawling archive…
+[2021-12] 25 archive page(s)
+[2021-12] 100 unique article URLs
+[2021-12] 100 urls, 100 new
+[2022-01] crawling archive…
+[2022-01] 25 archive page(s)
+[2022-01] 99 unique article URLs
+[2022-01] 99 urls, 99 new
+[2022-02] crawling archive…
+[2022-02] 23 archive page(s)
+[2022-02] 100 unique article URLs
+[2022-02] 100 urls, 100 new
+[2022-03] crawling archive…
+[2022-03] 25 archive page(s)
+[2022-03] 100 unique article URLs
+[2022-03] 100 urls, 100 new
+[2022-04] crawling archive…
+[2022-04] 24 archive page(s)
+[2022-04] 100 unique article URLs
+[2022-04] 100 urls, 100 new
+[2022-05] crawling archive…
+[2022-05] 25 archive page(s)
+[2022-05] 100 unique article URLs
+[2022-05] 100 urls, 100 new
+[2022-06] crawling archive…
+[2022-06] 24 archive page(s)
+[2022-06] 100 unique article URLs
+[2022-06] 100 urls, 100 new
+[2022-07] crawling archive…
+[2022-07] 25 archive page(s)
+[2022-07] 100 unique article URLs
+[2022-07] 100 urls, 100 new
+[2022-08] crawling archive…
+[2022-08] 25 archive page(s)
+[2022-08] 100 unique article URLs
+[2022-08] 100 urls, 100 new
+[2022-09] crawling archive…
+[2022-09] 24 archive page(s)
+[2022-09] 100 unique article URLs
+[2022-09] 100 urls, 100 new
+[2022-10] crawling archive…
+[2022-10] 25 archive page(s)
+[2022-10] 100 unique article URLs
+[2022-10] 100 urls, 100 new
+[2022-11] crawling archive…
+[2022-11] 24 archive page(s)
+[2022-11] 100 unique article URLs
+[2022-11] 100 urls, 100 new
+[2022-12] crawling archive…
+[2022-12] 25 archive page(s)
+[2022-12] 100 unique article URLs
+[2022-12] 100 urls, 100 new
+[2023-01] crawling archive…
+[2023-01] 25 archive page(s)
+[2023-01] 101 unique article URLs
+[2023-01] 101 urls, 101 new
+[2023-02] crawling archive…
+[2023-02] 23 archive page(s)
+[2023-02] 100 unique article URLs
+[2023-02] 100 urls, 100 new
+[2023-03] crawling archive…
+[2023-03] 25 archive page(s)
+[2023-03] 100 unique article URLs
+[2023-03] 100 urls, 100 new
+[2023-04] crawling archive…
+[2023-04] 24 archive page(s)
+[2023-04] 100 unique article URLs
+[2023-04] 100 urls, 100 new
+[2023-05] crawling archive…
+[2023-05] 25 archive page(s)
+[2023-05] 100 unique article URLs
+[2023-05] 100 urls, 100 new
+[2023-06] crawling archive…
+[2023-06] 24 archive page(s)
+[2023-06] 100 unique article URLs
+[2023-06] 100 urls, 100 new
+[2023-07] crawling archive…
+[2023-07] 25 archive page(s)
+[2023-07] 100 unique article URLs
+[2023-07] 100 urls, 100 new
+[2023-08] crawling archive…
+[2023-08] 25 archive page(s)
+[2023-08] 100 unique article URLs
+[2023-08] 100 urls, 100 new
+[2023-09] crawling archive…
+[2023-09] 24 archive page(s)
+[2023-09] 100 unique article URLs
+[2023-09] 100 urls, 100 new
+[2023-10] crawling archive…
+[2023-10] 25 archive page(s)
+[2023-10] 100 unique article URLs
+[2023-10] 100 urls, 100 new
+[2023-11] crawling archive…
+[2023-11] 24 archive page(s)
+[2023-11] 100 unique article URLs
+[2023-11] 100 urls, 100 new
+[2023-12] crawling archive…
+[2023-12] 25 archive page(s)
+[2023-12] 100 unique article URLs
+[2023-12] 100 urls, 100 new
+[plan] 7936 new articles in range
+
+=== chunk 1 / 27: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01Lzw83pTBrfXMBMJNSXD4TK submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 2 / 27: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_011A7Nxs6JNafYsxmyFeTvat submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 3 / 27: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01JYiLREvEEeTXPxjqX39Tjk submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 4 / 27: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01PhAcB2jz5YzvC6zamNjD8b submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 5 / 27: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01W6TkWriKojCwvgpSX7GX1C submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 6 / 27: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_013nV6QJHmLCd4bJXaJN9wxT submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 7 / 27: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01Kby9QnWkC1bC8iMBwVQFDz submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+Traceback (most recent call last):
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
+    raise exc
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpcore/_sync/connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpcore/_backends/sync.py", line 215, in connect_tcp
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/contextlib.py", line 135, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/anthropic/_base_client.py", line 1078, in request
+    response = self._client.send(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/contextlib.py", line 135, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sethsamowitz/YIMBY Scraper/backfill_batch.py", line 157, in <module>
+    raise SystemExit(main())
+  File "/Users/sethsamowitz/YIMBY Scraper/backfill_batch.py", line 140, in main
+    records = run_batch(client, reqs, items)
+  File "/Users/sethsamowitz/YIMBY Scraper/backfill_batch.py", line 64, in run_batch
+    bs = client.messages.batches.retrieve(batch.id)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/anthropic/resources/messages/batches.py", line 122, in retrieve
+    return self._get(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/anthropic/_base_client.py", line 1305, in get
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/anthropic/_base_client.py", line 1114, in request
+    raise APIConnectionError(request=request) from err
+anthropic.APIConnectionError: Connection error.
+[main e82b7f10] chore: backfill 2017-2023 progress [skip ci]
+ 1 file changed, 50116 insertions(+), 1516 deletions(-)
+fatal: unable to access 'https://github.com/sethbkrea/nyc-yimby-tracker.git/': Could not resolve host: github.com
+fatal: unable to access 'https://github.com/sethbkrea/nyc-yimby-tracker.git/': Could not resolve host: github.com
+==== Thu Jun 18 16:24:17 EDT 2026 pass ended, more work remains — will relaunch ====
+==== Thu Jun 18 16:24:17 EDT 2026 backfill pass start (2017-01 -> 2023-12) ====
+[2017-01] crawl failed: Page.goto: net::ERR_NETWORK_CHANGED at https://newyorkyimby.com/2017/01/page/2/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/01/page/2/", waiting until "domcontentloaded"
+
+[2022-07] crawl failed: Page.goto: net::ERR_NETWORK_CHANGED at https://newyorkyimby.com/2022/07/page/17/
+Call log:
+  - navigating to "https://newyorkyimby.com/2022/07/page/17/", waiting until "domcontentloaded"
+
+[2022-08] crawl failed: Page.goto: net::ERR_NETWORK_CHANGED at https://newyorkyimby.com/2022/08/
+Call log:
+  - navigating to "https://newyorkyimby.com/2022/08/", waiting until "domcontentloaded"
+
+[2022-09] crawl failed: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2022/09/
+Call log:
+  - navigating to "https://newyorkyimby.com/2022/09/", waiting until "domcontentloaded"
+
+[2022-10] crawl failed: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2022/10/
+Call log:
+  - navigating to "https://newyorkyimby.com/2022/10/", waiting until "domcontentloaded"
+
+[2022-11] crawl failed: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2022/11/
+Call log:
+  - navigating to "https://newyorkyimby.com/2022/11/", waiting until "domcontentloaded"
+
+[2022-12] crawl failed: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2022/12/
+Call log:
+  - navigating to "https://newyorkyimby.com/2022/12/", waiting until "domcontentloaded"
+
+[2023-01] crawl failed: selector "a[href*='newyorkyimby.com/']" not found at https://newyorkyimby.com/2023/01/
+[2023-02] crawl failed: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2023/02/
+Call log:
+  - navigating to "https://newyorkyimby.com/2023/02/", waiting until "domcontentloaded"
+
+[2023-03] crawl failed: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2023/03/
+Call log:
+  - navigating to "https://newyorkyimby.com/2023/03/", waiting until "domcontentloaded"
+
+[2023-04] crawl failed: Cloudflare challenge never cleared for https://newyorkyimby.com/2023/04/
+[2023-05] crawl failed: Cloudflare challenge never cleared for https://newyorkyimby.com/2023/05/
+[2023-06] crawl failed: Cloudflare challenge never cleared for https://newyorkyimby.com/2023/06/
+[2023-07] crawl failed: Cloudflare challenge never cleared for https://newyorkyimby.com/2023/07/
+[2023-08] crawl failed: Cloudflare challenge never cleared for https://newyorkyimby.com/2023/08/
+[2023-09] crawl failed: Cloudflare challenge never cleared for https://newyorkyimby.com/2023/09/
+[2023-10] crawl failed: Cloudflare challenge never cleared for https://newyorkyimby.com/2023/10/
+[2023-11] crawl failed: selector "a[href*='newyorkyimby.com/']" not found at https://newyorkyimby.com/2023/11/
+[2023-12] crawl failed: selector "a[href*='newyorkyimby.com/']" not found at https://newyorkyimby.com/2023/12/
+  scrape fail https://newyorkyimby.com/2018/11/the-bromley-companies-plan-office-addition-atop-122-fifth-avenue-in-manhattans-flatiron.html: Cloudflare challenge never cleared for https://newyorkyimby.com/2018/11/the-bromley-companies-plan-office-addition-atop-122-fifth-avenue-in-manhattans-flatiron.html
+[store] 3769 existing articles
+[2017-01] crawling archive…
+[2017-02] crawling archive…
+[2017-02] 22 archive page(s)
+[2017-02] 15 unique article URLs
+[2017-02] 15 urls, 0 new
+[2017-03] crawling archive…
+[2017-03] 1 archive page(s)
+[2017-03] 0 unique article URLs
+[2017-03] 0 urls, 0 new
+[2017-04] crawling archive…
+[2017-04] 1 archive page(s)
+[2017-04] 0 unique article URLs
+[2017-04] 0 urls, 0 new
+[2017-05] crawling archive…
+[2017-05] 1 archive page(s)
+[2017-05] 0 unique article URLs
+[2017-05] 0 urls, 0 new
+[2017-06] crawling archive…
+[2017-06] 3 archive page(s)
+[2017-06] 13 unique article URLs
+[2017-06] 13 urls, 0 new
+[2017-07] crawling archive…
+[2017-07] 1 archive page(s)
+[2017-07] 5 unique article URLs
+[2017-07] 5 urls, 0 new
+[2017-08] crawling archive…
+[2017-08] 20 archive page(s)
+[2017-08] 104 unique article URLs
+[2017-08] 104 urls, 0 new
+[2017-09] crawling archive…
+[2017-09] 20 archive page(s)
+[2017-09] 30 unique article URLs
+[2017-09] 30 urls, 0 new
+[2017-10] crawling archive…
+[2017-10] 22 archive page(s)
+[2017-10] 96 unique article URLs
+[2017-10] 96 urls, 0 new
+[2017-11] crawling archive…
+[2017-11] 21 archive page(s)
+[2017-11] 56 unique article URLs
+[2017-11] 56 urls, 0 new
+[2017-12] crawling archive…
+[2017-12] 20 archive page(s)
+[2017-12] 20 unique article URLs
+[2017-12] 20 urls, 0 new
+[2018-01] crawling archive…
+[2018-01] 22 archive page(s)
+[2018-01] 102 unique article URLs
+[2018-01] 102 urls, 0 new
+[2018-02] crawling archive…
+[2018-02] 20 archive page(s)
+[2018-02] 98 unique article URLs
+[2018-02] 98 urls, 0 new
+[2018-03] crawling archive…
+[2018-03] 22 archive page(s)
+[2018-03] 100 unique article URLs
+[2018-03] 100 urls, 0 new
+[2018-04] crawling archive…
+[2018-04] 21 archive page(s)
+[2018-04] 100 unique article URLs
+[2018-04] 100 urls, 0 new
+[2018-05] crawling archive…
+[2018-05] 23 archive page(s)
+[2018-05] 100 unique article URLs
+[2018-05] 100 urls, 0 new
+[2018-06] crawling archive…
+[2018-06] 21 archive page(s)
+[2018-06] 100 unique article URLs
+[2018-06] 100 urls, 0 new
+[2018-07] crawling archive…
+[2018-07] 21 archive page(s)
+[2018-07] 100 unique article URLs
+[2018-07] 100 urls, 0 new
+[2018-08] crawling archive…
+[2018-08] 23 archive page(s)
+[2018-08] 101 unique article URLs
+[2018-08] 101 urls, 0 new
+[2018-09] crawling archive…
+[2018-09] 19 archive page(s)
+[2018-09] 95 unique article URLs
+[2018-09] 95 urls, 0 new
+[2018-10] crawling archive…
+[2018-10] 23 archive page(s)
+[2018-10] 100 unique article URLs
+[2018-10] 100 urls, 0 new
+[2018-11] crawling archive…
+[2018-11] 22 archive page(s)
+[2018-11] 100 unique article URLs
+[2018-11] 100 urls, 38 new
+[2018-12] crawling archive…
+[2018-12] 24 archive page(s)
+[2018-12] 100 unique article URLs
+[2018-12] 100 urls, 100 new
+[2019-01] crawling archive…
+[2019-01] 25 archive page(s)
+[2019-01] 101 unique article URLs
+[2019-01] 101 urls, 101 new
+[2019-02] crawling archive…
+[2019-02] 23 archive page(s)
+[2019-02] 100 unique article URLs
+[2019-02] 100 urls, 100 new
+[2019-03] crawling archive…
+[2019-03] 25 archive page(s)
+[2019-03] 100 unique article URLs
+[2019-03] 100 urls, 100 new
+[2019-04] crawling archive…
+[2019-04] 24 archive page(s)
+[2019-04] 99 unique article URLs
+[2019-04] 99 urls, 99 new
+[2019-05] crawling archive…
+[2019-05] 25 archive page(s)
+[2019-05] 100 unique article URLs
+[2019-05] 100 urls, 100 new
+[2019-06] crawling archive…
+[2019-06] 24 archive page(s)
+[2019-06] 100 unique article URLs
+[2019-06] 100 urls, 100 new
+[2019-07] crawling archive…
+[2019-07] 25 archive page(s)
+[2019-07] 100 unique article URLs
+[2019-07] 100 urls, 100 new
+[2019-08] crawling archive…
+[2019-08] 25 archive page(s)
+[2019-08] 100 unique article URLs
+[2019-08] 100 urls, 100 new
+[2019-09] crawling archive…
+[2019-09] 24 archive page(s)
+[2019-09] 100 unique article URLs
+[2019-09] 100 urls, 100 new
+[2019-10] crawling archive…
+[2019-10] 25 archive page(s)
+[2019-10] 100 unique article URLs
+[2019-10] 100 urls, 100 new
+[2019-11] crawling archive…
+[2019-11] 24 archive page(s)
+[2019-11] 100 unique article URLs
+[2019-11] 100 urls, 100 new
+[2019-12] crawling archive…
+[2019-12] 25 archive page(s)
+[2019-12] 100 unique article URLs
+[2019-12] 100 urls, 100 new
+[2020-01] crawling archive…
+[2020-01] 25 archive page(s)
+[2020-01] 100 unique article URLs
+[2020-01] 100 urls, 100 new
+[2020-02] crawling archive…
+[2020-02] 24 archive page(s)
+[2020-02] 100 unique article URLs
+[2020-02] 100 urls, 100 new
+[2020-03] crawling archive…
+[2020-03] 25 archive page(s)
+[2020-03] 100 unique article URLs
+[2020-03] 100 urls, 100 new
+[2020-04] crawling archive…
+[2020-04] 24 archive page(s)
+[2020-04] 100 unique article URLs
+[2020-04] 100 urls, 100 new
+[2020-05] crawling archive…
+[2020-05] 25 archive page(s)
+[2020-05] 100 unique article URLs
+[2020-05] 100 urls, 100 new
+[2020-06] crawling archive…
+[2020-06] 24 archive page(s)
+[2020-06] 100 unique article URLs
+[2020-06] 100 urls, 100 new
+[2020-07] crawling archive…
+[2020-07] 25 archive page(s)
+[2020-07] 100 unique article URLs
+[2020-07] 100 urls, 100 new
+[2020-08] crawling archive…
+[2020-08] 25 archive page(s)
+[2020-08] 100 unique article URLs
+[2020-08] 100 urls, 100 new
+[2020-09] crawling archive…
+[2020-09] 24 archive page(s)
+[2020-09] 100 unique article URLs
+[2020-09] 100 urls, 100 new
+[2020-10] crawling archive…
+[2020-10] 25 archive page(s)
+[2020-10] 100 unique article URLs
+[2020-10] 100 urls, 100 new
+[2020-11] crawling archive…
+[2020-11] 24 archive page(s)
+[2020-11] 100 unique article URLs
+[2020-11] 100 urls, 100 new
+[2020-12] crawling archive…
+[2020-12] 25 archive page(s)
+[2020-12] 100 unique article URLs
+[2020-12] 100 urls, 100 new
+[2021-01] crawling archive…
+[2021-01] 25 archive page(s)
+[2021-01] 99 unique article URLs
+[2021-01] 99 urls, 99 new
+[2021-02] crawling archive…
+[2021-02] 23 archive page(s)
+[2021-02] 100 unique article URLs
+[2021-02] 100 urls, 100 new
+[2021-03] crawling archive…
+[2021-03] 25 archive page(s)
+[2021-03] 101 unique article URLs
+[2021-03] 101 urls, 101 new
+[2021-04] crawling archive…
+[2021-04] 24 archive page(s)
+[2021-04] 100 unique article URLs
+[2021-04] 100 urls, 100 new
+[2021-05] crawling archive…
+[2021-05] 25 archive page(s)
+[2021-05] 100 unique article URLs
+[2021-05] 100 urls, 100 new
+[2021-06] crawling archive…
+[2021-06] 24 archive page(s)
+[2021-06] 100 unique article URLs
+[2021-06] 100 urls, 100 new
+[2021-07] crawling archive…
+[2021-07] 25 archive page(s)
+[2021-07] 100 unique article URLs
+[2021-07] 100 urls, 100 new
+[2021-08] crawling archive…
+[2021-08] 25 archive page(s)
+[2021-08] 100 unique article URLs
+[2021-08] 100 urls, 100 new
+[2021-09] crawling archive…
+[2021-09] 24 archive page(s)
+[2021-09] 100 unique article URLs
+[2021-09] 100 urls, 100 new
+[2021-10] crawling archive…
+[2021-10] 25 archive page(s)
+[2021-10] 100 unique article URLs
+[2021-10] 100 urls, 100 new
+[2021-11] crawling archive…
+[2021-11] 25 archive page(s)
+[2021-11] 98 unique article URLs
+[2021-11] 98 urls, 98 new
+[2021-12] crawling archive…
+[2021-12] 25 archive page(s)
+[2021-12] 100 unique article URLs
+[2021-12] 100 urls, 100 new
+[2022-01] crawling archive…
+[2022-01] 25 archive page(s)
+[2022-01] 99 unique article URLs
+[2022-01] 99 urls, 99 new
+[2022-02] crawling archive…
+[2022-02] 23 archive page(s)
+[2022-02] 100 unique article URLs
+[2022-02] 100 urls, 100 new
+[2022-03] crawling archive…
+[2022-03] 25 archive page(s)
+[2022-03] 100 unique article URLs
+[2022-03] 100 urls, 100 new
+[2022-04] crawling archive…
+[2022-04] 24 archive page(s)
+[2022-04] 100 unique article URLs
+[2022-04] 100 urls, 100 new
+[2022-05] crawling archive…
+[2022-05] 25 archive page(s)
+[2022-05] 100 unique article URLs
+[2022-05] 100 urls, 100 new
+[2022-06] crawling archive…
+[2022-06] 24 archive page(s)
+[2022-06] 100 unique article URLs
+[2022-06] 100 urls, 100 new
+[2022-07] crawling archive…
+[2022-07] 25 archive page(s)
+[2022-08] crawling archive…
+[2022-09] crawling archive…
+[2022-10] crawling archive…
+[2022-11] crawling archive…
+[2022-12] crawling archive…
+[2023-01] crawling archive…
+[2023-02] crawling archive…
+[2023-03] crawling archive…
+[2023-04] crawling archive…
+[2023-05] crawling archive…
+[2023-06] crawling archive…
+[2023-07] crawling archive…
+[2023-08] crawling archive…
+[2023-09] crawling archive…
+[2023-10] crawling archive…
+[2023-11] crawling archive…
+[2023-12] crawling archive…
+[plan] 4335 new articles in range
+
+=== chunk 1 / 15: 300 urls ===
+Traceback (most recent call last):
+  File "/Users/sethsamowitz/YIMBY Scraper/backfill_batch.py", line 157, in <module>
+    raise SystemExit(main())
+  File "/Users/sethsamowitz/YIMBY Scraper/backfill_batch.py", line 127, in main
+    html = fetch_article(b, u)
+  File "/Users/sethsamowitz/YIMBY Scraper/article.py", line 90, in fetch_article
+    return _fetch_page(browser, url, wait_selector=".entry-content")
+  File "/Users/sethsamowitz/YIMBY Scraper/article.py", line 66, in _fetch_page
+    page.goto(url, wait_until="domcontentloaded", timeout=nav_timeout_ms)
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/playwright/sync_api/_generated.py", line 9612, in goto
+    self._sync(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/playwright/_impl/_page.py", line 557, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/playwright/_impl/_frame.py", line 156, in goto
+    await self._channel.send(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/playwright/_impl/_connection.py", line 69, in send
+    return await self._connection.wrap_api_call(
+  File "/Users/sethsamowitz/YIMBY Scraper/.venv/lib/python3.9/site-packages/playwright/_impl/_connection.py", line 559, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2018/11/ddg-files-for-substantial-new-project-at-106-north-1st-street-in-williamsburg-brooklyn.html
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/11/ddg-files-for-substantial-new-project-at-106-north-1st-street-in-williamsburg-brooklyn.html", waiting until "domcontentloaded"
+==== Thu Jun 18 21:28:14 EDT 2026 pass ended, more work remains — will relaunch ====
+==== Thu Jun 18 21:28:14 EDT 2026 backfill pass start (2017-01 -> 2023-12) ====
+[2017-01] crawl failed: Page.goto: net::ERR_TIMED_OUT at https://newyorkyimby.com/2017/01/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/01/", waiting until "domcontentloaded"
+
+[2017-02] crawl failed: Page.goto: net::ERR_NETWORK_CHANGED at https://newyorkyimby.com/2017/02/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/02/", waiting until "domcontentloaded"
+
+[2017-03] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/03/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/03/", waiting until "domcontentloaded"
+
+[2017-04] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/04/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/04/", waiting until "domcontentloaded"
+
+[2017-05] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/05/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/05/", waiting until "domcontentloaded"
+
+[2017-06] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/06/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/06/", waiting until "domcontentloaded"
+
+[2017-07] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/07/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/07/", waiting until "domcontentloaded"
+
+[2017-08] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/08/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/08/", waiting until "domcontentloaded"
+
+[2017-09] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/09/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/09/", waiting until "domcontentloaded"
+
+[2017-10] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/10/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/10/", waiting until "domcontentloaded"
+
+[2017-11] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/11/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/11/", waiting until "domcontentloaded"
+
+[2017-12] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2017/12/
+Call log:
+  - navigating to "https://newyorkyimby.com/2017/12/", waiting until "domcontentloaded"
+
+[2018-01] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/01/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/01/", waiting until "domcontentloaded"
+
+[2018-02] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/02/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/02/", waiting until "domcontentloaded"
+
+[2018-03] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/03/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/03/", waiting until "domcontentloaded"
+
+[2018-04] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/04/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/04/", waiting until "domcontentloaded"
+
+[2018-05] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/05/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/05/", waiting until "domcontentloaded"
+
+[2018-06] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/06/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/06/", waiting until "domcontentloaded"
+
+[2018-07] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/07/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/07/", waiting until "domcontentloaded"
+
+[2018-08] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/08/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/08/", waiting until "domcontentloaded"
+
+[2018-09] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/09/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/09/", waiting until "domcontentloaded"
+
+[2018-10] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/10/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/10/", waiting until "domcontentloaded"
+
+[2018-11] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/11/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/11/", waiting until "domcontentloaded"
+
+[2018-12] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2018/12/
+Call log:
+  - navigating to "https://newyorkyimby.com/2018/12/", waiting until "domcontentloaded"
+
+[2019-01] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/01/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/01/", waiting until "domcontentloaded"
+
+[2019-02] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/02/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/02/", waiting until "domcontentloaded"
+
+[2019-03] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/03/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/03/", waiting until "domcontentloaded"
+
+[2019-04] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/04/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/04/", waiting until "domcontentloaded"
+
+[2019-05] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/05/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/05/", waiting until "domcontentloaded"
+
+[2019-06] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/06/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/06/", waiting until "domcontentloaded"
+
+[2019-07] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/07/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/07/", waiting until "domcontentloaded"
+
+[2019-08] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/08/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/08/", waiting until "domcontentloaded"
+
+[2019-09] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/09/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/09/", waiting until "domcontentloaded"
+
+[2019-10] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/10/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/10/", waiting until "domcontentloaded"
+
+[2019-11] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/11/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/11/", waiting until "domcontentloaded"
+
+[2019-12] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2019/12/
+Call log:
+  - navigating to "https://newyorkyimby.com/2019/12/", waiting until "domcontentloaded"
+
+[2020-01] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2020/01/
+Call log:
+  - navigating to "https://newyorkyimby.com/2020/01/", waiting until "domcontentloaded"
+
+[2020-02] crawl failed: Page.goto: net::ERR_INTERNET_DISCONNECTED at https://newyorkyimby.com/2020/02/
+Call log:
+  - navigating to "https://newyorkyimby.com/2020/02/", waiting until "domcontentloaded"
+
+  scrape fail https://newyorkyimby.com/2020/05/permits-filed-for-1185-washington-avenue-in-morrisania-the-bronx.html: Cloudflare challenge never cleared for https://newyorkyimby.com/2020/05/permits-filed-for-1185-washington-avenue-in-morrisania-the-bronx.html
+  scrape fail https://newyorkyimby.com/2020/05/lpc-reviews-morris-adjmi-designed-office-building-at-1162-broadway-in-nomad-manhattan.html: Cloudflare challenge never cleared for https://newyorkyimby.com/2020/05/lpc-reviews-morris-adjmi-designed-office-building-at-1162-broadway-in-nomad-manhattan.html
+  scrape fail https://newyorkyimby.com/2020/05/permits-filed-for-540-3rd-avenue-in-murray-hill-manhattan.html: Cloudflare challenge never cleared for https://newyorkyimby.com/2020/05/permits-filed-for-540-3rd-avenue-in-murray-hill-manhattan.html
+[store] 3769 existing articles
+[2017-01] crawling archive…
+[2017-02] crawling archive…
+[2017-03] crawling archive…
+[2017-04] crawling archive…
+[2017-05] crawling archive…
+[2017-06] crawling archive…
+[2017-07] crawling archive…
+[2017-08] crawling archive…
+[2017-09] crawling archive…
+[2017-10] crawling archive…
+[2017-11] crawling archive…
+[2017-12] crawling archive…
+[2018-01] crawling archive…
+[2018-02] crawling archive…
+[2018-03] crawling archive…
+[2018-04] crawling archive…
+[2018-05] crawling archive…
+[2018-06] crawling archive…
+[2018-07] crawling archive…
+[2018-08] crawling archive…
+[2018-09] crawling archive…
+[2018-10] crawling archive…
+[2018-11] crawling archive…
+[2018-12] crawling archive…
+[2019-01] crawling archive…
+[2019-02] crawling archive…
+[2019-03] crawling archive…
+[2019-04] crawling archive…
+[2019-05] crawling archive…
+[2019-06] crawling archive…
+[2019-07] crawling archive…
+[2019-08] crawling archive…
+[2019-09] crawling archive…
+[2019-10] crawling archive…
+[2019-11] crawling archive…
+[2019-12] crawling archive…
+[2020-01] crawling archive…
+[2020-02] crawling archive…
+[2020-03] crawling archive…
+[2020-03] 25 archive page(s)
+[2020-03] 100 unique article URLs
+[2020-03] 100 urls, 100 new
+[2020-04] crawling archive…
+[2020-04] 24 archive page(s)
+[2020-04] 100 unique article URLs
+[2020-04] 100 urls, 100 new
+[2020-05] crawling archive…
+[2020-05] 25 archive page(s)
+[2020-05] 100 unique article URLs
+[2020-05] 100 urls, 100 new
+[2020-06] crawling archive…
+[2020-06] 24 archive page(s)
+[2020-06] 100 unique article URLs
+[2020-06] 100 urls, 100 new
+[2020-07] crawling archive…
+[2020-07] 25 archive page(s)
+[2020-07] 100 unique article URLs
+[2020-07] 100 urls, 100 new
+[2020-08] crawling archive…
+[2020-08] 25 archive page(s)
+[2020-08] 100 unique article URLs
+[2020-08] 100 urls, 100 new
+[2020-09] crawling archive…
+[2020-09] 24 archive page(s)
+[2020-09] 100 unique article URLs
+[2020-09] 100 urls, 100 new
+[2020-10] crawling archive…
+[2020-10] 25 archive page(s)
+[2020-10] 100 unique article URLs
+[2020-10] 100 urls, 100 new
+[2020-11] crawling archive…
+[2020-11] 24 archive page(s)
+[2020-11] 100 unique article URLs
+[2020-11] 100 urls, 100 new
+[2020-12] crawling archive…
+[2020-12] 25 archive page(s)
+[2020-12] 100 unique article URLs
+[2020-12] 100 urls, 100 new
+[2021-01] crawling archive…
+[2021-01] 25 archive page(s)
+[2021-01] 99 unique article URLs
+[2021-01] 99 urls, 99 new
+[2021-02] crawling archive…
+[2021-02] 23 archive page(s)
+[2021-02] 100 unique article URLs
+[2021-02] 100 urls, 100 new
+[2021-03] crawling archive…
+[2021-03] 25 archive page(s)
+[2021-03] 101 unique article URLs
+[2021-03] 101 urls, 101 new
+[2021-04] crawling archive…
+[2021-04] 24 archive page(s)
+[2021-04] 100 unique article URLs
+[2021-04] 100 urls, 100 new
+[2021-05] crawling archive…
+[2021-05] 25 archive page(s)
+[2021-05] 100 unique article URLs
+[2021-05] 100 urls, 100 new
+[2021-06] crawling archive…
+[2021-06] 24 archive page(s)
+[2021-06] 100 unique article URLs
+[2021-06] 100 urls, 100 new
+[2021-07] crawling archive…
+[2021-07] 25 archive page(s)
+[2021-07] 100 unique article URLs
+[2021-07] 100 urls, 100 new
+[2021-08] crawling archive…
+[2021-08] 25 archive page(s)
+[2021-08] 100 unique article URLs
+[2021-08] 100 urls, 100 new
+[2021-09] crawling archive…
+[2021-09] 24 archive page(s)
+[2021-09] 100 unique article URLs
+[2021-09] 100 urls, 100 new
+[2021-10] crawling archive…
+[2021-10] 25 archive page(s)
+[2021-10] 100 unique article URLs
+[2021-10] 100 urls, 100 new
+[2021-11] crawling archive…
+[2021-11] 25 archive page(s)
+[2021-11] 98 unique article URLs
+[2021-11] 98 urls, 98 new
+[2021-12] crawling archive…
+[2021-12] 25 archive page(s)
+[2021-12] 100 unique article URLs
+[2021-12] 100 urls, 100 new
+[2022-01] crawling archive…
+[2022-01] 25 archive page(s)
+[2022-01] 99 unique article URLs
+[2022-01] 99 urls, 99 new
+[2022-02] crawling archive…
+[2022-02] 23 archive page(s)
+[2022-02] 100 unique article URLs
+[2022-02] 100 urls, 100 new
+[2022-03] crawling archive…
+[2022-03] 25 archive page(s)
+[2022-03] 100 unique article URLs
+[2022-03] 100 urls, 100 new
+[2022-04] crawling archive…
+[2022-04] 24 archive page(s)
+[2022-04] 100 unique article URLs
+[2022-04] 100 urls, 100 new
+[2022-05] crawling archive…
+[2022-05] 25 archive page(s)
+[2022-05] 100 unique article URLs
+[2022-05] 100 urls, 100 new
+[2022-06] crawling archive…
+[2022-06] 24 archive page(s)
+[2022-06] 100 unique article URLs
+[2022-06] 100 urls, 100 new
+[2022-07] crawling archive…
+[2022-07] 25 archive page(s)
+[2022-07] 100 unique article URLs
+[2022-07] 100 urls, 100 new
+[2022-08] crawling archive…
+[2022-08] 25 archive page(s)
+[2022-08] 100 unique article URLs
+[2022-08] 100 urls, 100 new
+[2022-09] crawling archive…
+[2022-09] 24 archive page(s)
+[2022-09] 100 unique article URLs
+[2022-09] 100 urls, 100 new
+[2022-10] crawling archive…
+[2022-10] 25 archive page(s)
+[2022-10] 100 unique article URLs
+[2022-10] 100 urls, 100 new
+[2022-11] crawling archive…
+[2022-11] 24 archive page(s)
+[2022-11] 100 unique article URLs
+[2022-11] 100 urls, 100 new
+[2022-12] crawling archive…
+[2022-12] 25 archive page(s)
+[2022-12] 100 unique article URLs
+[2022-12] 100 urls, 100 new
+[2023-01] crawling archive…
+[2023-01] 25 archive page(s)
+[2023-01] 101 unique article URLs
+[2023-01] 101 urls, 101 new
+[2023-02] crawling archive…
+[2023-02] 23 archive page(s)
+[2023-02] 100 unique article URLs
+[2023-02] 100 urls, 100 new
+[2023-03] crawling archive…
+[2023-03] 25 archive page(s)
+[2023-03] 100 unique article URLs
+[2023-03] 100 urls, 100 new
+[2023-04] crawling archive…
+[2023-04] 24 archive page(s)
+[2023-04] 100 unique article URLs
+[2023-04] 100 urls, 100 new
+[2023-05] crawling archive…
+[2023-05] 25 archive page(s)
+[2023-05] 100 unique article URLs
+[2023-05] 100 urls, 100 new
+[2023-06] crawling archive…
+[2023-06] 24 archive page(s)
+[2023-06] 100 unique article URLs
+[2023-06] 100 urls, 100 new
+[2023-07] crawling archive…
+[2023-07] 25 archive page(s)
+[2023-07] 100 unique article URLs
+[2023-07] 100 urls, 100 new
+[2023-08] crawling archive…
+[2023-08] 25 archive page(s)
+[2023-08] 100 unique article URLs
+[2023-08] 100 urls, 100 new
+[2023-09] crawling archive…
+[2023-09] 24 archive page(s)
+[2023-09] 100 unique article URLs
+[2023-09] 100 urls, 100 new
+[2023-10] crawling archive…
+[2023-10] 25 archive page(s)
+[2023-10] 100 unique article URLs
+[2023-10] 100 urls, 100 new
+[2023-11] crawling archive…
+[2023-11] 24 archive page(s)
+[2023-11] 100 unique article URLs
+[2023-11] 100 urls, 100 new
+[2023-12] crawling archive…
+[2023-12] 25 archive page(s)
+[2023-12] 100 unique article URLs
+[2023-12] 100 urls, 100 new
+[plan] 4598 new articles in range
+
+=== chunk 1 / 16: 300 urls ===
+  scraped 297 → batch
+  batch msgbatch_01JU7c6syhDx6PeGz8oAiVEj submitted (297 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=297, succeeded=0)
+  appended 297 (extracted 297)
+
+=== chunk 2 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01XgTVQbgMmk6r9ChAFCWm4H submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 3 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_018ErRZJNBcy1PGzeP2VgC6d submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 4 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01CNiVf9j1NBRmwduEa5hUMF submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 5 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_012HocLSZZHf2KkpZB5chK6h submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 6 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_019sewKh8FCyNdhcyqUC5BnJ submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 7 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01HBZ9wn5wSMZaPtiyK1pVWz submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 8 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01FnDHarZ3aCmsw13xhHae4Y submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 9 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01NC7SYXA91rhK2ysmotoao2 submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 10 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_012Gf7zqZyX1Z3rZdieLVMRF submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 11 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_011RdSXScPpkqrRYAgNhjHJF submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 12 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01Y4aQWoJUjBU159UWPA2TzC submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 13 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_018F2vs7A5xa89tdVxVn433v submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 14 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01F1nJgUEQuE9iWXoXLhtSma submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 15 / 16: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01DxBz79f9DZMhWCXnXq6j1F submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 16 / 16: 98 urls ===
+  scraped 98 → batch
+  batch msgbatch_01XZ5Jd859kFPbw4NvA4Nwtq submitted (98 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=98, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=98, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=98, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=98, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=98, succeeded=0)
+  appended 98 (extracted 98)
+
+[done] added 4595 articles
+[cache] 4595 extractions | cache_read=0 write=0 uncached_in=10358445 out=2074837 (billed at 50% — Batch API)
+[main ceed2523] chore: backfill 2017-2023 progress [skip ci]
+ 1 file changed, 124065 insertions(+)
+From https://github.com/sethbkrea/nyc-yimby-tracker
+ * branch              main       -> FETCH_HEAD
+Current branch main is up to date.
+To https://github.com/sethbkrea/nyc-yimby-tracker.git
+   1c2776a7..ceed2523  main -> main
+==== Fri Jun 19 00:34:52 EDT 2026 pass ended, more work remains — will relaunch ====
+==== Fri Jun 19 00:34:52 EDT 2026 backfill pass start (2017-01 -> 2023-12) ====
+[store] 8364 existing articles
+[2017-01] crawling archive…
+[2017-01] 37 archive page(s)
+[2017-01] 101 unique article URLs
+[2017-01] 101 urls, 0 new
+[2017-02] crawling archive…
+[2017-02] 22 archive page(s)
+[2017-02] 100 unique article URLs
+[2017-02] 100 urls, 0 new
+[2017-03] crawling archive…
+[2017-03] 1 archive page(s)
+[2017-03] 0 unique article URLs
+[2017-03] 0 urls, 0 new
+[2017-04] crawling archive…
+[2017-04] 1 archive page(s)
+[2017-04] 0 unique article URLs
+[2017-04] 0 urls, 0 new
+[2017-05] crawling archive…
+[2017-05] 1 archive page(s)
+[2017-05] 0 unique article URLs
+[2017-05] 0 urls, 0 new
+[2017-06] crawling archive…
+[2017-06] 3 archive page(s)
+[2017-06] 13 unique article URLs
+[2017-06] 13 urls, 0 new
+[2017-07] crawling archive…
+[2017-07] 4 archive page(s)
+[2017-07] 21 unique article URLs
+[2017-07] 21 urls, 0 new
+[2017-08] crawling archive…
+[2017-08] 20 archive page(s)
+[2017-08] 104 unique article URLs
+[2017-08] 104 urls, 0 new
+[2017-09] crawling archive…
+[2017-09] 20 archive page(s)
+[2017-09] 101 unique article URLs
+[2017-09] 101 urls, 0 new
+[2017-10] crawling archive…
+[2017-10] 22 archive page(s)
+[2017-10] 102 unique article URLs
+[2017-10] 102 urls, 0 new
+[2017-11] crawling archive…
+[2017-11] 21 archive page(s)
+[2017-11] 100 unique article URLs
+[2017-11] 100 urls, 0 new
+[2017-12] crawling archive…
+[2017-12] 20 archive page(s)
+[2017-12] 100 unique article URLs
+[2017-12] 100 urls, 0 new
+[2018-01] crawling archive…
+[2018-01] 22 archive page(s)
+[2018-01] 102 unique article URLs
+[2018-01] 102 urls, 0 new
+[2018-02] crawling archive…
+[2018-02] 20 archive page(s)
+[2018-02] 98 unique article URLs
+[2018-02] 98 urls, 0 new
+[2018-03] crawling archive…
+[2018-03] 22 archive page(s)
+[2018-03] 100 unique article URLs
+[2018-03] 100 urls, 0 new
+[2018-04] crawling archive…
+[2018-04] 21 archive page(s)
+[2018-04] 100 unique article URLs
+[2018-04] 100 urls, 0 new
+[2018-05] crawling archive…
+[2018-05] 23 archive page(s)
+[2018-05] 100 unique article URLs
+[2018-05] 100 urls, 0 new
+[2018-06] crawling archive…
+[2018-06] 21 archive page(s)
+[2018-06] 100 unique article URLs
+[2018-06] 100 urls, 0 new
+[2018-07] crawling archive…
+[2018-07] 21 archive page(s)
+[2018-07] 100 unique article URLs
+[2018-07] 100 urls, 0 new
+[2018-08] crawling archive…
+[2018-08] 23 archive page(s)
+[2018-08] 101 unique article URLs
+[2018-08] 101 urls, 0 new
+[2018-09] crawling archive…
+[2018-09] 19 archive page(s)
+[2018-09] 95 unique article URLs
+[2018-09] 95 urls, 0 new
+[2018-10] crawling archive…
+[2018-10] 23 archive page(s)
+[2018-10] 100 unique article URLs
+[2018-10] 100 urls, 0 new
+[2018-11] crawling archive…
+[2018-11] 22 archive page(s)
+[2018-11] 100 unique article URLs
+[2018-11] 100 urls, 38 new
+[2018-12] crawling archive…
+[2018-12] 24 archive page(s)
+[2018-12] 100 unique article URLs
+[2018-12] 100 urls, 100 new
+[2019-01] crawling archive…
+[2019-01] 25 archive page(s)
+[2019-01] 101 unique article URLs
+[2019-01] 101 urls, 101 new
+[2019-02] crawling archive…
+[2019-02] 23 archive page(s)
+[2019-02] 100 unique article URLs
+[2019-02] 100 urls, 100 new
+[2019-03] crawling archive…
+[2019-03] 25 archive page(s)
+[2019-03] 100 unique article URLs
+[2019-03] 100 urls, 100 new
+[2019-04] crawling archive…
+[2019-04] 24 archive page(s)
+[2019-04] 99 unique article URLs
+[2019-04] 99 urls, 99 new
+[2019-05] crawling archive…
+[2019-05] 25 archive page(s)
+[2019-05] 100 unique article URLs
+[2019-05] 100 urls, 100 new
+[2019-06] crawling archive…
+[2019-06] 24 archive page(s)
+[2019-06] 100 unique article URLs
+[2019-06] 100 urls, 100 new
+[2019-07] crawling archive…
+[2019-07] 25 archive page(s)
+[2019-07] 100 unique article URLs
+[2019-07] 100 urls, 100 new
+[2019-08] crawling archive…
+[2019-08] 25 archive page(s)
+[2019-08] 100 unique article URLs
+[2019-08] 100 urls, 100 new
+[2019-09] crawling archive…
+[2019-09] 24 archive page(s)
+[2019-09] 100 unique article URLs
+[2019-09] 100 urls, 100 new
+[2019-10] crawling archive…
+[2019-10] 25 archive page(s)
+[2019-10] 100 unique article URLs
+[2019-10] 100 urls, 100 new
+[2019-11] crawling archive…
+[2019-11] 24 archive page(s)
+[2019-11] 100 unique article URLs
+[2019-11] 100 urls, 100 new
+[2019-12] crawling archive…
+[2019-12] 25 archive page(s)
+[2019-12] 100 unique article URLs
+[2019-12] 100 urls, 100 new
+[2020-01] crawling archive…
+[2020-01] 25 archive page(s)
+[2020-01] 100 unique article URLs
+[2020-01] 100 urls, 100 new
+[2020-02] crawling archive…
+[2020-02] 24 archive page(s)
+[2020-02] 100 unique article URLs
+[2020-02] 100 urls, 100 new
+[2020-03] crawling archive…
+[2020-03] 25 archive page(s)
+[2020-03] 100 unique article URLs
+[2020-03] 100 urls, 0 new
+[2020-04] crawling archive…
+[2020-04] 24 archive page(s)
+[2020-04] 100 unique article URLs
+[2020-04] 100 urls, 0 new
+[2020-05] crawling archive…
+[2020-05] 25 archive page(s)
+[2020-05] 100 unique article URLs
+[2020-05] 100 urls, 3 new
+[2020-06] crawling archive…
+[2020-06] 24 archive page(s)
+[2020-06] 100 unique article URLs
+[2020-06] 100 urls, 0 new
+[2020-07] crawling archive…
+[2020-07] 25 archive page(s)
+[2020-07] 100 unique article URLs
+[2020-07] 100 urls, 0 new
+[2020-08] crawling archive…
+[2020-08] 25 archive page(s)
+[2020-08] 100 unique article URLs
+[2020-08] 100 urls, 0 new
+[2020-09] crawling archive…
+[2020-09] 24 archive page(s)
+[2020-09] 100 unique article URLs
+[2020-09] 100 urls, 0 new
+[2020-10] crawling archive…
+[2020-10] 25 archive page(s)
+[2020-10] 100 unique article URLs
+[2020-10] 100 urls, 0 new
+[2020-11] crawling archive…
+[2020-11] 24 archive page(s)
+[2020-11] 100 unique article URLs
+[2020-11] 100 urls, 0 new
+[2020-12] crawling archive…
+[2020-12] 25 archive page(s)
+[2020-12] 100 unique article URLs
+[2020-12] 100 urls, 0 new
+[2021-01] crawling archive…
+[2021-01] 25 archive page(s)
+[2021-01] 99 unique article URLs
+[2021-01] 99 urls, 0 new
+[2021-02] crawling archive…
+[2021-02] 23 archive page(s)
+[2021-02] 100 unique article URLs
+[2021-02] 100 urls, 0 new
+[2021-03] crawling archive…
+[2021-03] 25 archive page(s)
+[2021-03] 101 unique article URLs
+[2021-03] 101 urls, 0 new
+[2021-04] crawling archive…
+[2021-04] 24 archive page(s)
+[2021-04] 100 unique article URLs
+[2021-04] 100 urls, 0 new
+[2021-05] crawling archive…
+[2021-05] 25 archive page(s)
+[2021-05] 100 unique article URLs
+[2021-05] 100 urls, 0 new
+[2021-06] crawling archive…
+[2021-06] 24 archive page(s)
+[2021-06] 100 unique article URLs
+[2021-06] 100 urls, 0 new
+[2021-07] crawling archive…
+[2021-07] 25 archive page(s)
+[2021-07] 100 unique article URLs
+[2021-07] 100 urls, 0 new
+[2021-08] crawling archive…
+[2021-08] 25 archive page(s)
+[2021-08] 100 unique article URLs
+[2021-08] 100 urls, 0 new
+[2021-09] crawling archive…
+[2021-09] 24 archive page(s)
+[2021-09] 100 unique article URLs
+[2021-09] 100 urls, 0 new
+[2021-10] crawling archive…
+[2021-10] 25 archive page(s)
+[2021-10] 100 unique article URLs
+[2021-10] 100 urls, 0 new
+[2021-11] crawling archive…
+[2021-11] 25 archive page(s)
+[2021-11] 98 unique article URLs
+[2021-11] 98 urls, 0 new
+[2021-12] crawling archive…
+[2021-12] 25 archive page(s)
+[2021-12] 100 unique article URLs
+[2021-12] 100 urls, 0 new
+[2022-01] crawling archive…
+[2022-01] 25 archive page(s)
+[2022-01] 99 unique article URLs
+[2022-01] 99 urls, 0 new
+[2022-02] crawling archive…
+[2022-02] 23 archive page(s)
+[2022-02] 100 unique article URLs
+[2022-02] 100 urls, 0 new
+[2022-03] crawling archive…
+[2022-03] 25 archive page(s)
+[2022-03] 100 unique article URLs
+[2022-03] 100 urls, 0 new
+[2022-04] crawling archive…
+[2022-04] 24 archive page(s)
+[2022-04] 100 unique article URLs
+[2022-04] 100 urls, 0 new
+[2022-05] crawling archive…
+[2022-05] 25 archive page(s)
+[2022-05] 100 unique article URLs
+[2022-05] 100 urls, 0 new
+[2022-06] crawling archive…
+[2022-06] 24 archive page(s)
+[2022-06] 100 unique article URLs
+[2022-06] 100 urls, 0 new
+[2022-07] crawling archive…
+[2022-07] 25 archive page(s)
+[2022-07] 100 unique article URLs
+[2022-07] 100 urls, 0 new
+[2022-08] crawling archive…
+[2022-08] 25 archive page(s)
+[2022-08] 100 unique article URLs
+[2022-08] 100 urls, 0 new
+[2022-09] crawling archive…
+[2022-09] 24 archive page(s)
+[2022-09] 100 unique article URLs
+[2022-09] 100 urls, 0 new
+[2022-10] crawling archive…
+[2022-10] 25 archive page(s)
+[2022-10] 100 unique article URLs
+[2022-10] 100 urls, 0 new
+[2022-11] crawling archive…
+[2022-11] 24 archive page(s)
+[2022-11] 100 unique article URLs
+[2022-11] 100 urls, 0 new
+[2022-12] crawling archive…
+[2022-12] 25 archive page(s)
+[2022-12] 100 unique article URLs
+[2022-12] 100 urls, 0 new
+[2023-01] crawling archive…
+[2023-01] 25 archive page(s)
+[2023-01] 101 unique article URLs
+[2023-01] 101 urls, 0 new
+[2023-02] crawling archive…
+[2023-02] 23 archive page(s)
+[2023-02] 100 unique article URLs
+[2023-02] 100 urls, 0 new
+[2023-03] crawling archive…
+[2023-03] 25 archive page(s)
+[2023-03] 100 unique article URLs
+[2023-03] 100 urls, 0 new
+[2023-04] crawling archive…
+[2023-04] 24 archive page(s)
+[2023-04] 100 unique article URLs
+[2023-04] 100 urls, 0 new
+[2023-05] crawling archive…
+[2023-05] 25 archive page(s)
+[2023-05] 100 unique article URLs
+[2023-05] 100 urls, 0 new
+[2023-06] crawling archive…
+[2023-06] 24 archive page(s)
+[2023-06] 100 unique article URLs
+[2023-06] 100 urls, 0 new
+[2023-07] crawling archive…
+[2023-07] 25 archive page(s)
+[2023-07] 100 unique article URLs
+[2023-07] 100 urls, 0 new
+[2023-08] crawling archive…
+[2023-08] 25 archive page(s)
+[2023-08] 100 unique article URLs
+[2023-08] 100 urls, 0 new
+[2023-09] crawling archive…
+[2023-09] 24 archive page(s)
+[2023-09] 100 unique article URLs
+[2023-09] 100 urls, 0 new
+[2023-10] crawling archive…
+[2023-10] 25 archive page(s)
+[2023-10] 100 unique article URLs
+[2023-10] 100 urls, 0 new
+[2023-11] crawling archive…
+[2023-11] 24 archive page(s)
+[2023-11] 100 unique article URLs
+[2023-11] 100 urls, 0 new
+[2023-12] crawling archive…
+[2023-12] 25 archive page(s)
+[2023-12] 100 unique article URLs
+[2023-12] 100 urls, 0 new
+[plan] 1541 new articles in range
+
+=== chunk 1 / 6: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01K7jBie8URXMqKUTjntNQgQ submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 2 / 6: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_019MZLqFT6fHPxydN6QbP4Tn submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 3 / 6: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01FBRW82NQydCEbZ2poHL2i5 submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 4 / 6: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_017rKitiBH83F8mfyYF5YD6Z submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 5 / 6: 300 urls ===
+  scraped 300 → batch
+  batch msgbatch_01KSGoBUnUEoPEcnF4qS1cgd submitted (300 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=300, succeeded=0)
+  appended 300 (extracted 300)
+
+=== chunk 6 / 6: 41 urls ===
+  scraped 41 → batch
+  batch msgbatch_01X669ABugmNRrEkawJWPwK4 submitted (41 requests)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=41, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=41, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=41, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=41, succeeded=0)
+  …in_progress MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=41, succeeded=0)
+  appended 41 (extracted 41)
+
+[done] added 1541 articles
+[cache] 1541 extractions | cache_read=0 write=0 uncached_in=3333011 out=687180 (billed at 50% — Batch API)
+[main 9efb07b1] chore: backfill 2017-2023 progress [skip ci]
+ 1 file changed, 41607 insertions(+)
+From https://github.com/sethbkrea/nyc-yimby-tracker
+ * branch              main       -> FETCH_HEAD
+Current branch main is up to date.
+To https://github.com/sethbkrea/nyc-yimby-tracker.git
+   ceed2523..9efb07b1  main -> main
+==== Fri Jun 19 02:06:24 EDT 2026 pass ended, more work remains — will relaunch ====
+==== Fri Jun 19 02:06:24 EDT 2026 backfill pass start (2017-01 -> 2023-12) ====
+[store] 9905 existing articles
+[2017-01] crawling archive…
+[2017-01] 37 archive page(s)
+[2017-01] 101 unique article URLs
+[2017-01] 101 urls, 0 new
+[2017-02] crawling archive…
+[2017-02] 22 archive page(s)
+[2017-02] 100 unique article URLs
+[2017-02] 100 urls, 0 new
+[2017-03] crawling archive…
+[2017-03] 1 archive page(s)
+[2017-03] 0 unique article URLs
+[2017-03] 0 urls, 0 new
+[2017-04] crawling archive…
+[2017-04] 1 archive page(s)
+[2017-04] 0 unique article URLs
+[2017-04] 0 urls, 0 new
+[2017-05] crawling archive…
+[2017-05] 1 archive page(s)
+[2017-05] 0 unique article URLs
+[2017-05] 0 urls, 0 new
+[2017-06] crawling archive…
+[2017-06] 3 archive page(s)
+[2017-06] 13 unique article URLs
+[2017-06] 13 urls, 0 new
+[2017-07] crawling archive…
+[2017-07] 4 archive page(s)
+[2017-07] 21 unique article URLs
+[2017-07] 21 urls, 0 new
+[2017-08] crawling archive…
+[2017-08] 20 archive page(s)
+[2017-08] 104 unique article URLs
+[2017-08] 104 urls, 0 new
+[2017-09] crawling archive…
+[2017-09] 20 archive page(s)
+[2017-09] 101 unique article URLs
+[2017-09] 101 urls, 0 new
+[2017-10] crawling archive…
+[2017-10] 22 archive page(s)
+[2017-10] 102 unique article URLs
+[2017-10] 102 urls, 0 new
+[2017-11] crawling archive…
+[2017-11] 21 archive page(s)
+[2017-11] 100 unique article URLs
+[2017-11] 100 urls, 0 new
+[2017-12] crawling archive…
+[2017-12] 20 archive page(s)
+[2017-12] 100 unique article URLs
+[2017-12] 100 urls, 0 new
+[2018-01] crawling archive…
+[2018-01] 22 archive page(s)
+[2018-01] 102 unique article URLs
+[2018-01] 102 urls, 0 new
+[2018-02] crawling archive…
+[2018-02] 20 archive page(s)
+[2018-02] 98 unique article URLs
+[2018-02] 98 urls, 0 new
+[2018-03] crawling archive…
+[2018-03] 22 archive page(s)
+[2018-03] 100 unique article URLs
+[2018-03] 100 urls, 0 new
+[2018-04] crawling archive…
+[2018-04] 21 archive page(s)
+[2018-04] 100 unique article URLs
+[2018-04] 100 urls, 0 new
+[2018-05] crawling archive…
+[2018-05] 23 archive page(s)
+[2018-05] 100 unique article URLs
+[2018-05] 100 urls, 0 new
+[2018-06] crawling archive…
+[2018-06] 21 archive page(s)
+[2018-06] 100 unique article URLs
+[2018-06] 100 urls, 0 new
+[2018-07] crawling archive…
+[2018-07] 21 archive page(s)
+[2018-07] 100 unique article URLs
+[2018-07] 100 urls, 0 new
+[2018-08] crawling archive…
+[2018-08] 23 archive page(s)
+[2018-08] 101 unique article URLs
+[2018-08] 101 urls, 0 new
+[2018-09] crawling archive…
+[2018-09] 19 archive page(s)
+[2018-09] 95 unique article URLs
+[2018-09] 95 urls, 0 new
+[2018-10] crawling archive…
+[2018-10] 23 archive page(s)
+[2018-10] 100 unique article URLs
+[2018-10] 100 urls, 0 new
+[2018-11] crawling archive…
+[2018-11] 22 archive page(s)
+[2018-11] 100 unique article URLs
+[2018-11] 100 urls, 0 new
+[2018-12] crawling archive…
+[2018-12] 24 archive page(s)
+[2018-12] 100 unique article URLs
+[2018-12] 100 urls, 0 new
+[2019-01] crawling archive…
+[2019-01] 25 archive page(s)
+[2019-01] 101 unique article URLs
+[2019-01] 101 urls, 0 new
+[2019-02] crawling archive…
+[2019-02] 23 archive page(s)
+[2019-02] 100 unique article URLs
+[2019-02] 100 urls, 0 new
+[2019-03] crawling archive…
+[2019-03] 25 archive page(s)
+[2019-03] 100 unique article URLs
+[2019-03] 100 urls, 0 new
+[2019-04] crawling archive…
+[2019-04] 24 archive page(s)
+[2019-04] 99 unique article URLs
+[2019-04] 99 urls, 0 new
+[2019-05] crawling archive…
+[2019-05] 25 archive page(s)
+[2019-05] 100 unique article URLs
+[2019-05] 100 urls, 0 new
+[2019-06] crawling archive…
+[2019-06] 24 archive page(s)
+[2019-06] 100 unique article URLs
+[2019-06] 100 urls, 0 new
+[2019-07] crawling archive…
+[2019-07] 25 archive page(s)
+[2019-07] 100 unique article URLs
+[2019-07] 100 urls, 0 new
+[2019-08] crawling archive…
+[2019-08] 25 archive page(s)
+[2019-08] 100 unique article URLs
+[2019-08] 100 urls, 0 new
+[2019-09] crawling archive…
+[2019-09] 24 archive page(s)
+[2019-09] 100 unique article URLs
+[2019-09] 100 urls, 0 new
+[2019-10] crawling archive…
+[2019-10] 25 archive page(s)
+[2019-10] 100 unique article URLs
+[2019-10] 100 urls, 0 new
+[2019-11] crawling archive…
+[2019-11] 24 archive page(s)
+[2019-11] 100 unique article URLs
+[2019-11] 100 urls, 0 new
+[2019-12] crawling archive…
+[2019-12] 25 archive page(s)
+[2019-12] 100 unique article URLs
+[2019-12] 100 urls, 0 new
+[2020-01] crawling archive…
+[2020-01] 25 archive page(s)
+[2020-01] 100 unique article URLs
+[2020-01] 100 urls, 0 new
+[2020-02] crawling archive…
+[2020-02] 24 archive page(s)
+[2020-02] 100 unique article URLs
+[2020-02] 100 urls, 0 new
+[2020-03] crawling archive…
+[2020-03] 25 archive page(s)
+[2020-03] 100 unique article URLs
+[2020-03] 100 urls, 0 new
+[2020-04] crawling archive…
+[2020-04] 24 archive page(s)
+[2020-04] 100 unique article URLs
+[2020-04] 100 urls, 0 new
+[2020-05] crawling archive…
+[2020-05] 25 archive page(s)
+[2020-05] 100 unique article URLs
+[2020-05] 100 urls, 0 new
+[2020-06] crawling archive…
+[2020-06] 24 archive page(s)
+[2020-06] 100 unique article URLs
+[2020-06] 100 urls, 0 new
+[2020-07] crawling archive…
+[2020-07] 25 archive page(s)
+[2020-07] 100 unique article URLs
+[2020-07] 100 urls, 0 new
+[2020-08] crawling archive…
+[2020-08] 25 archive page(s)
+[2020-08] 100 unique article URLs
+[2020-08] 100 urls, 0 new
+[2020-09] crawling archive…
+[2020-09] 24 archive page(s)
+[2020-09] 100 unique article URLs
+[2020-09] 100 urls, 0 new
+[2020-10] crawling archive…
+[2020-10] 25 archive page(s)
+[2020-10] 100 unique article URLs
+[2020-10] 100 urls, 0 new
+[2020-11] crawling archive…
+[2020-11] 24 archive page(s)
+[2020-11] 100 unique article URLs
+[2020-11] 100 urls, 0 new
+[2020-12] crawling archive…
+[2020-12] 25 archive page(s)
+[2020-12] 100 unique article URLs
+[2020-12] 100 urls, 0 new
+[2021-01] crawling archive…
+[2021-01] 25 archive page(s)
+[2021-01] 99 unique article URLs
+[2021-01] 99 urls, 0 new
+[2021-02] crawling archive…
+[2021-02] 23 archive page(s)
+[2021-02] 100 unique article URLs
+[2021-02] 100 urls, 0 new
+[2021-03] crawling archive…
+[2021-03] 25 archive page(s)
+[2021-03] 101 unique article URLs
+[2021-03] 101 urls, 0 new
+[2021-04] crawling archive…
+[2021-04] 24 archive page(s)
+[2021-04] 100 unique article URLs
+[2021-04] 100 urls, 0 new
+[2021-05] crawling archive…
+[2021-05] 25 archive page(s)
+[2021-05] 100 unique article URLs
+[2021-05] 100 urls, 0 new
+[2021-06] crawling archive…
+[2021-06] 24 archive page(s)
+[2021-06] 100 unique article URLs
+[2021-06] 100 urls, 0 new
+[2021-07] crawling archive…
+[2021-07] 25 archive page(s)
+[2021-07] 100 unique article URLs
+[2021-07] 100 urls, 0 new
+[2021-08] crawling archive…
+[2021-08] 25 archive page(s)
+[2021-08] 100 unique article URLs
+[2021-08] 100 urls, 0 new
+[2021-09] crawling archive…
+[2021-09] 24 archive page(s)
+[2021-09] 100 unique article URLs
+[2021-09] 100 urls, 0 new
+[2021-10] crawling archive…
+[2021-10] 25 archive page(s)
+[2021-10] 100 unique article URLs
+[2021-10] 100 urls, 0 new
+[2021-11] crawling archive…
+[2021-11] 25 archive page(s)
+[2021-11] 98 unique article URLs
+[2021-11] 98 urls, 0 new
+[2021-12] crawling archive…
+[2021-12] 25 archive page(s)
+[2021-12] 100 unique article URLs
+[2021-12] 100 urls, 0 new
+[2022-01] crawling archive…
+[2022-01] 25 archive page(s)
+[2022-01] 99 unique article URLs
+[2022-01] 99 urls, 0 new
+[2022-02] crawling archive…
+[2022-02] 23 archive page(s)
+[2022-02] 100 unique article URLs
+[2022-02] 100 urls, 0 new
+[2022-03] crawling archive…
+[2022-03] 25 archive page(s)
+[2022-03] 100 unique article URLs
+[2022-03] 100 urls, 0 new
+[2022-04] crawling archive…
+[2022-04] 24 archive page(s)
+[2022-04] 100 unique article URLs
+[2022-04] 100 urls, 0 new
+[2022-05] crawling archive…
+[2022-05] 25 archive page(s)
+[2022-05] 100 unique article URLs
+[2022-05] 100 urls, 0 new
+[2022-06] crawling archive…
+[2022-06] 24 archive page(s)
+[2022-06] 100 unique article URLs
+[2022-06] 100 urls, 0 new
+[2022-07] crawling archive…
+[2022-07] 25 archive page(s)
+[2022-07] 100 unique article URLs
+[2022-07] 100 urls, 0 new
+[2022-08] crawling archive…
+[2022-08] 25 archive page(s)
+[2022-08] 100 unique article URLs
+[2022-08] 100 urls, 0 new
+[2022-09] crawling archive…
+[2022-09] 24 archive page(s)
+[2022-09] 100 unique article URLs
+[2022-09] 100 urls, 0 new
+[2022-10] crawling archive…
+[2022-10] 25 archive page(s)
+[2022-10] 100 unique article URLs
+[2022-10] 100 urls, 0 new
+[2022-11] crawling archive…
+[2022-11] 24 archive page(s)
+[2022-11] 100 unique article URLs
+[2022-11] 100 urls, 0 new
+[2022-12] crawling archive…
+[2022-12] 25 archive page(s)
+[2022-12] 100 unique article URLs
+[2022-12] 100 urls, 0 new
+[2023-01] crawling archive…
+[2023-01] 25 archive page(s)
+[2023-01] 101 unique article URLs
+[2023-01] 101 urls, 0 new
+[2023-02] crawling archive…
+[2023-02] 23 archive page(s)
+[2023-02] 100 unique article URLs
+[2023-02] 100 urls, 0 new
+[2023-03] crawling archive…
+[2023-03] 25 archive page(s)
+[2023-03] 100 unique article URLs
+[2023-03] 100 urls, 0 new
+[2023-04] crawling archive…
+[2023-04] 24 archive page(s)
+[2023-04] 100 unique article URLs
+[2023-04] 100 urls, 0 new
+[2023-05] crawling archive…
+[2023-05] 25 archive page(s)
+[2023-05] 100 unique article URLs
+[2023-05] 100 urls, 0 new
+[2023-06] crawling archive…
+[2023-06] 24 archive page(s)
+[2023-06] 100 unique article URLs
+[2023-06] 100 urls, 0 new
+[2023-07] crawling archive…
+[2023-07] 25 archive page(s)
+[2023-07] 100 unique article URLs
+[2023-07] 100 urls, 0 new
+[2023-08] crawling archive…
+[2023-08] 25 archive page(s)
+[2023-08] 100 unique article URLs
+[2023-08] 100 urls, 0 new
+[2023-09] crawling archive…
+[2023-09] 24 archive page(s)
+[2023-09] 100 unique article URLs
+[2023-09] 100 urls, 0 new
+[2023-10] crawling archive…
+[2023-10] 25 archive page(s)
+[2023-10] 100 unique article URLs
+[2023-10] 100 urls, 0 new
+[2023-11] crawling archive…
+[2023-11] 24 archive page(s)
+[2023-11] 100 unique article URLs
+[2023-11] 100 urls, 0 new
+[2023-12] crawling archive…
+[2023-12] 25 archive page(s)
+[2023-12] 100 unique article URLs
+[2023-12] 100 urls, 0 new
+[plan] 0 new articles in range
+==== Fri Jun 19 03:07:29 EDT 2026 ALL DONE — range complete ====
